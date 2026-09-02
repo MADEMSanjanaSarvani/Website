@@ -490,6 +490,7 @@ body {
 }
 
 .plate__frame--wide { aspect-ratio: 16 / 10; }
+.plate__frame--pano { aspect-ratio: 21 / 9; }
 .plate__frame--tall { aspect-ratio: 3 / 4; }
 .plate__frame--square { aspect-ratio: 1 / 1; }
 .plate__frame--cinema { aspect-ratio: 16 / 9; }
@@ -518,8 +519,8 @@ body {
 .plate__caption {
   display: flex;
   gap: 10px;
-  margin-top: 10px;
-  padding-top: 8px;
+  margin-top: 9px;
+  padding-top: 7px;
   border-top: 1px solid var(--rule);
   font-family: var(--font-sans);
   font-size: 0.62rem;
@@ -732,7 +733,7 @@ body {
 .contributor { break-inside: avoid; }
 
 .contributor__role {
-  margin: 12px 0 2px;
+  margin: 10px 0 2px;
   font-family: var(--font-sans);
   font-size: 0.6rem;
   font-weight: 700;
@@ -1506,6 +1507,80 @@ body {
   line-height: 1;
   color: var(--burgundy);
   transform: rotate(-3deg);
+}
+
+
+/* ---------- 25. Photo-led layouts ---------- */
+/* The picture leads and the words arrange themselves around it. */
+
+.mosaic {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 1.8vw, 26px);
+  align-items: start;
+}
+
+/* the opening picture on a page runs the full measure */
+.mosaic__hero { grid-column: 1 / -1; }
+
+/* a picture with its words set beside it, aligned to its foot */
+.duo-plate {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: clamp(16px, 2vw, 30px);
+  align-items: end;
+}
+
+.duo-plate__words { padding-bottom: 4px; }
+
+/* a caption tucked into the corner of its own photograph */
+.plate--inset { position: relative; }
+
+.plate--inset figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 30px 14px 12px;
+  border: 0;
+  background: linear-gradient(to top, rgba(18, 12, 12, 0.82), rgba(18, 12, 12, 0));
+  color: rgba(255, 253, 248, 0.92);
+}
+
+.plate--inset .plate__no { color: var(--blush); }
+
+/* room to breathe: pictures get a wider measure than the text does */
+.leaf--left .page,
+.leaf--right .page { padding-top: clamp(20px, 3.4vh, 44px); }
+
+.measure { max-width: 46ch; }
+
+/* the lead contributor: big portrait, name and quote set against its base */
+.contributor--lead .contributor__name { font-size: 2rem; }
+.contributor--lead .contributor__quote { font-size: 1.1rem; }
+
+.contributor__plate { position: relative; margin: 0; }
+
+.contributor__index {
+  position: absolute;
+  top: -14px;
+  left: -6px;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--burgundy-bright);
+  opacity: 0.9;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .duo-plate { grid-template-columns: 1fr; align-items: start; }
+  .mosaic { grid-template-columns: 1fr; }
 }
 
 /* ---------- 20. Print ---------- */

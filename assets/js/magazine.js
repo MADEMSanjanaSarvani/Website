@@ -374,20 +374,37 @@
   render.contributors = function (host) {
     var list = S.friends || [];
 
+    host.className = "mosaic";
+
     host.innerHTML = slice(list, host)
-      .map(function (entry) {
+      .map(function (entry, n) {
         var f = entry.item, i = entry.i;
-        return (
-          '<article class="contributor reveal" data-tag="' + esc(f.tag || "") + '">' +
-          '<figure class="plate" style="margin:0">' +
-          plate(f.photo, f.photoHint, i % 3 === 1 ? "square" : "tall") +
-          "</figure>" +
+
+        var words =
           '<p class="contributor__role">' + esc(f.tag || "") + "</p>" +
           '<h3 class="contributor__name">' + esc(f.name) + "</h3>" +
           '<p class="contributor__quote">&ldquo;' + esc(f.quote || "") + "&rdquo;</p>" +
           '<button class="btn btn--block" type="button" data-letter="' + i + '">' +
-          "Read the letter <span aria-hidden=\"true\">&rarr;</span></button>" +
-          "</article>"
+          "Read the letter <span aria-hidden=\"true\">&rarr;</span></button>";
+
+        var picture =
+          '<figure class="plate contributor__plate">' +
+          '<span class="contributor__index" aria-hidden="true">' + pad(i + 1) + "</span>" +
+          plate(f.photo, f.photoHint, n === 0 ? "wide" : "square") +
+          "</figure>";
+
+        // the first on the page runs wide, with its words set against its foot
+        if (n === 0) {
+          return (
+            '<article class="contributor contributor--lead duo-plate reveal" data-tag="' +
+            esc(f.tag || "") + '">' + picture +
+            '<div class="duo-plate__words">' + words + "</div></article>"
+          );
+        }
+
+        return (
+          '<article class="contributor reveal" data-tag="' + esc(f.tag || "") + '">' +
+          picture + words + "</article>"
         );
       })
       .join("");
@@ -429,18 +446,24 @@
 
   /* THE UNPUBLISHED ARCHIVE (cringe) ------------------------------------- */
   render.plates = function (host) {
+    host.className = "mosaic";
+
     host.innerHTML = slice(S.cringe || [], host)
-      .map(function (entry) {
+      .map(function (entry, n) {
         var c = entry.item, i = entry.i;
+
         if (c.style === "note") {
           return (
-            '<blockquote class="pullquote reveal" style="margin:0">' +
+            '<blockquote class="pullquote reveal mosaic__hero" style="margin:6px 0">' +
             esc(c.caption) + "</blockquote>"
           );
         }
+
+        var lead = n === 0;
+
         return (
-          '<figure class="plate reveal" style="margin:0">' +
-          plate(c.photo, c.hint, i % 4 === 0 ? "wide" : i % 3 === 0 ? "square" : "") +
+          '<figure class="plate plate--inset reveal' + (lead ? " mosaic__hero" : "") + '" style="margin:0">' +
+          plate(c.photo, c.hint, lead ? "pano" : "square") +
           caption("Plate " + pad(i + 1), c.caption) +
           "</figure>"
         );
