@@ -51,7 +51,7 @@ html, body { height: 100%; }
 body {
   margin: 0;
   overflow: hidden; /* the book scrolls inside each page, not the window */
-  background: #eae6e1;
+  background: #f0e7e2;
   color: var(--ink);
   font-family: var(--font-serif);
   font-size: 17px;
@@ -1562,6 +1562,118 @@ body {
 @media (max-width: 900px) {
   .duo-plate { grid-template-columns: 1fr; align-items: start; }
   .mosaic { grid-template-columns: 1fr; }
+}
+
+
+/* ---------- 26. Colour ---------- */
+/* Every spread carries its own hue. --accent is the ink of that chapter,
+   --accent-soft is the paper it is printed on, --accent-tint fills the
+   photo slots. Change a row and that whole spread changes with it. */
+
+.spread {
+  --accent: #e4557a;
+  --accent-soft: #fdf0f3;
+  --accent-tint: #f7dbe3;
+}
+
+#cover       { --accent: #e4557a; --accent-soft: #fdf0f3; --accent-tint: #f7dbe3; }
+#contents    { --accent: #2e9d9a; --accent-soft: #ecf7f6; --accent-tint: #cfe9e7; }
+#contributors{ --accent: #ef8a3c; --accent-soft: #fdf3ea; --accent-tint: #fadfc6; }
+#chronology  { --accent: #8b5fbf; --accent-soft: #f4effa; --accent-tint: #e3d6f2; }
+#unpublished { --accent: #4a8fd4; --accent-soft: #eef4fb; --accent-tint: #d5e5f5; }
+#pictures    { --accent: #d9456e; --accent-soft: #fdeff3; --accent-tint: #f7d8e1; }
+#letters     { --accent: #5aa469; --accent-soft: #eff7f1; --accent-tint: #d6ebdb; }
+#soundtrack  { --accent: #d9a12c; --accent-soft: #fcf6e8; --accent-tint: #f5e5bf; }
+#lastword    { --accent: #ffd166; --accent-soft: #4a2140; --accent-tint: #5c2a4f; }
+#backcover   { --accent: #ffd166; --accent-soft: #2f7f7c; --accent-tint: #3a908c; }
+
+/* the page takes the chapter's colour, lightly */
+.leaf { background: var(--accent-soft); }
+
+/* photo slots read as blocks of colour until a photograph replaces them */
+.plate__frame { background: var(--accent-tint); }
+.plate__hint { color: rgba(63, 60, 57, 0.55); }
+
+/* accents through the furniture */
+.kicker { color: var(--accent); }
+.kicker::after { background: var(--accent); opacity: 0.35; }
+.hed em { color: var(--accent); }
+.runninghead { border-bottom-color: var(--accent); border-bottom-width: 2px; }
+.runninghead b { color: var(--accent); }
+.folio { border-top-color: var(--accent); border-top-width: 2px; }
+.folio__no { color: var(--accent); }
+.toc__no { color: var(--accent); }
+.toc__item:hover, .toc__item:focus-visible { background: var(--accent-tint); }
+.contributor__role { color: var(--accent); }
+.chrono__year { color: var(--accent); font-weight: 600; }
+.chart__no { color: var(--accent); }
+.mail__from { color: var(--accent); }
+.plate__no { color: var(--accent); }
+.coverline b { color: var(--accent); }
+.cover__age { color: var(--accent); }
+.masthead { color: var(--accent); }
+
+.pullquote {
+  border: 0;
+  border-left: 3px solid var(--accent);
+  padding: 4px 0 4px 18px;
+  color: var(--ink);
+}
+
+.pullquote cite { color: var(--accent); }
+
+.btn { border-color: var(--accent); color: var(--accent); }
+.btn:hover { background: var(--accent); color: #fff; }
+.btn--ink { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn--ink:hover { background: var(--ink); border-color: var(--ink); }
+
+.chip { border-color: var(--accent); color: var(--accent); }
+.chip:hover { background: var(--accent-tint); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.field input:focus, .field textarea:focus { outline-color: var(--accent); }
+.progress { background: var(--accent); }
+.letter { border-top-color: var(--accent); }
+
+/* the closing pages: rich colour rather than grey */
+.leaf--dark { background: var(--accent-soft); color: #fdeff3; }
+.leaf--dark .hed { color: #fff; }
+.leaf--dark .dek, .leaf--dark .body-copy { color: rgba(255, 240, 245, 0.88); }
+.leaf--dark .kicker, .leaf--dark .script { color: var(--accent); }
+.leaf--dark .byline { color: rgba(255, 240, 245, 0.72); }
+.leaf--dark .runninghead, .leaf--dark .folio { border-color: rgba(255, 209, 102, 0.6); }
+.leaf--dark .runninghead b, .leaf--dark .folio__no { color: var(--accent); }
+.leaf--dark .btn { border-color: var(--accent); color: var(--accent); }
+.leaf--dark .btn:hover { background: var(--accent); color: #4a2140; }
+
+.leaf--back { background: var(--accent-soft); color: #eafaf8; }
+.leaf--back .hed { color: #fff; }
+.leaf--back .dek, .leaf--back .body-copy { color: rgba(234, 250, 248, 0.9); }
+.leaf--back .kicker, .leaf--back .script { color: var(--accent); }
+.leaf--back .byline { color: rgba(234, 250, 248, 0.75); }
+.leaf--back .runninghead, .leaf--back .folio { border-color: rgba(255, 209, 102, 0.55); }
+.leaf--back .runninghead b, .leaf--back .folio__no { color: var(--accent); }
+.leaf--back .btn { border-color: var(--accent); color: var(--accent); }
+.leaf--back .btn:hover { background: var(--accent); color: #2f7f7c; }
+
+/* the cover: colour board, colour masthead */
+.leaf--board { background: var(--accent); }
+.leaf--board::after { color: rgba(255, 255, 255, 0.5); }
+.leaf--cover { background: var(--paper-bright); }
+.cover__strap { border-bottom-color: var(--accent); border-bottom-width: 2px; }
+.cover__foot { border-top-color: var(--accent); border-top-width: 2px; }
+
+/* a colour band down the spine edge of each left page */
+.leaf--left:not(.leaf--board)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 4px;
+  background: var(--accent);
+  opacity: 0.45;
+  z-index: 20;
 }
 
 /* ---------- 20. Print ---------- */

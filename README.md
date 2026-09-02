@@ -2,8 +2,9 @@
 
 A printed keepsake book you read on screen: two facing pages bound at a centre
 spine, and a page that swings across the spine in 3-D when you turn it. The
-design is deliberately plain — one clean typeface, a straight grid, hairline
-rules, generous white space — in soft muted tones, so the photographs carry it.
+design is plain by construction — one clean typeface, a straight grid, generous
+white space — but every chapter is printed in its own colour, so the book runs
+through pink, teal, orange, violet, blue, green and gold as you turn it.
 
 Plain HTML/CSS/JS. No build step, no dependencies. Open `index.html` and it runs.
 
@@ -110,8 +111,15 @@ they aren't sent anywhere. Copy the ones worth keeping into the `wishes` list in
 Defined in `assets/css/magazine.css`:
 
 - **Inter** throughout — headings at 500, body at 400. No display serif, no handwriting, no drop caps, no ornament
-- Soft warm paper `#f7f5f2`, soft charcoal text `#3f3c39` (never black), muted clay-rose accent `#a9847f`, hairline rules `#e2ded8`
-- The book rests on a light `#eae6e1` surface rather than a dark desk, so the whole page stays soft
+- Soft charcoal text `#3f3c39` — never black — on coloured paper
+- **Each spread carries its own hue.** Three variables per chapter: `--accent` (the ink), `--accent-soft` (the paper) and `--accent-tint` (the photo blocks). They live together in one table in section 26 of the stylesheet:
+
+```css
+#contents    { --accent: #2e9d9a; --accent-soft: #ecf7f6; --accent-tint: #cfe9e7; }
+#contributors{ --accent: #ef8a3c; --accent-soft: #fdf3ea; --accent-tint: #fadfc6; }
+```
+
+  Change one row and that whole spread — headings, rules, page numbers, buttons, chips, photo slots — changes with it. The closing pages invert the idea: deep plum and deep teal paper with gold ink.
 - The turn is a real 3-D `rotateY(-180deg)` around the spine, with front and back faces and a shadow raking across the leaf as it lifts
 - On a phone the book flattens into one scrolling column — left page then right page — and the turn becomes an instant cut. Same for anyone with `prefers-reduced-motion` on
 
