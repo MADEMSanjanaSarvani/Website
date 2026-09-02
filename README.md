@@ -1,9 +1,9 @@
 # The Archive — a birthday book 📖
 
 A printed keepsake book you read on screen: two facing pages bound at a centre
-spine, and a page that swings across the spine in 3-D when you turn it.
-Editorial layout — didone masthead, hairline rules, drop caps, plate numbers,
-folios — on warm paper with burgundy ink.
+spine, and a page that swings across the spine in 3-D when you turn it. The
+design is deliberately plain — one clean typeface, a straight grid, hairline
+rules, generous white space — in soft muted tones, so the photographs carry it.
 
 Plain HTML/CSS/JS. No build step, no dependencies. Open `index.html` and it runs.
 
@@ -109,8 +109,9 @@ they aren't sent anywhere. Copy the ones worth keeping into the `wishes` list in
 
 Defined in `assets/css/magazine.css`:
 
-- **Bodoni Moda** for the masthead and headlines, **EB Garamond** for body copy, **Archivo** for kickers, captions and folios, **Caveat** for the handwritten bits
-- Paper cream `#f4f0e7`, near-black ink `#16110f`, burgundy `#570013`, with grain over everything and the book sitting on a dark desk
+- **Inter** throughout — headings at 500, body at 400. No display serif, no handwriting, no drop caps, no ornament
+- Soft warm paper `#f7f5f2`, soft charcoal text `#3f3c39` (never black), muted clay-rose accent `#a9847f`, hairline rules `#e2ded8`
+- The book rests on a light `#eae6e1` surface rather than a dark desk, so the whole page stays soft
 - The turn is a real 3-D `rotateY(-180deg)` around the spine, with front and back faces and a shadow raking across the leaf as it lifts
 - On a phone the book flattens into one scrolling column — left page then right page — and the turn becomes an instant cut. Same for anyone with `prefers-reduced-motion` on
 

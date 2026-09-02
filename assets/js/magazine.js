@@ -60,7 +60,8 @@
 
   function caption(no, text) {
     return (
-      '<figcaption><span class="plate__no">' + esc(no) + "</span>" +
+      "<figcaption>" +
+      (no ? '<span class="plate__no">' + esc(no) + "</span>" : "") +
       "<span>" + esc(text) + "</span></figcaption>"
     );
   }
@@ -464,7 +465,7 @@
         return (
           '<figure class="plate plate--inset reveal' + (lead ? " mosaic__hero" : "") + '" style="margin:0">' +
           plate(c.photo, c.hint, lead ? "pano" : "square") +
-          caption("Plate " + pad(i + 1), c.caption) +
+          caption("", c.caption) +
           "</figure>"
         );
       })
@@ -554,7 +555,7 @@
           '<div class="still__sprockets" aria-hidden="true">' + sprockets + "</div>" +
           '<div class="still">' + frame + "</div>" +
           '<div class="still__sprockets" aria-hidden="true">' + sprockets + "</div>" +
-          caption("Reel " + pad(i + 1), v.title + (v.note ? " — " + v.note : "")) +
+          caption("", v.title + (v.note ? " — " + v.note : "")) +
           "</figure>"
         );
       })
