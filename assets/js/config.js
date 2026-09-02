@@ -177,6 +177,21 @@ const SITE = {
     { from: "The whole gang", text: "HAPPY BIRTHDAY!!! (yes we're shouting)" }
   ],
 
+  /* ---------- THE FILMSTRIP (right-hand page of the photo essay) ---------- */
+  // Four small square photos running down a strip of film.
+  // Leave the list as "" entries and they show as blank frames.
+  filmstrip: ["", "", "", ""],
+
+  /* ---------- NOW PLAYING (the song card over the full-page photo) ------- */
+  nowPlaying: {
+    title: "Stuck with you",          // written in the handwriting font
+    sub: "my love all mine...",
+    art: "",                          // e.g. "assets/img/song-art.jpg"
+    elapsed: "0:02",
+    total: "3:12",
+    link: ""                          // paste a Spotify/YouTube song link
+  },
+
   /* ---------- PLAYLIST ---------- */
   playlistTitle: "The soundtrack",
   playlistLink: "", // paste a Spotify/YouTube playlist link here

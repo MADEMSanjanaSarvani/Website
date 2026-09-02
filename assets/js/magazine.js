@@ -34,6 +34,17 @@
 
   function pad(n) { return (n < 10 ? "0" : "") + n; }
 
+  /* data-from / data-to let one list be split across two facing pages */
+  function slice(list, host) {
+    var from = parseInt(host.getAttribute("data-from"), 10) || 0;
+    var to = host.hasAttribute("data-to")
+      ? parseInt(host.getAttribute("data-to"), 10)
+      : list.length;
+    return list.slice(from, to).map(function (item, n) {
+      return { item: item, i: from + n };
+    });
+  }
+
   /* A photograph. Shows the image when there is one, a plate placeholder if not. */
   function plate(src, hint, shape) {
     var cls = "plate__frame" + (shape ? " plate__frame--" + shape : "");
@@ -65,22 +76,22 @@
   function chrome() {
     spreads.forEach(function (sp, i) {
       var section = sp.getAttribute("data-section") || "";
-      var bare = sp.hasAttribute("data-bare"); // cover: no running head or folio
 
-      // wrap the authored content in the scrolling page area
-      var inner = document.createElement("div");
-      inner.className = "page__inner";
-      while (sp.firstChild) inner.appendChild(sp.firstChild);
+      all(".leaf", sp).forEach(function (leaf, side) {
+        if (leaf.hasAttribute("data-bare")) return; // cover and board carry no chrome
 
-      if (bare) {
-        // the cover lays itself out — no page chrome, no wrapper
-        while (inner.firstChild) sp.appendChild(inner.firstChild);
-      } else {
+        var pageNo = i * 2 + side;
+
+        var inner = document.createElement("div");
+        inner.className = "page__inner";
+        while (leaf.firstChild) inner.appendChild(leaf.firstChild);
+
         var head = document.createElement("header");
         head.className = "runninghead";
-        head.innerHTML =
-          "<span><b>" + esc(S.magazineName || "The Archive") + "</b> &nbsp;/&nbsp; " +
-          esc(S.issueLine || "") + "</span><span>" + esc(section) + "</span>";
+        head.innerHTML = side === 0
+          ? "<span><b>" + esc(S.magazineName || "The Archive") + "</b></span><span>" +
+            esc(S.issueLine || "") + "</span>"
+          : "<span>" + esc(section) + "</span><span>" + esc(S.name || "") + "</span>";
 
         var page = document.createElement("div");
         page.className = "page";
@@ -89,13 +100,13 @@
         var foot = document.createElement("footer");
         foot.className = "folio";
         foot.innerHTML =
-          "<span>" + esc(S.name || "") + " &nbsp;&mdash;&nbsp; " + esc(section) + "</span>" +
-          '<span class="folio__no">' + pad(i) + "</span>";
+          '<span class="folio__no">' + pad(pageNo) + "</span>" +
+          "<span>" + (side === 0 ? esc(section) : "") + "</span>";
 
-        sp.appendChild(head);
-        sp.appendChild(page);
-        sp.appendChild(foot);
-      }
+        leaf.appendChild(head);
+        leaf.appendChild(page);
+        leaf.appendChild(foot);
+      });
 
       // stagger the reveals in reading order
       all(".reveal", sp).forEach(function (node, n) {
@@ -104,52 +115,81 @@
     });
   }
 
-  function goTo(next, opts) {
-    opts = opts || {};
+  function flat() {
+    return window.matchMedia("(max-width: 900px)").matches ||
+           window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function goTo(next) {
     if (busy || next === index || next < 0 || next >= spreads.length) return;
 
     var from = spreads[index];
     var to = spreads[next];
     var back = next < index;
-    var instant = opts.instant || matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     index = next;
     syncChrome();
 
-    if (instant) {
-      from.classList.remove("is-current", "is-turning", "is-turning-back", "is-settling");
-      to.classList.add("is-current");
+    if (flat()) {
+      from.classList.remove("is-current");
+      to.classList.add("is-current", "is-revealed");
       restage(to);
       return;
     }
 
     busy = true;
 
-    var mover = back ? to : from;
-    var under = back ? from : to;
+    var book = el(".book");
 
-    to.classList.add("is-current");
-    if (!back) under.classList.add("is-settling");
-    mover.classList.add("is-turning");
-    if (back) mover.classList.add("is-turning-back");
+    /* The leaf that swings. Going forward it is the current right-hand page,
+       and its back is the left-hand page you land on. Going back, the reverse. */
+    var frontLeaf = el(".leaf--right", back ? to : from);
+    var backLeaf = el(".leaf--left", back ? from : to);
+
+    to.classList.add("is-revealed");
+
+    var settle = function (node) {
+      all(".reveal", node).forEach(function (r) { r.classList.add("is-in"); });
+      return node;
+    };
+
+    var flipper = document.createElement("div");
+    flipper.className = "flipper " + (back ? "flipper--back" : "flipper--fwd");
+    flipper.setAttribute("aria-hidden", "true");
+    flipper.innerHTML =
+      '<div class="flipper__face flipper__front"></div>' +
+      '<div class="flipper__face flipper__back"></div>';
+    el(".flipper__front", flipper).appendChild(settle(frontLeaf.cloneNode(true)));
+    el(".flipper__back", flipper).appendChild(settle(backLeaf.cloneNode(true)));
+
+    /* The half revealed as the leaf lifts: the page arriving underneath it.
+       The other half is still supplied by the spread we are leaving. */
+    var under = document.createElement("div");
+    under.className = "under " + (back ? "under--left" : "under--right");
+    under.setAttribute("aria-hidden", "true");
+    under.appendChild(settle(el(back ? ".leaf--left" : ".leaf--right", to).cloneNode(true)));
+
+    book.appendChild(under);
+    book.appendChild(flipper);
 
     var done = function () {
-      mover.removeEventListener("animationend", done);
-      mover.classList.remove("is-turning", "is-turning-back");
-      under.classList.remove("is-settling");
-      if (!back) from.classList.remove("is-current");
+      flipper.removeEventListener("animationend", done);
+      flipper.remove();
+      under.remove();
+      from.classList.remove("is-current");
+      to.classList.add("is-current");
       busy = false;
       restage(to);
     };
 
-    mover.addEventListener("animationend", done);
-    setTimeout(function () { if (busy) done(); }, 900); // safety net
+    flipper.addEventListener("animationend", done);
+    setTimeout(function () { if (busy) done(); }, 1200); // safety net
   }
 
-  // when a spread arrives: reset its scroll and replay its reveals
+  // when a spread arrives: reset both pages and replay their reveals
   function restage(sp) {
-    var page = el(".page", sp);
-    if (page) page.scrollTop = 0;
+    all(".page", sp).forEach(function (page) { page.scrollTop = 0; });
+    sp.scrollTop = 0;
 
     var id = sp.id;
     if (id && location.hash.slice(1) !== id) {
@@ -283,7 +323,7 @@
           (o.sp.getAttribute("data-blurb")
             ? "<small>" + esc(o.sp.getAttribute("data-blurb")) + "</small>" : "") +
           "</span>" +
-          '<span class="toc__page">' + pad(o.i) + "</span>" +
+          '<span class="toc__page">' + pad(o.i * 2) + "</span>" +
           "</button>"
         );
       })
@@ -334,8 +374,9 @@
   render.contributors = function (host) {
     var list = S.friends || [];
 
-    host.innerHTML = list
-      .map(function (f, i) {
+    host.innerHTML = slice(list, host)
+      .map(function (entry) {
+        var f = entry.item, i = entry.i;
         return (
           '<article class="contributor reveal" data-tag="' + esc(f.tag || "") + '">' +
           '<figure class="plate" style="margin:0">' +
@@ -388,8 +429,9 @@
 
   /* THE UNPUBLISHED ARCHIVE (cringe) ------------------------------------- */
   render.plates = function (host) {
-    host.innerHTML = (S.cringe || [])
-      .map(function (c, i) {
+    host.innerHTML = slice(S.cringe || [], host)
+      .map(function (entry) {
+        var c = entry.item, i = entry.i;
         if (c.style === "note") {
           return (
             '<blockquote class="pullquote reveal" style="margin:0">' +
@@ -404,6 +446,59 @@
         );
       })
       .join("");
+  };
+
+  /* FILMSTRIP — a column of small frames, like a strip of negatives ------- */
+  render.filmstrip = function (host) {
+    var perf = '<div class="filmstrip__perf" aria-hidden="true">' +
+      new Array(5).join("<i></i>") + "<i></i></div>";
+
+    var cells = (S.filmstrip || []).map(function (src) {
+      return src
+        ? '<img class="filmstrip__cell" src="' + esc(src) + '" alt="" loading="lazy">'
+        : '<div class="filmstrip__cell"></div>';
+    });
+
+    if (!cells.length) cells = ["", "", "", ""].map(function () {
+      return '<div class="filmstrip__cell"></div>';
+    });
+
+    host.innerHTML =
+      '<div class="filmstrip">' + perf +
+      cells.join(perf) + perf + "</div>";
+  };
+
+  /* NOW PLAYING — the song card that floats over a full-page photo -------- */
+  render.nowplaying = function (host) {
+    var np = S.nowPlaying || {};
+
+    var code = "";
+    for (var i = 0; i < 23; i++) {
+      code += '<i style="height:' + (26 + ((i * 37) % 62)) + '%"></i>';
+    }
+
+    var art = np.art
+      ? '<img class="nowplaying__art" src="' + esc(np.art) + '" alt="">'
+      : '<div class="nowplaying__art">Sleeve<br>assets/img/song-art.jpg</div>';
+
+    host.innerHTML =
+      '<div class="nowplaying">' + art +
+      '<p class="nowplaying__title">' + esc(np.title || "Our song") + "</p>" +
+      '<p class="nowplaying__sub">' + esc(np.sub || "") + "</p>" +
+      '<div class="nowplaying__bar"><i></i></div>' +
+      '<div class="nowplaying__times"><span>' + esc(np.elapsed || "0:02") +
+      "</span><span>-" + esc(np.total || "3:12") + "</span></div>" +
+      '<div class="nowplaying__controls">' +
+      '<span aria-hidden="true">&#9198;</span>' +
+      (np.link
+        ? '<a class="nowplaying__play" href="' + esc(np.link) +
+          '" target="_blank" rel="noopener" aria-label="Play the song">&#9654;</a>'
+        : '<button class="nowplaying__play" type="button" aria-label="Play the song">&#9654;</button>') +
+      '<span aria-hidden="true">&#9197;</span>' +
+      "</div>" +
+      '<div class="nowplaying__scan">' +
+      '<span class="nowplaying__code" aria-hidden="true">' + code + "</span>" +
+      "</div></div>";
   };
 
   /* MOVING PICTURES (videos) --------------------------------------------- */
@@ -551,12 +646,14 @@
     var reveal = el("[data-final-message]");
     var prompt = el("[data-final-prompt]");
     var replay = el("[data-replay]");
+    var waiting = el("[data-final-waiting]");
 
     function blow() {
       if (cake.classList.contains("is-blown")) return;
       cake.classList.add("is-blown");
       confetti(130);
       if (prompt) prompt.style.visibility = "hidden";
+      if (waiting) waiting.hidden = true;
       if (reveal) {
         reveal.hidden = false;
         reveal.style.animation = "rise .7s ease .1s both";
@@ -572,6 +669,7 @@
       replay.addEventListener("click", function () {
         cake.classList.remove("is-blown");
         if (reveal) { reveal.hidden = true; reveal.style.animation = ""; }
+        if (waiting) waiting.hidden = false;
         if (prompt) prompt.style.visibility = "";
         goTo(0);
       });
@@ -579,6 +677,9 @@
 
     var partyBtn = el("[data-confetti]");
     if (partyBtn) partyBtn.addEventListener("click", function () { confetti(90); });
+
+    var home = el("[data-goto-cover]");
+    if (home) home.addEventListener("click", function () { goTo(0); });
   }
 
   /* ---------- text bindings: <span data-text="name"></span> ---------- */
@@ -613,7 +714,7 @@
 
     var start = spreads.indexOf(document.getElementById(location.hash.slice(1)));
     index = start > 0 ? start : 0;
-    spreads[index].classList.add("is-current");
+    spreads[index].classList.add("is-current", "is-revealed");
     restage(spreads[index]);
     syncChrome();
   }
