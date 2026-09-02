@@ -1,38 +1,57 @@
-# The Birthday Archive 🎀
+# The Archive — a birthday magazine 📖
 
-A digital scrapbook birthday website — warm paper, burgundy ink, washi tape,
-polaroids and handwriting. Plain HTML/CSS/JS, no build step, no dependencies.
-Open `index.html` in a browser and it works.
+A one-issue magazine you read by turning the pages. Editorial layout — didone
+masthead, hairline rules, drop caps, plate numbers, folios — on warm newsprint
+cream with burgundy ink.
 
-## The pages
+Plain HTML/CSS/JS. No build step, no dependencies. Open `index.html` and it runs.
 
-| Page | What it is |
-| --- | --- |
-| `index.html` | Home — hero, countdown to the birthday, the opening letter, table of contents |
-| `friends.html` | The Friends Archive — polaroid cards, filter chips, a letter opens in a modal |
-| `timeline.html` | Memory Lane — year-by-year story |
-| `cringe.html` | The Cringe Archive — photos we should delete, plus cinematic memories |
-| `videos.html` | The full film-strip reel |
-| `wishes.html` | The Wishes Wall — pinned notes, and a form to add one |
-| `playlist.html` | The Mixtape — songs that are "legally about her" |
-| `final.html` | The Final Surprise — dark room, tap the cake, confetti, the message |
+## Reading it
 
-`friends`, `cringe` and `final` come from the original Stitch designs. `index`,
-`timeline`, `videos`, `wishes` and `playlist` are new screens built in the same
-aesthetic.
+The whole magazine is one page, `index.html`, made of eleven spreads. Turn with:
+
+- the **‹ ›** arrows at the edges
+- the **arrow keys** (`Home` / `End` jump to the cover and back cover)
+- a **swipe** on a phone
+- the **corner** at the bottom right
+- the **Contents** button, or any line on the contents page
+
+Each spread has its own address, so you can link straight to one:
+`index.html#contributors`, `index.html#lastword`, and so on.
+
+## The issue
+
+| # | Spread | What it is |
+| --- | --- | --- |
+| 00 | Cover | Masthead, coverlines, the age, a countdown to the birthday |
+| 01 | Contents | Every spread, with page numbers |
+| 02 | Editor's Letter | The opening note, drop cap and all |
+| 03 | The Contributors | Friends as a masthead — portraits, roles, filters, letters open in full |
+| 04 | A Life in Chapters | The chronology, year by year |
+| 05 | The Unpublished Archive | Photo essay of things that should have been deleted |
+| 06 | Moving Pictures | Film strips — local video or YouTube |
+| 07 | Letters to the Editor | Wishes, plus a form to write in |
+| 08 | The Soundtrack | The tracklist, set as a chart |
+| 09 | The Last Word | Dark spread — tap the cake, confetti, the message |
+| 10 | Colophon | The back cover |
+
+The old single-page URLs (`friends.html`, `cringe.html`, `final.html` …) still
+work — they redirect to the right spread.
 
 ## Changing everything
 
 **You only need to edit one file: `assets/js/config.js`.**
 
-It holds the name, age, birthday date, every friend, every caption, the wishes,
-the tracklist and the final message. Change the text between the quotes and the
-pages rebuild themselves. Add or delete items from any list freely.
+Name, age, birthday date, the issue number, coverlines, every friend, caption,
+letter, wish and track, and the final message. Change the text between the
+quotes and the magazine rebuilds itself. Add or delete items from any list.
 
 ```js
-name: "Sowgandhika",
-age: 23,
-birthday: "2026-11-14",   // the countdown on the home page uses this
+magazineName: "The Archive",
+issueLine:    "Issue No. 23",
+name:         "Sowgandhika",
+age:          23,
+birthday:     "2026-11-14",   // drives the "on sale in N days" line on the cover
 ```
 
 Anywhere in the text, `{name}` is replaced with the birthday person's name.
@@ -46,13 +65,18 @@ Anywhere in the text, `{name}` is replaced with the birthday person's name.
 { name: "Sarah J.", photo: "assets/img/sarah.jpg", ... }
 ```
 
-Any photo left as `""` shows a soft placeholder instead, so nothing looks broken
-while you collect them.
+The three fixed photo slots — the cover portrait, the editor's-letter portrait,
+the sleeve art — are marked in `index.html` with the filename they expect
+(`assets/img/cover.jpg`, `hero.jpg`, `record.jpg`); swap each placeholder `div`
+for an `<img class="plate__frame" src="…" alt="…">`.
+
+Any photo left as `""` shows a plate placeholder, so nothing looks broken while
+you're still collecting them.
 
 ### Adding videos
 
 Put clips in `assets/video/` and reference them, or paste a YouTube **embed**
-link (`https://www.youtube.com/embed/XXXXXXXX`) — both play in the film strip.
+link (`https://www.youtube.com/embed/XXXXXXXX`):
 
 ```js
 videos: [
@@ -60,27 +84,26 @@ videos: [
 ]
 ```
 
-### The wishes form
+### Letters to the editor
 
-Wishes typed on `wishes.html` are saved in that visitor's own browser
-(localStorage) — they aren't sent anywhere. Copy the ones you want to keep into
-the `wishes` list in `config.js` so they show for everyone.
+Notes written on the page save to that visitor's own browser (localStorage) —
+they aren't sent anywhere. Copy the ones worth keeping into the `wishes` list in
+`config.js` so they print for everyone.
 
 ## Design
 
-The look is defined in `assets/css/scrapbook.css`, built on the Digital
-Scrapbook tokens from the original design spec:
+Defined in `assets/css/magazine.css`:
 
-- **Burgundy** `#570013` for ink and headings, **dusty rose** and **blush** for tape and accents, warm ivory `#fbf9f5` as the paper
-- **Playfair Display** for statements, **Inter** for readable text, **Caveat** for anything handwritten, **Bricolage Grotesque** for small caps labels
-- Film grain over the whole page, soft ambient shadows, and 1–3° rotations so cards feel scattered on a table
+- **Bodoni Moda** for the masthead and headlines, **EB Garamond** for body copy, **Archivo** for kickers, captions and folios, **Caveat** for the odd margin note
+- Newsprint cream `#f4f0e7`, near-black ink `#16110f`, burgundy `#570013`, with paper grain over everything
+- The turn is a real 3-D `rotateY` with a sweeping shadow; it respects `prefers-reduced-motion` and falls back to an instant cut
 
-Every colour is a CSS variable at the top of the file — change `--primary` and
-the whole site follows.
+Every colour is a CSS variable at the top of the file — change `--burgundy` and
+the whole issue follows. `Ctrl/Cmd + P` prints it one spread per page.
 
 ## Publishing it
 
-It's a static site, so anything works. The quickest is GitHub Pages:
+Static site, so anything works. Quickest is GitHub Pages:
 **Settings → Pages → Deploy from a branch → `main` / root.**
 
 To preview locally:
@@ -90,4 +113,4 @@ python3 -m http.server 8000
 # then open http://localhost:8000
 ```
 
-Made with too much love and not enough sleep ♡
+Made with too much love and not enough sleep.

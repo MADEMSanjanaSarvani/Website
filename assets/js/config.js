@@ -9,6 +9,28 @@
    ========================================================================== */
 
 const SITE = {
+  /* ---------- The magazine ---------- */
+  magazineName: "The Archive",
+  magazineSub: "The Birthday Issue · One copy · Never reprinted",
+  issueLine: "Issue No. 23",
+  coverPrice: "Priceless",
+
+  // The lines printed down the sides of the cover.
+  // side: "left" or "right" — right-hand lines are hidden on phones.
+  coverlines: [
+    { side: "left",  title: "The Contributors",  text: "Everyone who had the privilege of knowing {name} — in their own words." },
+    { side: "left",  title: "A Life in Chapters", text: "From a dropped water bottle to right now." },
+    { side: "left",  title: "The Unpublished",   text: "Photographs that should not exist. Printed anyway." },
+    { side: "right", title: "Moving Pictures",   text: "Footage filmed vertically, treated as cinema." },
+    { side: "right", title: "Letters",           text: "Correspondence from people who love her." },
+    { side: "right", title: "The Last Word",     text: "Do not turn to this page early." }
+  ],
+
+  // Editor's letter
+  letterTitle: "A note before you begin",
+  letterPull: "Ten years from now this is the only thing you'll still have from today.",
+  marginNote: "keep this one.",
+
   /* ---------- The birthday person ---------- */
   name: "Sowgandhika",
   nickname: "Sow",
@@ -16,7 +38,7 @@ const SITE = {
   // Format: YYYY-MM-DD  (used for the countdown on the home page)
   birthday: "2026-11-14",
   since: "Est. 2024",
-  tagline: "a scrapbook of everything we refuse to forget",
+  tagline: "Everything we refuse to forget, in one place.",
 
   // The short letter on the home page
   intro:
@@ -26,19 +48,6 @@ const SITE = {
 
   signoff: "with our whole chaotic hearts,",
   signedBy: "everyone who loves you",
-
-  /* ---------- Navigation ---------- */
-  // Delete a line to remove that page from the menu.
-  nav: [
-    { label: "Home ♡",   icon: "⌂", href: "index.html" },
-    { label: "Friends",  icon: "☺", href: "friends.html" },
-    { label: "Timeline", icon: "❋", href: "timeline.html" },
-    { label: "Cringe",   icon: "☂", href: "cringe.html" },
-    { label: "Videos",   icon: "▶", href: "videos.html" },
-    { label: "Wishes",   icon: "✎", href: "wishes.html" },
-    { label: "Playlist", icon: "♪", href: "playlist.html" },
-    { label: "Final",    icon: "✦", href: "final.html" }
-  ],
 
   /* ---------- FRIENDS ---------- */
   // "tag" must match one of the filter chips below.
@@ -126,7 +135,7 @@ const SITE = {
   ],
 
   /* ---------- CRINGE ARCHIVE ---------- */
-  cringeTitle: "things we should probably delete",
+  cringeTitle: "Things we should probably delete",
   cringeSub: "(but won't)",
 
   cringe: [
@@ -169,7 +178,7 @@ const SITE = {
   ],
 
   /* ---------- PLAYLIST ---------- */
-  playlistTitle: "songs that are legally about you",
+  playlistTitle: "The soundtrack",
   playlistLink: "", // paste a Spotify/YouTube playlist link here
   tracks: [
     { title: "Dancing Queen", artist: "ABBA", note: "the anthem. non-negotiable.", len: "3:51" },
@@ -189,11 +198,11 @@ const SITE = {
       "safest place in every crisis. Thank you for every single ordinary day you " +
       "made better just by being in it.\n\nWe hope this year is kind to you. And " +
       "if it isn't — you know where to find us.",
-    button: "Replay the whole thing"
+    button: "Read it again"
   },
 
   /* ---------- FOOTER ---------- */
-  footer: "made with too much love and not enough sleep ♡"
+  footer: "Made with too much love and not enough sleep."
 };
 
 // makes SITE available to every page — don't edit this line

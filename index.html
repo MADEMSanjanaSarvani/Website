@@ -2,115 +2,309 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Birthday Archive</title>
-<meta name="description" content="A digital scrapbook birthday website.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Archive</title>
+<meta name="description" content="A birthday magazine — one issue, printed once, for one person.">
+<meta name="theme-color" content="#570013">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Caveat:wght@400;600&family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap">
-<link rel="stylesheet" href="assets/css/scrapbook.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎀</text></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..700&family=Caveat&family=EB+Garamond:ital,wght@0,400..600;1,400..500&display=swap">
+<link rel="stylesheet" href="assets/css/magazine.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
 
-<header class="topbar">
-  <span class="topbar__title">The Birthday Archive</span>
-  <button class="burger" type="button" data-burger aria-label="Open menu">Menu</button>
-</header>
+<div class="deck">
 
-<div class="shell">
-  <nav class="sidebar" data-nav aria-label="Scrapbook sections"></nav>
-
-  <main class="main">
-    <section class="hero">
-      <span class="doodle" style="top:6%;left:4%;font-size:2rem" aria-hidden="true">✦</span>
-      <span class="doodle" style="top:18%;right:8%;font-size:1.6rem;animation-delay:1.2s" aria-hidden="true">♡</span>
-      <span class="doodle" style="bottom:12%;left:12%;font-size:1.4rem;animation-delay:2.1s" aria-hidden="true">✿</span>
-
-      <div>
-        <p class="eyebrow">The Birthday Archive</p>
-        <p class="hand" style="font-size:1.6rem">happy birthday,</p>
-        <h1 class="display" style="font-size:clamp(2.75rem,9vw,5.5rem)" data-text="name">Sowgandhika</h1>
-        <p class="hero__age" data-text="age">23</p>
-        <p class="hero__ribbon">years of absolute chaos</p>
-        <p class="hand scribble" style="margin-top:28px" data-text="tagline">a scrapbook of everything we refuse to forget</p>
-
-        <div class="countdown" data-countdown></div>
-      </div>
-    </section>
-
-    <section class="section duo">
-      <div class="note reveal">
-        <span class="tape tape--tl" aria-hidden="true"></span>
-        <p class="label" style="color:var(--secondary)">Read me first</p>
-        <p class="lede" data-text="intro"></p>
-        <p class="hand" style="margin-top:20px" data-text="signoff"></p>
-        <p class="hand" style="margin:0;color:var(--primary)" data-text="signedBy"></p>
+  <!-- ============================ 00 · COVER ============================ -->
+  <section class="spread spread--cover" id="cover" data-bare>
+    <div class="cover">
+      <div class="cover__strap">
+        <span data-text="issueLine">Issue No. 01</span>
+        <span data-render="countdown">On sale soon</span>
+        <span data-text="coverPrice">Priceless</span>
       </div>
 
-      <figure class="polaroid reveal" style="margin:0;transform:rotate(2deg)">
-        <span class="tape tape--top" aria-hidden="true"></span>
-        <div class="photo photo--square photo-slot">
-          <p class="photo-slot__hint">put the best photo of her here<br>assets/img/hero.jpg</p>
+      <h1 class="masthead" data-text="magazineName">The Archive</h1>
+      <p class="cover__sub" data-text="magazineSub">The birthday issue</p>
+
+      <div class="cover__stage">
+        <div class="cover__lines--left" data-render="coverlines" data-side="left"></div>
+
+        <div class="cover__photo">
+          <div class="plate__frame plate__slot">
+            <p class="plate__hint">Cover portrait<br>assets/img/cover.jpg</p>
+          </div>
+          <p class="cover__age" data-text="age">23</p>
         </div>
-        <figcaption>the birthday girl herself</figcaption>
-      </figure>
-    </section>
 
-    <section class="section">
-      <div class="section__title"><h2 class="headline">What's inside</h2></div>
-
-      <div class="scatter">
-        <a class="card reveal" href="friends.html" style="--tilt:-1.5deg;text-decoration:none;display:block">
-          <p class="label" style="color:var(--secondary)">01</p>
-          <h3 class="headline" style="font-size:1.35rem">The Friends Archive</h3>
-          <p class="muted" style="margin:0">Everyone who had the privilege of knowing you, and what they had to say about it.</p>
-        </a>
-
-        <a class="card reveal" href="timeline.html" style="--tilt:1.2deg;text-decoration:none;display:block">
-          <p class="label" style="color:var(--secondary)">02</p>
-          <h3 class="headline" style="font-size:1.35rem">Memory Lane</h3>
-          <p class="muted" style="margin:0">Year by year, from the hallway we met in to right now.</p>
-        </a>
-
-        <a class="card reveal" href="cringe.html" style="--tilt:-1deg;text-decoration:none;display:block">
-          <p class="label" style="color:var(--secondary)">03</p>
-          <h3 class="headline" style="font-size:1.35rem">The Cringe Archive</h3>
-          <p class="muted" style="margin:0">Photographic evidence we legally should have destroyed.</p>
-        </a>
-
-        <a class="card reveal" href="videos.html" style="--tilt:2deg;text-decoration:none;display:block">
-          <p class="label" style="color:var(--secondary)">04</p>
-          <h3 class="headline" style="font-size:1.35rem">Cinematic Memories</h3>
-          <p class="muted" style="margin:0">Shaky vertical footage, treated with the reverence of cinema.</p>
-        </a>
-
-        <a class="card reveal" href="wishes.html" style="--tilt:-2deg;text-decoration:none;display:block">
-          <p class="label" style="color:var(--secondary)">05</p>
-          <h3 class="headline" style="font-size:1.35rem">The Wishes Wall</h3>
-          <p class="muted" style="margin:0">Notes pinned up by everyone who loves you. Add your own.</p>
-        </a>
-
-        <a class="card reveal" href="final.html" style="--tilt:1.6deg;text-decoration:none;display:block">
-          <p class="label" style="color:var(--secondary)">06</p>
-          <h3 class="headline" style="font-size:1.35rem">The Final Surprise</h3>
-          <p class="muted" style="margin:0">Don't open this one until the end. We mean it.</p>
-        </a>
+        <div class="cover__lines--right" data-render="coverlines" data-side="right"></div>
       </div>
 
-      <p class="center" style="margin-top:40px">
-        <a class="tape-btn tape-btn--ink" href="friends.html">Start from the beginning &rarr;</a>
-      </p>
-    </section>
+      <div class="cover__foot">
+        <span><span data-text="name">Her</span> &mdash; the birthday issue</span>
+        <span class="barcode" data-render="barcode" aria-hidden="true"></span>
+      </div>
+    </div>
+  </section>
 
-    <footer class="footer">
-      <p data-text="footer">made with too much love and not enough sleep &hearts;</p>
-    </footer>
-  </main>
+  <!-- =========================== 01 · CONTENTS ========================== -->
+  <section class="spread" id="contents" data-section="Contents" data-hide-toc>
+    <p class="kicker">In this issue</p>
+    <h2 class="hed">Contents</h2>
+    <p class="dek" data-text="tagline">Everything we refuse to forget.</p>
+    <nav class="toc" data-render="toc" aria-label="Contents"></nav>
+    <p class="byline mt-lg">Turn with the arrows, your keyboard, or a swipe.</p>
+  </section>
+
+  <!-- ======================== 02 · EDITOR'S LETTER ====================== -->
+  <section class="spread" id="letter" data-section="Editor's Letter"
+           data-blurb="Why this exists at all">
+    <div class="grid grid--sidebar">
+      <div>
+        <p class="kicker reveal">From the editor</p>
+        <h2 class="hed reveal" data-text="letterTitle">A note before you begin</h2>
+        <div class="body-copy reveal">
+          <p class="dropcap" data-text="intro"></p>
+          <p><span data-text="signoff"></span><br>
+             <em data-text="signedBy"></em></p>
+        </div>
+
+        <blockquote class="pullquote reveal" data-text="letterPull"></blockquote>
+      </div>
+
+      <aside class="reveal">
+        <figure class="plate" style="margin:0">
+          <div class="plate__frame plate__frame--tall plate__slot">
+            <p class="plate__hint">The best photograph you have<br>assets/img/hero.jpg</p>
+          </div>
+          <figcaption>
+            <span class="plate__no">Fig. 01</span>
+            <span data-text="name">The birthday girl</span>
+          </figcaption>
+        </figure>
+        <p class="marginnote mt-lg" data-text="marginNote"></p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ========================= 03 · CONTRIBUTORS ======================== -->
+  <section class="spread" id="contributors" data-section="The Contributors"
+           data-blurb="The people who had the privilege">
+    <p class="kicker reveal">Masthead</p>
+    <h2 class="hed reveal">The<br><em>Contributors</em></h2>
+    <p class="dek reveal">The people who had the privilege of knowing
+       <span data-text="name">her</span> — and what they had to say about it.</p>
+
+    <div class="chip-row reveal" data-render="contributorTags" role="group"
+         aria-label="Filter contributors"></div>
+
+    <div class="grid grid--3" data-render="contributors"></div>
+  </section>
+
+  <!-- ========================== 04 · CHRONOLOGY ========================= -->
+  <section class="spread" id="chronology" data-section="A Life in Chapters"
+           data-blurb="The long version, year by year">
+    <div class="grid grid--sidebar">
+      <div>
+        <p class="kicker reveal">Chronology</p>
+        <h2 class="hed reveal">A life in<br><em>chapters</em></h2>
+        <div class="chrono mt-lg" data-render="chrono"></div>
+      </div>
+
+      <aside class="reveal">
+        <figure class="plate" style="margin:0">
+          <div class="plate__frame plate__frame--square plate__slot">
+            <p class="plate__hint">The oldest photograph you can find</p>
+          </div>
+          <figcaption>
+            <span class="plate__no">Fig. 02</span>
+            <span>Where it started</span>
+          </figcaption>
+        </figure>
+
+        <blockquote class="pullquote">
+          We were so young and so certain we knew everything.
+          <cite>The general consensus</cite>
+        </blockquote>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ===================== 05 · THE UNPUBLISHED ARCHIVE ================= -->
+  <section class="spread" id="unpublished" data-section="The Unpublished Archive"
+           data-blurb="Photographs that should not exist">
+    <p class="kicker reveal">Photo essay</p>
+    <h2 class="hed reveal" data-text="cringeTitle">Things we should probably delete</h2>
+    <p class="dek reveal" data-text="cringeSub">(but won't)</p>
+    <div class="grid grid--3" data-render="plates"></div>
+  </section>
+
+  <!-- ======================= 06 · MOVING PICTURES ======================= -->
+  <section class="spread" id="pictures" data-section="Moving Pictures"
+           data-blurb="Footage, treated as cinema">
+    <p class="kicker reveal">Film</p>
+    <h2 class="hed reveal">Moving<br><em>pictures</em></h2>
+    <p class="dek reveal">Every one of these was filmed vertically and we refuse to apologise.</p>
+    <div class="grid grid--2" data-render="stills"></div>
+  </section>
+
+  <!-- =================== 07 · LETTERS TO THE EDITOR ===================== -->
+  <section class="spread" id="letters" data-section="Letters to the Editor"
+           data-blurb="Correspondence from everyone who loves her">
+    <p class="kicker reveal">Correspondence</p>
+    <h2 class="hed reveal">Letters to the <em>editor</em></h2>
+    <p class="dek reveal">Unedited, unsolicited, and printed in full.</p>
+
+    <div class="mail reveal" data-render="mail"></div>
+
+    <hr class="rule rule--thick">
+
+    <div class="grid grid--sidebar">
+      <form class="reveal" data-wish-form>
+        <h3 class="hed hed--xs">Write in</h3>
+        <p class="body-copy" style="font-size:0.95rem">
+          A note written here stays on your own device. Send the good ones to
+          <span data-text="nickname">her friend</span> and they get set in print.
+        </p>
+
+        <label class="field">
+          <span>Your name</span>
+          <input name="from" type="text" maxlength="40" required autocomplete="name">
+        </label>
+
+        <label class="field">
+          <span>Your letter</span>
+          <textarea name="text" rows="4" maxlength="400" required></textarea>
+        </label>
+
+        <button class="btn btn--ink" type="submit">
+          Submit for publication <span aria-hidden="true">&rarr;</span>
+        </button>
+        <p class="byline" data-wish-said style="margin-top:14px;color:var(--burgundy-mid)"></p>
+      </form>
+
+      <aside class="reveal">
+        <blockquote class="pullquote" style="margin-top:0">
+          You make ordinary Tuesdays feel like something worth showing up for.
+          <cite>Letters, this issue</cite>
+        </blockquote>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ========================= 08 · THE SOUNDTRACK ====================== -->
+  <section class="spread" id="soundtrack" data-section="The Soundtrack"
+           data-blurb="Songs that are legally about her">
+    <div class="grid grid--sidebar">
+      <div>
+        <p class="kicker reveal">The chart</p>
+        <h2 class="hed reveal" data-text="playlistTitle">The soundtrack</h2>
+        <div class="chart mt-lg" data-render="chart"></div>
+      </div>
+
+      <aside class="reveal">
+        <figure class="plate" style="margin:0">
+          <div class="plate__frame plate__frame--square plate__slot">
+            <p class="plate__hint">Sleeve art<br>assets/img/record.jpg</p>
+          </div>
+          <figcaption>
+            <span class="plate__no">Side A</span>
+            <span>Play loud. Sing badly.</span>
+          </figcaption>
+        </figure>
+        <div class="mt-lg" data-render="playlistLink"></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ========================= 09 · THE LAST WORD ======================= -->
+  <section class="spread spread--dark" id="lastword" data-section="The Last Word"
+           data-blurb="Don't open this one until the end">
+    <div class="center">
+      <p class="kicker reveal" style="justify-content:center">The last page</p>
+      <h2 class="hed reveal" data-text="final.title">Make a wish</h2>
+      <p class="dek reveal" style="margin-left:auto;margin-right:auto"
+         data-text="final.sub">Then blow out the candle</p>
+    </div>
+
+    <div class="cake-stage">
+      <div class="cake reveal" data-cake role="button" tabindex="0"
+           aria-label="Blow out the birthday candle">
+        <span class="candle" aria-hidden="true"><span class="flame"></span></span>
+
+        <svg viewBox="0 44 200 116" width="100%" aria-hidden="true">
+          <ellipse cx="100" cy="150" rx="92" ry="9" fill="#1a0006" opacity=".6"/>
+          <rect x="16" y="140" width="168" height="9" rx="4.5" fill="#f2dcdc" opacity=".85"/>
+          <rect x="22" y="70" width="156" height="72" rx="6" fill="#e4c4c4"/>
+          <path d="M22 84 q19 15 39 0 t39 0 t39 0 t39 0 V70 H22 Z" fill="#f7e2e2"/>
+          <rect x="22" y="56" width="156" height="18" rx="6" fill="#f2dcdc"/>
+          <circle cx="52" cy="98" r="4.5" fill="#af2b3e" opacity=".55"/>
+          <circle cx="100" cy="126" r="4.5" fill="#af2b3e" opacity=".55"/>
+          <circle cx="148" cy="96" r="4.5" fill="#af2b3e" opacity=".55"/>
+          <circle cx="76" cy="130" r="3.5" fill="#570013" opacity=".45"/>
+          <circle cx="128" cy="128" r="3.5" fill="#570013" opacity=".45"/>
+        </svg>
+      </div>
+
+      <p class="byline" data-final-prompt>Tap the cake</p>
+
+      <article data-final-message hidden style="max-width:620px">
+        <hr class="rule rule--double" style="border-color:rgba(242,220,220,.5)">
+        <h3 class="hed hed--sm">Happy birthday, <span data-text="name">you</span>.</h3>
+        <p class="body-copy" style="white-space:pre-line" data-text="final.message"></p>
+
+        <p style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:28px">
+          <button class="btn" type="button" data-confetti>More confetti</button>
+          <button class="btn" type="button" data-replay>
+            <span data-text="final.button">Read it again</span>
+          </button>
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ========================== 10 · BACK COVER ========================= -->
+  <section class="spread spread--back" id="backcover" data-section="Colophon"
+           data-hide-toc>
+    <div class="center" style="max-width:640px;margin:0 auto">
+      <p class="kicker reveal" style="justify-content:center">Colophon</p>
+      <h2 class="hed reveal" data-text="magazineName">The Archive</h2>
+      <p class="dek reveal" style="margin-left:auto;margin-right:auto">
+        <span data-text="issueLine">Issue No. 01</span> —
+        printed once, in a run of one.
+      </p>
+
+      <hr class="rule" style="background:rgba(242,220,220,.35)">
+
+      <p class="body-copy reveal" data-text="footer">
+        Made with too much love and not enough sleep.
+      </p>
+
+      <p class="mt-lg reveal">
+        <button class="btn" type="button" data-goto-cover>
+          Back to the cover <span aria-hidden="true">&rarr;</span>
+        </button>
+      </p>
+    </div>
+  </section>
+
 </div>
 
+<!-- ============================== CONTROLS ============================== -->
+<button class="tocbtn" type="button" data-tocbtn>Contents</button>
+<button class="turn turn--prev" type="button" data-prev aria-label="Previous page">&#8249;</button>
+<button class="turn turn--next" type="button" data-next aria-label="Next page">&#8250;</button>
+<button class="corner" type="button" data-corner aria-label="Turn the page"></button>
+<div class="progress" data-progress aria-hidden="true"></div>
+
 <script src="assets/js/config.js"></script>
-<script src="assets/js/scrapbook.js"></script>
+<script src="assets/js/magazine.js"></script>
+<script>
+  document.querySelector("[data-goto-cover]").addEventListener("click", function () {
+    location.hash = "#cover";
+  });
+</script>
 </body>
 </html>
