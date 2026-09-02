@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Final Surprise</title>
+<meta name="description" content="Make a wish.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Caveat:wght@400;600&family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap">
+<link rel="stylesheet" href="assets/css/scrapbook.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎀</text></svg>">
+</head>
+<body class="is-dark">
+<div class="grain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <span class="topbar__title">The Birthday Archive</span>
+  <button class="burger" type="button" data-burger aria-label="Open menu">Menu</button>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" data-nav aria-label="Scrapbook sections"></nav>
+
+  <main class="main">
+    <header class="pagehead">
+      <p class="eyebrow" style="background:rgba(255,179,181,.18);color:#ffdada">The last page</p>
+      <h1 class="display" data-text="final.title">Make a wish</h1>
+      <p class="hand" data-text="final.sub">then blow out the candle</p>
+    </header>
+
+    <section class="cake-stage">
+      <div class="cake" data-cake role="button" tabindex="0"
+           aria-label="Blow out the birthday candle">
+        <span class="candle" aria-hidden="true">
+          <span class="flame"></span>
+        </span>
+
+        <svg viewBox="0 44 200 116" width="100%" aria-hidden="true">
+          <ellipse cx="100" cy="150" rx="92" ry="9" fill="#2b0009" opacity=".6"/>
+          <rect x="16" y="140" width="168" height="9" rx="4.5" fill="#f2dee0" opacity=".85"/>
+          <rect x="22" y="70" width="156" height="72" rx="6" fill="#fdcbcb"/>
+          <path d="M22 84 q19 15 39 0 t39 0 t39 0 t39 0 V70 H22 Z" fill="#ffdada"/>
+          <rect x="22" y="56" width="156" height="18" rx="6" fill="#ffb3b5"/>
+          <rect x="22" y="112" width="156" height="3" fill="#ffdada" opacity=".7"/>
+          <circle cx="52" cy="98" r="4.5" fill="#af2b3e" opacity=".5"/>
+          <circle cx="100" cy="126" r="4.5" fill="#af2b3e" opacity=".5"/>
+          <circle cx="148" cy="96" r="4.5" fill="#af2b3e" opacity=".5"/>
+          <circle cx="76" cy="130" r="3.5" fill="#800020" opacity=".4"/>
+          <circle cx="128" cy="128" r="3.5" fill="#800020" opacity=".4"/>
+        </svg>
+      </div>
+
+      <p class="hand" data-final-prompt style="font-size:1.35rem;color:#ffb3b5">
+        &#9755; tap the cake
+      </p>
+
+      <article class="reveal" data-final-message hidden
+               style="max-width:620px;margin:0 auto">
+        <div class="note" style="background:rgba(251,249,245,.94);color:var(--on-surface-variant)">
+          <span class="tape tape--top" aria-hidden="true"></span>
+          <h2 class="headline" style="color:var(--primary)">
+            Happy birthday, <span data-text="name">you</span>.
+          </h2>
+          <p class="hand" style="font-size:1.4rem;line-height:1.5;white-space:pre-line"
+             data-text="final.message"></p>
+        </div>
+
+        <p class="center" style="margin-top:32px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+          <button class="tape-btn" type="button" data-confetti>More confetti</button>
+          <button class="tape-btn tape-btn--ink" type="button" data-replay>
+            <span data-text="final.button">Replay the whole thing</span>
+          </button>
+        </p>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <p data-text="footer">made with too much love and not enough sleep &hearts;</p>
+    </footer>
+  </main>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/scrapbook.js"></script>
+</body>
+</html>

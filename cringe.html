@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Cringe Archive</title>
+<meta name="description" content="Things we should probably delete (but won't).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Caveat:wght@400;600&family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap">
+<link rel="stylesheet" href="assets/css/scrapbook.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎀</text></svg>">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <span class="topbar__title">The Birthday Archive</span>
+  <button class="burger" type="button" data-burger aria-label="Open menu">Menu</button>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" data-nav aria-label="Scrapbook sections"></nav>
+
+  <main class="main">
+    <header class="pagehead">
+      <p class="doodle" style="position:static;font-size:1.6rem;margin:0" aria-hidden="true">♡</p>
+      <h1 class="hand" style="font-size:clamp(2rem,6vw,3.25rem);color:var(--primary);font-weight:600" data-text="cringeTitle">things we should probably delete</h1>
+      <p class="label muted" data-text="cringeSub">(but won't)</p>
+    </header>
+
+    <section class="collage" data-render="cringe"></section>
+
+    <section class="section">
+      <div class="section__title">
+        <h2 class="headline">&#127909; Cinematic Memories</h2>
+      </div>
+      <p class="center hand" style="margin-bottom:32px">the footage that should never have survived</p>
+      <div class="scatter" data-render="videos" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))"></div>
+    </section>
+
+    <p class="center">
+      <a class="tape-btn" href="videos.html">See the full reel &rarr;</a>
+    </p>
+
+    <footer class="footer">
+      <p data-text="footer">made with too much love and not enough sleep &hearts;</p>
+    </footer>
+  </main>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/scrapbook.js"></script>
+</body>
+</html>

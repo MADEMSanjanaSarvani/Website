@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cinematic Memories</title>
+<meta name="description" content="The video reel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Caveat:wght@400;600&family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap">
+<link rel="stylesheet" href="assets/css/scrapbook.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎀</text></svg>">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <span class="topbar__title">The Birthday Archive</span>
+  <button class="burger" type="button" data-burger aria-label="Open menu">Menu</button>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" data-nav aria-label="Scrapbook sections"></nav>
+
+  <main class="main">
+    <header class="pagehead">
+      <span class="tape tape--wide" style="top:0;left:50%;margin-left:-65px" aria-hidden="true"></span>
+      <p class="eyebrow">Now showing</p>
+      <h1 class="display">Cinematic memories</h1>
+      <p class="hand scribble">every one of these was filmed vertically and we refuse to apologise.</p>
+    </header>
+
+    <section class="scatter" style="grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:52px 32px" data-render="videos"></section>
+
+    <section class="section duo">
+      <div class="note note--rose reveal">
+        <span class="tape tape--tr" aria-hidden="true"></span>
+        <h2 class="headline" style="font-size:1.4rem">Got footage?</h2>
+        <p class="lede" style="font-size:1rem">
+          Drop your clips into <code>assets/video/</code> and add a line to
+          <code>assets/js/config.js</code>. YouTube links work too &mdash; paste the
+          <em>embed</em> link and it plays right here.
+        </p>
+      </div>
+
+      <figure class="reveal" style="margin:0;transform:rotate(-1.5deg)">
+        <div class="film">
+          <div class="film__frame" role="img" aria-label="Reserved for the birthday message compilation"></div>
+        </div>
+        <figcaption class="film-caption">reserved: the compilation nobody has finished editing</figcaption>
+      </figure>
+    </section>
+
+    <footer class="footer">
+      <p data-text="footer">made with too much love and not enough sleep &hearts;</p>
+    </footer>
+  </main>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/scrapbook.js"></script>
+</body>
+</html>

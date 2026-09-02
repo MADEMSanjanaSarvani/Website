@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Wishes Wall</title>
+<meta name="description" content="Notes from everyone who loves her.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Caveat:wght@400;600&family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap">
+<link rel="stylesheet" href="assets/css/scrapbook.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎀</text></svg>">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <span class="topbar__title">The Birthday Archive</span>
+  <button class="burger" type="button" data-burger aria-label="Open menu">Menu</button>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" data-nav aria-label="Scrapbook sections"></nav>
+
+  <main class="main">
+    <header class="pagehead">
+      <p class="eyebrow">Chapter Five</p>
+      <h1 class="display">The wishes wall</h1>
+      <p class="hand scribble">pin something up. she'll read every single one.</p>
+    </header>
+
+    <section class="wall" data-render="wishes"></section>
+
+    <section class="section duo" style="gap:48px;align-items:start">
+      <form class="card reveal" data-wish-form style="--tilt:-1deg">
+        <span class="tape tape--tl" aria-hidden="true"></span>
+        <h2 class="headline" style="font-size:1.4rem">Leave a note</h2>
+        <p class="muted" style="margin-top:0;font-size:0.95rem">
+          Written here, it stays on your own device. Send the good ones to
+          <span data-text="nickname">her friend</span> and she'll pin them permanently.
+        </p>
+
+        <label class="field">
+          <span>Your name</span>
+          <input name="from" type="text" maxlength="40" required autocomplete="name">
+        </label>
+
+        <label class="field">
+          <span>Your wish</span>
+          <textarea name="text" rows="4" maxlength="400" required></textarea>
+        </label>
+
+        <button class="tape-btn tape-btn--ink" type="submit">Pin it to the wall</button>
+        <p class="hand" data-wish-said style="margin:14px 0 0;color:var(--primary)"></p>
+      </form>
+
+      <div class="note reveal">
+        <p class="hand" style="font-size:1.4rem;margin:0">
+          &ldquo;You make ordinary Tuesdays feel like something worth showing up for.&rdquo;
+        </p>
+        <p class="label" style="color:var(--primary);margin-top:16px">&mdash; the general consensus</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p data-text="footer">made with too much love and not enough sleep &hearts;</p>
+    </footer>
+  </main>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/scrapbook.js"></script>
+</body>
+</html>
