@@ -445,6 +445,23 @@
     });
   };
 
+  /* THE GALLERY — a page of photographs -------------------------------- */
+  render.gallery = function (host) {
+    host.className = "mosaic";
+
+    host.innerHTML = slice(S.gallery || [], host)
+      .map(function (entry) {
+        var g = entry.item;
+        return (
+          '<figure class="plate plate--inset reveal" style="margin:0">' +
+          plate(g.src, g.src, "tall") +
+          caption("", g.caption || "") +
+          "</figure>"
+        );
+      })
+      .join("");
+  };
+
   /* ABOUT YOU — the facts list -------------------------------------------- */
   render.facts = function (host) {
     var facts = (S.about && S.about.facts) || [];
@@ -495,7 +512,8 @@
 
     var cells = (S.filmstrip || []).map(function (src) {
       return src
-        ? '<img class="filmstrip__cell" src="' + esc(src) + '" alt="" loading="lazy">'
+        ? '<img class="filmstrip__cell" src="' + esc(src) + '" alt="" loading="lazy" ' +
+          'data-hint="' + esc(src) + '">'
         : '<div class="filmstrip__cell"></div>';
     });
 
@@ -722,6 +740,25 @@
     if (home) home.addEventListener("click", function () { goTo(0); });
   }
 
+  /* ---------- missing photographs fall back to their slot ---------- */
+  /* Until a file is actually dropped into assets/img/, show the labelled
+     placeholder rather than a broken image icon. */
+  function guardPhotos() {
+    all("img[data-hint]").forEach(function (img) {
+      function fallback() {
+        var slot = document.createElement("div");
+        slot.className = img.className + " plate__slot";
+        slot.innerHTML =
+          '<p class="plate__hint">' + esc(img.getAttribute("data-hint")) + "</p>";
+        if (img.parentNode) img.parentNode.replaceChild(slot, img);
+      }
+
+      img.addEventListener("error", fallback);
+      // an image that already failed before this ran
+      if (img.complete && img.naturalWidth === 0) fallback();
+    });
+  }
+
   /* ---------- text bindings: <span data-text="name"></span> ---------- */
 
   function bindText() {
@@ -751,6 +788,7 @@
 
     wireTurning();
     lastWord();
+    guardPhotos();
 
     var start = spreads.indexOf(document.getElementById(location.hash.slice(1)));
     index = start > 0 ? start : 0;

@@ -35,9 +35,8 @@
 
         <div class="cover__stage">
           <div class="cover__photo">
-            <div class="plate__frame plate__slot">
-              <p class="plate__hint">Cover portrait<br>assets/img/cover.jpg</p>
-            </div>
+            <img class="plate__frame plate__frame--face" src="assets/img/cover.jpg"
+                 alt="Portrait of the birthday girl" data-hint="Cover portrait — assets/img/cover.jpg">
             <p class="cover__age" data-text="age">23</p>
           </div>
         </div>
@@ -65,15 +64,18 @@
       <p class="kicker reveal">From the editor</p>
       <h2 class="hed hed--sm reveal" data-text="letterTitle">A note before you begin</h2>
 
-      <figure class="plate plate--inset reveal" style="margin:0 0 22px">
-        <div class="plate__frame plate__frame--wide plate__slot">
-          <p class="plate__hint">assets/img/hero.jpg</p>
-        </div>
-        <figcaption>
-          <span class="plate__no">Fig. 01</span>
-          <span data-text="name">The birthday girl</span>
-        </figcaption>
-      </figure>
+      <div class="side-plate reveal">
+        <figure class="plate plate--inset" style="margin:0">
+          <img class="plate__frame plate__frame--tall plate__frame--face"
+               src="assets/img/hero.jpg" alt="" data-hint="assets/img/hero.jpg">
+          <figcaption>
+            <span class="plate__no">Fig. 01</span>
+            <span data-text="name">The birthday girl</span>
+          </figcaption>
+        </figure>
+
+        <blockquote class="pullquote" style="margin:0" data-text="letterPull"></blockquote>
+      </div>
 
       <div class="body-copy measure reveal">
         <p data-text="intro"></p>
@@ -81,7 +83,6 @@
            <em data-text="signedBy"></em></p>
       </div>
 
-      <blockquote class="pullquote reveal" data-text="letterPull"></blockquote>
     </div>
   </section>
 
@@ -92,28 +93,27 @@
       <p class="kicker reveal">Chapter One</p>
       <h2 class="hed reveal" data-text="about.title">About you</h2>
 
-      <figure class="plate plate--inset reveal" style="margin:0 0 20px">
-        <div class="plate__frame plate__frame--wide plate__slot">
-          <p class="plate__hint">assets/img/about.jpg</p>
-        </div>
-        <figcaption>
-          <span class="plate__no">Fig. 02</span>
-          <span data-text="name">The birthday girl</span>
-        </figcaption>
-      </figure>
+      <div class="side-plate reveal">
+        <figure class="plate plate--inset" style="margin:0">
+          <img class="plate__frame plate__frame--tall" src="assets/img/about.jpg"
+               alt="" data-hint="assets/img/about.jpg">
+          <figcaption>
+            <span class="plate__no">Fig. 02</span>
+            <span data-text="name">The birthday girl</span>
+          </figcaption>
+        </figure>
 
-      <div class="body-copy measure reveal" style="white-space:pre-line"
-           data-text="about.text"></div>
+        <div class="body-copy" style="white-space:pre-line" data-text="about.text"></div>
+      </div>
     </div>
 
     <div class="leaf leaf--right">
       <p class="kicker reveal">The facts</p>
       <dl class="facts reveal" data-render="facts"></dl>
 
-      <figure class="plate plate--inset reveal" style="margin:26px 0 0">
-        <div class="plate__frame plate__frame--square plate__slot">
-          <p class="plate__hint">assets/img/about-2.jpg</p>
-        </div>
+      <figure class="plate plate--inset plate--half reveal" style="margin:26px 0 0">
+        <img class="plate__frame plate__frame--tall plate__frame--face"
+             src="assets/img/about-2.jpg" alt="" data-hint="assets/img/about-2.jpg">
         <figcaption>
           <span class="plate__no">Fig. 03</span>
           <span>Exactly as you are</span>
@@ -209,8 +209,8 @@
 
     <div class="leaf leaf--right leaf--fill">
       <div class="fill">
-        <div class="fill__photo" role="img" aria-label="Portrait"></div>
-        <p class="fill__hint">Full-page photo — assets/img/portrait.jpg</p>
+        <img class="fill__photo" src="assets/img/portrait.jpg" alt=""
+             data-hint="Full-page photo — assets/img/portrait.jpg">
         <div class="fill__veil" aria-hidden="true"></div>
 
         <div class="fill__body center">
@@ -299,7 +299,21 @@
     </div>
   </section>
 
-  <!-- ========================= 08 · THE LAST WORD ======================= -->
+  <!-- ===================== 09 · LIFE · THE GALLERY ====================== -->
+  <section class="spread" id="life-gallery" data-section="Life" data-hide-toc>
+    <div class="leaf leaf--left">
+      <p class="kicker reveal">Life, in pictures</p>
+      <h2 class="hed hed--sm reveal">The <em>gallery</em></h2>
+      <div data-render="gallery" data-from="0" data-to="4"></div>
+    </div>
+
+    <div class="leaf leaf--right">
+      <p class="kicker reveal">Continued</p>
+      <div data-render="gallery" data-from="4"></div>
+    </div>
+  </section>
+
+  <!-- ========================= 10 · THE LAST WORD ======================= -->
   <section class="spread" id="lastword" data-section="The Last Word" data-hide-toc>
     <div class="leaf leaf--left leaf--dark">
       <div class="center">

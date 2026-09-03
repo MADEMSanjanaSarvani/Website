@@ -480,7 +480,17 @@ body {
 
 .plate__frame--wide { aspect-ratio: 16 / 10; }
 .plate__frame--pano { aspect-ratio: 21 / 9; }
+
+/* Phone photos are portrait and the face sits high in the frame — pull the
+   crop upwards so a tight slot never cuts through it. */
+.plate__frame--face { object-position: center 26%; }
+.fill__photo { object-position: center 30%; }
 .plate__frame--tall { aspect-ratio: 3 / 4; }
+
+/* A portrait photograph at full column width swallows the page, so tall
+   photographs are given a narrower column and the words sit beside them. */
+.plate--half { max-width: 62%; }
+.plate--third { max-width: 46%; }
 .plate__frame--square { aspect-ratio: 1 / 1; }
 .plate__frame--cinema { aspect-ratio: 16 / 9; }
 
@@ -1514,6 +1524,20 @@ body {
 
 .duo-plate__words { padding-bottom: 4px; }
 
+/* a tall photograph with the copy set alongside it */
+.side-plate {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: clamp(16px, 2vw, 28px);
+  align-items: start;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 900px) {
+  .side-plate { grid-template-columns: 1fr; }
+  .plate--half, .plate--third { max-width: 100%; }
+}
+
 /* a caption tucked into the corner of its own photograph */
 .plate--inset { position: relative; }
 
@@ -1590,6 +1614,7 @@ body {
 #life-photos { --accent: #4a8fd4; --accent-soft: #eef4fb; --accent-tint: #d5e5f5; }
 #life-film   { --accent: #d9456e; --accent-soft: #fdeff3; --accent-tint: #f7d8e1; }
 #life-music  { --accent: #d9a12c; --accent-soft: #fcf6e8; --accent-tint: #f5e5bf; }
+#life-gallery{ --accent: #2e9d9a; --accent-soft: #ecf7f6; --accent-tint: #cfe9e7; }
 #lastword    { --accent: #ffd166; --accent-soft: #4a2140; --accent-tint: #5c2a4f; }
 #backcover   { --accent: #ffd166; --accent-soft: #2f7f7c; --accent-tint: #3a908c; }
 

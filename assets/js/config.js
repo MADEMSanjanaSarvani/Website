@@ -247,7 +247,25 @@ const SITE = {
   /* ---------- THE FILMSTRIP (right-hand page of the photo essay) ---------- */
   // Four small square photos running down a strip of film.
   // Leave the list as "" entries and they show as blank frames.
-  filmstrip: ["", "", "", ""],
+  filmstrip: [
+    "assets/img/strip-1.jpg",   // peach kurta, white wall
+    "assets/img/strip-2.jpg",   // pink kurta, garden
+    "assets/img/strip-3.jpg",   // holding the palm trunk
+    "assets/img/strip-4.jpg"    // lavender kurta
+  ],
+
+  /* ---------- THE GALLERY (a whole spread of her, in Life) ---------- */
+  // Add or remove freely — the spread lays out however many you give it.
+  gallery: [
+    { src: "assets/img/gallery-1.jpg", caption: "Temple evening" },
+    { src: "assets/img/gallery-2.jpg", caption: "That laugh" },
+    { src: "assets/img/gallery-3.jpg", caption: "The new haircut" },
+    { src: "assets/img/gallery-4.jpg", caption: "Dressed for the occasion" },
+    { src: "assets/img/gallery-5.jpg", caption: "Rooftop, festival morning" },
+    { src: "assets/img/gallery-6.jpg", caption: "Sitting for the photo" },
+    { src: "assets/img/gallery-7.jpg", caption: "The cafe, again" },
+    { src: "assets/img/gallery-8.jpg", caption: "Evening sky" }
+  ],
 
   /* ---------- NOW PLAYING (the song card over the full-page photo) ------- */
   nowPlaying: {
