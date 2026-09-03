@@ -373,7 +373,7 @@
   }
 
   render.contributors = function (host) {
-    var list = S.friends || [];
+    var list = S[host.getAttribute("data-source") || "friends"] || [];
 
     host.className = "mosaic";
 
@@ -443,6 +443,22 @@
         card.style.display = want === "All" || card.getAttribute("data-tag") === want ? "" : "none";
       });
     });
+  };
+
+  /* ABOUT YOU — the facts list -------------------------------------------- */
+  render.facts = function (host) {
+    var facts = (S.about && S.about.facts) || [];
+
+    host.innerHTML = facts
+      .map(function (f) {
+        return (
+          '<div class="fact reveal">' +
+          "<dt>" + esc(f.label) + "</dt>" +
+          "<dd>" + esc(fill(f.value)) + "</dd>" +
+          "</div>"
+        );
+      })
+      .join("");
   };
 
   /* THE UNPUBLISHED ARCHIVE (cringe) ------------------------------------- */

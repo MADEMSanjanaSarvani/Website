@@ -49,6 +49,26 @@ const SITE = {
   signoff: "with our whole chaotic hearts,",
   signedBy: "everyone who loves you",
 
+  /* ---------- ABOUT YOU (chapter one) ---------- */
+  about: {
+    title: "About you",
+    text:
+      "Twenty-three years of being the loudest laugh in the room and the first " +
+      "person everyone calls when it all goes wrong. You remember birthdays " +
+      "nobody told you about. You cry at adverts. You have never once let a " +
+      "friend walk home alone.\n\nThis is the part of the book where we try to " +
+      "write you down, and fail, and print it anyway.",
+
+    // Small facts, printed as a list. Add or remove freely.
+    facts: [
+      { label: "Known for",        value: "Being three minutes late, every time" },
+      { label: "Dangerous around", value: "Anything with cheese in it" },
+      { label: "Would fight over", value: "The last samosa" },
+      { label: "Best at",          value: "Making a bad day feel survivable" },
+      { label: "Worst at",         value: "Accepting a compliment" }
+    ]
+  },
+
   /* ---------- FRIENDS ---------- */
   // "tag" must match one of the filter chips below.
   friendTags: [
@@ -131,6 +151,53 @@ const SITE = {
       letter:
         "The back row misses you.\n\nHappy birthday from everyone who spent four " +
         "years laughing when they should have been listening."
+    }
+  ],
+
+  /* ---------- FAMILY (chapter three) ---------- */
+  // Same shape as the friends list. "tag" is the relation.
+  family: [
+    {
+      name: "Amma",
+      tag: "Mother",
+      photo: "",
+      photoHint: "assets/img/amma.jpg",
+      quote: "My whole heart, walking around outside my body.",
+      letter:
+        "You were the easiest baby and the hardest teenager and you have grown " +
+        "into someone I would choose as a friend.\n\nHappy birthday, kanna. " +
+        "Come home soon. I have made too much food again."
+    },
+    {
+      name: "Nanna",
+      tag: "Father",
+      photo: "",
+      photoHint: "assets/img/nanna.jpg",
+      quote: "Still my little girl. Still arguing with me about everything.",
+      letter:
+        "I do not say these things out loud, so I am writing them down.\n\n" +
+        "I am proud of you. I have always been proud of you. Happy birthday."
+    },
+    {
+      name: "Dev",
+      tag: "Brother",
+      photo: "",
+      photoHint: "assets/img/dev.jpg",
+      quote: "You owe me \u20b9200 from 2022. Happy birthday anyway.",
+      letter:
+        "Congratulations on getting old.\n\nYou are the only person who has " +
+        "never once made me feel stupid for asking a question. That is worth " +
+        "more than \u20b9200. But I still want the \u20b9200."
+    },
+    {
+      name: "The cousins",
+      tag: "Chaos division",
+      photo: "",
+      photoHint: "assets/img/cousins.jpg",
+      quote: "Every wedding, same corner, same trouble.",
+      letter:
+        "From all of us at the back of every family function: happy birthday.\n\n" +
+        "Next one is at your place. We have already decided."
     }
   ],
 

@@ -1578,12 +1578,18 @@ body {
 
 #cover       { --accent: #e4557a; --accent-soft: #fdf0f3; --accent-tint: #f7dbe3; }
 #contents    { --accent: #2e9d9a; --accent-soft: #ecf7f6; --accent-tint: #cfe9e7; }
-#contributors{ --accent: #ef8a3c; --accent-soft: #fdf3ea; --accent-tint: #fadfc6; }
-#chronology  { --accent: #8b5fbf; --accent-soft: #f4effa; --accent-tint: #e3d6f2; }
-#unpublished { --accent: #4a8fd4; --accent-soft: #eef4fb; --accent-tint: #d5e5f5; }
-#pictures    { --accent: #d9456e; --accent-soft: #fdeff3; --accent-tint: #f7d8e1; }
-#letters     { --accent: #5aa469; --accent-soft: #eff7f1; --accent-tint: #d6ebdb; }
-#soundtrack  { --accent: #d9a12c; --accent-soft: #fcf6e8; --accent-tint: #f5e5bf; }
+
+/* Chapter One — About You */
+#about       { --accent: #e4557a; --accent-soft: #fdf0f3; --accent-tint: #f7dbe3; }
+/* Chapter Two — Friends */
+#friends     { --accent: #ef8a3c; --accent-soft: #fdf3ea; --accent-tint: #fadfc6; }
+/* Chapter Three — Family */
+#family      { --accent: #5aa469; --accent-soft: #eff7f1; --accent-tint: #d6ebdb; }
+/* Chapter Four — Life, across four spreads */
+#life        { --accent: #8b5fbf; --accent-soft: #f4effa; --accent-tint: #e3d6f2; }
+#life-photos { --accent: #4a8fd4; --accent-soft: #eef4fb; --accent-tint: #d5e5f5; }
+#life-film   { --accent: #d9456e; --accent-soft: #fdeff3; --accent-tint: #f7d8e1; }
+#life-music  { --accent: #d9a12c; --accent-soft: #fcf6e8; --accent-tint: #f5e5bf; }
 #lastword    { --accent: #ffd166; --accent-soft: #4a2140; --accent-tint: #5c2a4f; }
 #backcover   { --accent: #ffd166; --accent-soft: #2f7f7c; --accent-tint: #3a908c; }
 
@@ -1674,6 +1680,36 @@ body {
   background: var(--accent);
   opacity: 0.45;
   z-index: 20;
+}
+
+/* ---------- 27. The facts list ---------- */
+.facts { margin: 0; border-top: 1px solid var(--accent); }
+
+.fact {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 16px;
+  padding: 14px 2px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.fact dt {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.fact dd {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 900px) {
+  .fact { grid-template-columns: 1fr; gap: 4px; }
 }
 
 /* ---------- 20. Print ---------- */

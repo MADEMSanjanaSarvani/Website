@@ -22,20 +22,27 @@ left and right. Turn with:
 Each spread has its own address, so you can link straight to one:
 `index.html#contributors`, `index.html#lastword`, and so on.
 
-## The spreads
+## Four chapters
 
-| Pages | Left | Right |
-| --- | --- | --- |
-| — | The closed board | **Cover** — masthead, portrait, the age, coverlines |
-| 02–03 | **Contents** | **Editor's Letter** — drop cap, pull quote |
-| 04–05 | **The Contributors** — first three | Contributors continued |
-| 06–07 | **A Life in Chapters** | Full-page photo with a script caption |
-| 08–09 | **The Unpublished Archive** — plates | Filmstrip, taped snapshot, more plates |
-| 10–11 | **Moving Pictures** — film reels | Full-page photo with the **now-playing card** |
-| 12–13 | **Letters to the Editor** | Pull quote and the write-in form |
-| 14–15 | **The Soundtrack** — the chart | Sleeve art, side-A note |
-| 16–17 | **The Last Word** — the cake | The message (after the candle) |
-| 18–19 | **Colophon** | The end |
+The contents page lists exactly four things. Chapter Four runs across several
+spreads; only its first one is listed, so the contents stays short.
+
+| Pages | Chapter | Left | Right |
+| --- | --- | --- | --- |
+| — | — | The closed board | **Cover** |
+| 02–03 | — | **Contents** | **Editor's letter** |
+| 04–05 | **About You** | Portrait and the piece about her | The facts, second portrait |
+| 06–07 | **Friends** | First three friends, with filters | The rest |
+| 08–09 | **Family** | Family, with their letters | Notes from everyone, write-in form |
+| 10–11 | **Life** | The chronology | Full-page photo |
+| 12–13 | Life, continued | The photographs | Filmstrip and snapshots |
+| 14–15 | Life, on film | The video reels | Full-page photo, now-playing card |
+| 16–17 | Life, with the sound on | The soundtrack | Sleeve art |
+| 18–19 | — | **The Last Word** — the cake | The message (after the candle) |
+| 20–21 | — | **Colophon** | The end |
+
+To add a spread to the contents, give it a `data-section` and a `data-blurb`;
+to keep one out, add `data-hide-toc`.
 
 The old single-page URLs (`friends.html`, `cringe.html`, `final.html` …) still
 work — they redirect to the right spread.
@@ -64,14 +71,31 @@ Anywhere in the text, `{name}` is replaced with the birthday person's name.
 2. Point at them in `config.js`:
 
 ```js
-{ name: "Sarah J.", photo: "assets/img/sarah.jpg", ... }
+{ name: "Sarah J.", photo: "assets/img/sarah.jpg", ... }   // friends
+{ name: "Amma",     photo: "assets/img/amma.jpg",  ... }   // family
 ```
 
-The fixed photo slots are marked in `index.html` with the filename they expect
-— the cover portrait (`cover.jpg`), the two full-page photos (`portrait.jpg`,
-`song.jpg`), the taped snapshot (`us.jpg`) and the sleeve art (`record.jpg`).
-Swap each placeholder `div` for an `<img class="plate__frame" src="…" alt="…">`
-(for a full-page one, use `class="fill__photo"`).
+Every empty slot on the page names the file it is waiting for. The full list:
+
+| File | Where it goes | Shape |
+| --- | --- | --- |
+| `cover.jpg` | The cover | portrait, 3:4 |
+| `hero.jpg` | Editor's letter | landscape, 16:10 |
+| `about.jpg` | About You, main portrait | landscape, 16:10 |
+| `about-2.jpg` | About You, facts page | square |
+| `then.jpg` | Life, the oldest photo | wide panorama, 21:9 |
+| `portrait.jpg` | Life, full-page right | fills the page |
+| `us.jpg` | Life, the taped snapshot | landscape, 16:10 |
+| `song.jpg` | Life on film, full-page right | fills the page |
+| `record.jpg` | Sleeve art | square |
+| `song-art.jpg` | The now-playing card | square |
+
+Photos in `index.html` are placeholder `div`s — swap each for
+`<img class="plate__frame" src="assets/img/hero.jpg" alt="">`, or for a
+full-page one `<img class="fill__photo" src="assets/img/portrait.jpg" alt="">`.
+
+Friends, family and the filmstrip are just filenames in `config.js` — no HTML
+needed.
 
 The filmstrip down the photo-essay page and the song card are both in
 `config.js`:
