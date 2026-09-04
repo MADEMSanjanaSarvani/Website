@@ -590,6 +590,45 @@
       .join("");
   };
 
+  /* THE DOSSIER — the mock paperwork stuck to the front board ----------- */
+  render.dossier = function (host) {
+    var d = S.dossier || {};
+
+    var bars = (d.rows || []).map(function (r) {
+      return (
+        '<div class="dossier__row">' +
+        '<span class="dossier__label">' + esc(r.label) + "</span>" +
+        '<span class="dossier__meter"><i style="width:' + (+r.pct || 0) + '%"></i></span>' +
+        '<span class="dossier__pct">' + (+r.pct || 0) + "%</span>" +
+        '<span class="dossier__note">' + esc(r.note || "") + "</span>" +
+        "</div>"
+      );
+    }).join("");
+
+    var warnings = (d.warnings || []).map(function (w) {
+      return "<li>" + esc(fill(w)) + "</li>";
+    }).join("");
+
+    host.innerHTML =
+      '<div class="dossier">' +
+      '<div class="dossier__head">' +
+      "<span>Official record</span><span>" + esc(d.ref || "") + "</span>" +
+      "</div>" +
+
+      '<p class="dossier__subject">Subject</p>' +
+      '<h2 class="dossier__name">' + esc(S.name || "") + "</h2>" +
+
+      '<div class="dossier__bars">' + bars + "</div>" +
+
+      '<p class="dossier__warn-title">Handling instructions</p>' +
+      '<ul class="dossier__warnings">' + warnings + "</ul>" +
+
+      '<p class="dossier__small">' + esc(fill(d.smallprint || "")) + "</p>" +
+
+      '<span class="dossier__stamp">' + esc(d.stamp || "") + "</span>" +
+      "</div>";
+  };
+
   /* ABOUT YOU — the facts list -------------------------------------------- */
   render.facts = function (host) {
     host.innerHTML = slice((S.about && S.about.facts) || [], host)

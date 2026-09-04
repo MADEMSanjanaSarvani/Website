@@ -1735,6 +1735,161 @@ body {
 .leaf--blank .runninghead,
 .leaf--blank .folio { visibility: hidden; }
 
+/* ---------- 28. The dossier ---------- */
+/* Mock paperwork taped to the inside of the front board. Deliberately silly. */
+
+.leaf--board {
+  display: grid;
+  place-items: center;
+  padding: clamp(16px, 3vh, 34px) clamp(16px, 2.4vw, 34px);
+}
+
+.leaf--board::after { display: none; }   /* the panel replaces the embossed title */
+
+.dossier {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  padding: 22px 22px 62px;
+  background: var(--paper-bright);
+  color: var(--ink);
+  transform: rotate(-1.4deg);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+}
+
+.dossier::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--rule-strong);
+  pointer-events: none;
+}
+
+.dossier__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--ink);
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.dossier__subject {
+  margin: 14px 0 0;
+  font-size: 0.52rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.dossier__name {
+  margin: 0 0 14px;
+  font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.dossier__bars { border-top: 1px solid var(--rule); }
+
+.dossier__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 62px 30px;
+  align-items: center;
+  gap: 6px 8px;
+  padding: 7px 0 6px;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.72rem;
+}
+
+.dossier__label { font-weight: 500; color: var(--ink); }
+
+.dossier__meter {
+  height: 7px;
+  border: 1px solid var(--ink);
+  background: repeating-linear-gradient(
+    45deg, transparent 0 3px, rgba(63, 60, 57, 0.12) 3px 6px
+  );
+}
+
+.dossier__meter i { display: block; height: 100%; background: var(--accent); }
+
+.dossier__pct {
+  text-align: right;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+}
+
+.dossier__note {
+  grid-column: 1 / -1;
+  margin-top: -3px;
+  font-size: 0.58rem;
+  font-style: italic;
+  color: var(--ink-faint);
+}
+
+.dossier__warn-title {
+  margin: 14px 0 6px;
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.dossier__warnings {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.dossier__warnings li { margin-bottom: 4px; }
+.dossier__warnings li::marker { color: var(--accent); }
+
+.dossier__small {
+  margin: 14px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--rule);
+  font-size: 0.56rem;
+  line-height: 1.5;
+  color: var(--ink-faint);
+}
+
+/* the rubber stamp, slapped on at an angle */
+.dossier__stamp {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  max-width: 160px;
+  padding: 7px 10px;
+  border: 2px solid var(--accent);
+  border-radius: 3px;
+  transform: rotate(-9deg);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.25;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.72);
+  opacity: 0.92;
+}
+
+@media (max-width: 900px) {
+  .leaf--board { min-height: 70vh; }
+  .dossier { transform: none; }
+}
+
 /* ---------- 20. Print ---------- */
 @media print {
   body { overflow: visible; background: #fff; }

@@ -49,6 +49,29 @@ const SITE = {
   signoff: "with our whole chaotic hearts,",
   signedBy: "everyone who loves you",
 
+  /* ---------- THE DOSSIER (the panel on the front board) ---------- */
+  // Mock official paperwork. Keep it stupid — that is the whole point.
+  dossier: {
+    stamp: "Approved for another year",
+    ref: "Ref. SOW/23/BDAY",
+    rows: [
+      { label: "Drama",              pct: 94, note: "unmedicated" },
+      { label: "Punctuality",        pct: 11, note: "aspirational" },
+      { label: "Snack theft",        pct: 88, note: "yours, specifically" },
+      { label: "Voice notes sent",   pct: 97, note: "4 minutes minimum" },
+      { label: "Accepting a compliment", pct: 6, note: "under review" }
+    ],
+    warnings: [
+      "Do not feed after midnight. She will not stop talking.",
+      "Contains 100% of your recommended daily chaos.",
+      "May spontaneously cry at a dog advert.",
+      "Known to say \"one more episode\" at 2am. Do not believe her."
+    ],
+    smallprint:
+      "Subject has been continuously operational for twenty-three years with no " +
+      "recall notice issued. Warranty void if she finds out we wrote this."
+  },
+
   /* ---------- ABOUT YOU (chapter one) ---------- */
   about: {
     title: "About you",
