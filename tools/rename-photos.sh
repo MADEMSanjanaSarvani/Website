@@ -3,10 +3,9 @@
 #     bash tools/rename-photos.sh
 set -e
 dir="$(cd "$(dirname "$0")/../assets/img" && pwd)"
-names=(cover about
-       friend-1 friend-2 friend-3 friend-4
-       family-1 family-2 family-3 family-4
-       gallery-1 gallery-2 gallery-3 gallery-4)
+names=(cover lore
+       priya sreehitha bhavya akshaya sanjana
+       amma nana)
 i=0
 shopt -s nullglob nocaseglob
 for f in "$dir"/*.{jpg,jpeg,png,webp}; do

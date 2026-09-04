@@ -3,172 +3,188 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>The Archive</title>
-<meta name="description" content="A birthday book — one copy, printed once, for one person.">
-<meta name="theme-color" content="#e4557a">
+<title>The Raveen Issue</title>
+<meta name="description" content="A one-copy collector's magazine for a 22nd birthday.">
+<meta name="theme-color" content="#ff2a85">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..800&family=Epilogue:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="assets/css/magazine.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
 </head>
 <body>
 
 <div class="deck">
 <div class="book">
 
-  <!-- ===================== PAGES 00–01 · THE COVER ====================== -->
-  <section class="spread" id="cover" data-section="Cover" data-hide-toc>
-    <div class="leaf leaf--left leaf--board" data-bare>
-      <div data-render="dossier"></div>
-    </div>
+  <!-- ============ SPREAD 1 · PAGES 01–02 · COVER & CONTENTS ============ -->
+  <section class="spread" id="cover" data-section="Cover &amp; Intro" data-hide-toc>
 
-    <div class="leaf leaf--right leaf--cover" data-bare>
+    <!-- P.01 · the cover -->
+    <div class="leaf leaf--left" data-bare>
       <div class="cover">
         <div class="cover__strap">
-          <span data-text="issueLine">Issue No. 23</span>
-          <span data-render="countdown">On sale soon</span>
+          <span data-text="issueLine">Vol. 22</span>
+          <span data-text="edition">Collector's Issue</span>
+          <span data-render="countdown">P. 01</span>
         </div>
 
-        <h1 class="masthead" data-text="magazineName">The Archive</h1>
-        <p class="cover__sub" data-text="magazineSub">The birthday issue</p>
+        <p class="cover__stars">★ <span data-text="strapline">Worldwide Birthday Release</span> ★</p>
+        <h1 class="masthead" data-text="magazineName">RAVEEN</h1>
 
         <div class="cover__stage">
           <div class="cover__photo">
-            <img class="plate__frame plate__frame--face" src="assets/img/cover.jpg"
-                 alt="Portrait of the birthday girl"
-                 data-hint="Cover portrait — assets/img/cover.jpg">
-            <p class="cover__age" data-text="age">23</p>
+            <figure class="polaroid" style="--tilt:-1deg">
+              <img class="polaroid__img" src="assets/img/cover.jpg"
+                   alt="Cover portrait" data-hint="Cover portrait · assets/img/cover.jpg">
+              <div class="cover__plate">
+                <small>Cover Girl · Age <span data-text="age">22</span></small>
+                <b data-text="fullName">Lakkakula Sai Raveena Sowgandhika</b>
+                <i data-text="coverLine">Turning 22 &amp; looking undeniably iconic</i>
+              </div>
+            </figure>
           </div>
         </div>
 
+        <p class="cover__ribbon">✨ Collector's Edition · Forever Iconic ✨</p>
+
         <div class="cover__foot">
-          <span data-text="name">Her</span>
-          <span data-text="tagline">Everything we refuse to forget.</span>
+          <div>
+            <span class="barcode" data-render="barcode" aria-hidden="true"></span>
+            <p class="barcode-no" data-text="barcodeNo">9 780220 200322</p>
+          </div>
+          <span class="byline" data-text="editionNo">Edition N° 22</span>
+          <span class="priceless" data-text="coverPrice">Priceless</span>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- ============= PAGES 02–03 · CONTENTS / ABOUT YOU =================== -->
-  <section class="spread" id="about" data-section="About You"
-           data-blurb="Twenty-three years of you">
-    <div class="leaf leaf--left">
-      <p class="kicker reveal">In this book</p>
-      <h2 class="hed reveal">Contents</h2>
+    <!-- P.02 · contents -->
+    <div class="leaf leaf--right">
+      <span class="washi" style="top:64px;right:26px;transform:rotate(3deg)">Must Read! 💅</span>
+
+      <h2 class="hed hed--lg reveal">Contents</h2>
+      <p class="kicker reveal">Chapter overview · The <span data-text="name">Raveen</span> Issue</p>
+
       <nav class="toc reveal" data-render="toc" aria-label="Contents"></nav>
 
-      <blockquote class="pullquote reveal" data-text="letterPull"></blockquote>
-
-      <p class="byline reveal" data-text="signedBy">everyone who loves you</p>
-    </div>
-
-    <div class="leaf leaf--right">
-      <p class="kicker reveal">Chapter One</p>
-      <h2 class="hed hed--sm reveal" data-text="about.title">About you</h2>
-
-      <div class="side-plate reveal">
-        <figure class="plate plate--inset" style="margin:0">
-          <img class="plate__frame plate__frame--tall plate__frame--face"
-               src="assets/img/about.jpg" alt="" data-hint="assets/img/about.jpg">
-        </figure>
-
-        <div class="body-copy" style="white-space:pre-line" data-text="about.text"></div>
+      <div class="quotebox reveal">
+        <p data-text="editorialQuote"></p>
+        <cite>— <span data-text="editorialBy">The Editorial Board</span></cite>
       </div>
-
-      <dl class="facts reveal" style="margin-top:20px" data-render="facts"
-          data-from="0" data-to="4"></dl>
     </div>
   </section>
 
-  <!-- ================== PAGES 04–05 · FRIENDS ========================== -->
-  <section class="spread" id="friends" data-section="Friends"
-           data-blurb="The people who had the privilege">
-    <div class="leaf leaf--left">
-      <p class="kicker reveal">Chapter Two</p>
-      <h2 class="hed reveal">Friends</h2>
-      <p class="dek measure reveal">The people who had the privilege of knowing
-         <span data-text="name">her</span>.</p>
+  <!-- =========== SPREAD 2 · PAGES 03–04 · THE LORE & METRICS ========== -->
+  <section class="spread" id="lore" data-section="The Life &amp; Legend"
+           data-blurb="Official biography, verified lore &amp; chaos metrics"
+           data-ch="Ch. 01">
 
-      <div data-render="contributors" data-source="friends"
-           data-from="0" data-to="2"></div>
+    <!-- P.03 · field biography -->
+    <div class="leaf leaf--left">
+      <p class="kicker reveal" data-text="lore.kicker">Chapter 01 · The Biography</p>
+      <h2 class="hed reveal" data-text="lore.title">The Raveen Lore</h2>
+
+      <figure class="polaroid reveal" style="--tilt:-2deg;margin-bottom:16px">
+        <span class="washi washi--sky washi--tl">Field Notes</span>
+        <img class="polaroid__img polaroid__img--wide" src="assets/img/lore.jpg"
+             alt="" data-hint="assets/img/lore.jpg">
+        <figcaption>Exhibit A. Undeniably her.</figcaption>
+      </figure>
+
+      <dl class="reveal" style="margin:0" data-render="lore"></dl>
+    </div>
+
+    <!-- P.04 · the report card -->
+    <div class="leaf leaf--right">
+      <p class="kicker reveal">Verified metrics</p>
+      <h2 class="hed hed--sm reveal" data-text="reportCard.title">Official Report Card</h2>
+
+      <div class="metrics reveal" data-render="metrics"></div>
+
+      <p class="certified reveal" data-text="reportCard.stamp">
+        ★ Certified Best Girl by Board of Besties ★
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ SPREAD 3 · PAGES 05–06 · BESTIES, PART I ============ -->
+  <section class="spread" id="besties" data-section="Best Friends Confidential"
+           data-blurb="The intimate dossiers" data-ch="Ch. 02">
+
+    <div class="leaf leaf--left">
+      <p class="kicker reveal">Chapter 02 · Besties Confidential</p>
+      <div data-render="bestie" data-index="0"></div>
     </div>
 
     <div class="leaf leaf--right">
-      <p class="kicker reveal">Friends, continued</p>
-      <div data-render="contributors" data-source="friends"
+      <p class="kicker reveal">Entry 02 · Confidential</p>
+      <div data-render="bestie" data-index="1"></div>
+    </div>
+  </section>
+
+  <!-- =========== SPREAD 4 · PAGES 07–08 · BESTIES, PART II =========== -->
+  <section class="spread" id="besties-2" data-section="Best Friends Confidential"
+           data-hide-toc>
+
+    <div class="leaf leaf--left">
+      <p class="kicker reveal">The squad dossier</p>
+      <div class="bestie-pair reveal" data-render="bestiePair"
            data-from="2" data-to="4"></div>
-
-      <blockquote class="pullquote reveal" style="margin-top:18px">
-        You make ordinary Tuesdays feel like something worth showing up for.
-        <cite>The general consensus</cite>
-      </blockquote>
-    </div>
-  </section>
-
-  <!-- =================== PAGES 06–07 · FAMILY ========================== -->
-  <section class="spread" id="family" data-section="Family"
-           data-blurb="The ones who were always there">
-    <div class="leaf leaf--left">
-      <p class="kicker reveal">Chapter Three</p>
-      <h2 class="hed reveal">Family</h2>
-      <p class="dek measure reveal">The ones who were there before anyone else was.</p>
-
-      <div data-render="contributors" data-source="family"
-           data-from="0" data-to="2"></div>
     </div>
 
     <div class="leaf leaf--right">
-      <p class="kicker reveal">Notes</p>
-      <h3 class="hed hed--xs reveal">From everyone else</h3>
-      <div class="mail reveal" data-render="mail" data-from="0" data-to="4"></div>
+      <p class="kicker reveal">Entry 05 · Squad archive</p>
+      <div data-render="bestie" data-index="4"></div>
     </div>
   </section>
 
-  <!-- ============== PAGES 08–09 · LIFE / THE LAST WORD ================= -->
-  <section class="spread" id="life" data-section="Life"
-           data-blurb="In pictures, and one last thing">
+  <!-- ========== SPREAD 5 · PAGES 09–10 · FAMILY & THE FINALE ========== -->
+  <section class="spread" id="family" data-section="Pillars of Strength &amp; Finale"
+           data-blurb="Amma &amp; Nana's blessings, and one last thing"
+           data-ch="Ch. 03">
+
+    <!-- P.09 · family -->
     <div class="leaf leaf--left">
-      <p class="kicker reveal">Chapter Four</p>
-      <h2 class="hed hed--sm reveal">Life, <em>in pictures</em></h2>
-      <div data-render="gallery" data-from="0" data-to="4"></div>
+      <p class="kicker reveal">Chapter 03 · Family Chronicles</p>
+      <h2 class="hed hed--sm reveal" data-text="familyTitle">Pillars of Strength</h2>
+      <div class="reveal" data-render="family"></div>
     </div>
 
-    <div class="leaf leaf--right leaf--dark">
-      <div class="center">
-        <p class="kicker reveal" style="justify-content:center">The last page</p>
-        <h2 class="hed hed--sm reveal" data-text="final.title">Make a wish</h2>
-      </div>
+    <!-- P.10 · the finale -->
+    <div class="leaf leaf--right leaf--finale">
+      <div class="finale">
+        <span class="finale__badge reveal" data-text="finale.badge">Golden Milestone</span>
 
-      <div class="cake-stage">
         <div class="cake reveal" data-cake role="button" tabindex="0"
-             aria-label="Blow out the birthday candle">
+             style="position:relative" aria-label="Blow out the candle">
           <span class="candle" aria-hidden="true"><span class="flame"></span></span>
-
           <svg viewBox="0 44 200 116" width="100%" aria-hidden="true">
-            <ellipse cx="100" cy="150" rx="92" ry="9" fill="#1a0006" opacity=".6"/>
-            <rect x="16" y="140" width="168" height="9" rx="4.5" fill="#f2dcdc" opacity=".85"/>
-            <rect x="22" y="70" width="156" height="72" rx="6" fill="#e4c4c4"/>
-            <path d="M22 84 q19 15 39 0 t39 0 t39 0 t39 0 V70 H22 Z" fill="#f7e2e2"/>
-            <rect x="22" y="56" width="156" height="18" rx="6" fill="#f2dcdc"/>
-            <circle cx="52" cy="98" r="4.5" fill="#af2b3e" opacity=".55"/>
-            <circle cx="100" cy="126" r="4.5" fill="#af2b3e" opacity=".55"/>
-            <circle cx="148" cy="96" r="4.5" fill="#af2b3e" opacity=".55"/>
+            <ellipse cx="100" cy="150" rx="90" ry="8" fill="#1a162b" opacity=".14"/>
+            <rect x="16" y="140" width="168" height="9" rx="4.5" fill="#fff"/>
+            <rect x="22" y="70" width="156" height="72" rx="7" fill="#ffa3d7"/>
+            <path d="M22 84 q19 15 39 0 t39 0 t39 0 t39 0 V70 H22 Z" fill="#fff0f7"/>
+            <rect x="22" y="56" width="156" height="18" rx="7" fill="#ffdf6d"/>
+            <circle cx="52" cy="98" r="4.5" fill="#ff2a85"/>
+            <circle cx="100" cy="126" r="4.5" fill="#7b5cfa"/>
+            <circle cx="148" cy="96" r="4.5" fill="#ff5e5b"/>
           </svg>
         </div>
 
         <p class="byline" data-final-prompt>Tap the cake</p>
-      </div>
 
-      <article data-final-message hidden class="center">
-        <h3 class="hed hed--xs">Happy birthday,
-          <span data-text="name">you</span>.</h3>
-        <p class="body-copy" style="white-space:pre-line;font-size:0.95rem"
-           data-text="final.message"></p>
-        <p style="margin-top:16px">
-          <button class="btn" type="button" data-confetti>More confetti</button>
-        </p>
-      </article>
+        <article data-final-message hidden>
+          <h2 class="hed" data-text="finale.title">Happy 22nd, Raveen!</h2>
+          <p class="body-copy" style="white-space:pre-line;max-width:36ch;margin:0 auto"
+             data-text="finale.message"></p>
+          <p class="script" style="margin-top:12px" data-text="finale.signoff"></p>
+          <p style="margin-top:14px">
+            <button class="btn" type="button" data-confetti>
+              <span data-text="finale.button">Throw confetti</span>
+            </button>
+          </p>
+        </article>
+      </div>
     </div>
   </section>
 

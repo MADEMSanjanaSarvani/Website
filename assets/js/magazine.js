@@ -47,7 +47,7 @@
 
   /* A photograph. Shows the image when there is one, a plate placeholder if not. */
   function plate(src, hint, shape) {
-    var cls = "plate__frame" + (shape ? " plate__frame--" + shape : "");
+    var cls = "polaroid__img" + (shape ? " " + shape : "");
     if (src) {
       return (
         '<img class="' + cls + '" src="' + esc(src) + '" alt="' + esc(hint || "") +
@@ -55,8 +55,8 @@
       );
     }
     return (
-      '<div class="' + cls + ' plate__slot">' +
-      '<p class="plate__hint">' + esc(hint || "photograph to come") + "</p>" +
+      '<div class="' + cls + ' slot">' +
+      "<span>" + esc(hint || "photograph to come") + "</span>" +
       "</div>"
     );
   }
@@ -120,7 +120,7 @@
     spreads.forEach(function (sp, i) {
       all(".leaf", sp).forEach(function (leaf, side) {
         var no = el(".folio__no", leaf);
-        if (no) no.textContent = pad(i * 2 + side);
+        if (no) no.textContent = pad(i * 2 + side + 1);
       });
     });
 
@@ -225,6 +225,20 @@
 
       if (rightPage) carry = carry.concat(liftOverflow(rightPage));
       if (!carry.length) continue;
+
+      /* If lifting emptied a page completely, the thing that came off is taller
+         than any page and will never fit. Put it back rather than pushing it
+         from page to page forever. */
+      var emptied = all(".page__inner", sp).some(function (inner) {
+        return !inner.children.length;
+      });
+
+      if (emptied) {
+        var home = el(".page__inner", leaves[0]) || el(".page__inner", leaves[1]);
+        if (home) carry.forEach(function (node) { home.appendChild(node); });
+        sp.setAttribute("data-no-paginate", "");
+        continue;
+      }
 
       var next = continuationOf(sp);
       var section = sp.getAttribute("data-section") || "";
@@ -407,29 +421,15 @@
 
   var render = {};
 
-  /* COVER ---------------------------------------------------------------- */
-  render.coverlines = function (host) {
-    var side = host.getAttribute("data-side");
-    var lines = (S.coverlines || []).filter(function (c) { return (c.side || "left") === side; });
-
-    host.innerHTML = lines
-      .map(function (c) {
-        return (
-          '<p class="coverline' + (side === "right" ? " coverline--right" : "") + '">' +
-          "<b>" + esc(fill(c.title)) + "</b>" + esc(fill(c.text || "")) + "</p>"
-        );
-      })
-      .join("");
-  };
-
+  /* COVER — the barcode and the countdown strap ------------------------- */
   render.barcode = function (host) {
     var bars = "";
-    for (var i = 0; i < 34; i++) bars += "<i></i>";
+    for (var i = 0; i < 30; i++) bars += "<i></i>";
     host.innerHTML = bars;
   };
 
   render.countdown = function (host) {
-    if (!S.birthday) { host.remove(); return; }
+    if (!S.birthday) { host.textContent = "P. 01"; return; }
 
     function tick() {
       var now = new Date();
@@ -438,30 +438,29 @@
       if (target - now < -86400000) target.setFullYear(now.getFullYear() + 1);
 
       var days = Math.ceil((target - now) / 86400000);
-      host.textContent =
-        days <= 0 ? "On sale today" : "On sale in " + days + (days === 1 ? " day" : " days");
+      host.textContent = days <= 0 ? "Out today" : "Out in " + days + " days";
     }
 
     tick();
     setInterval(tick, 60000);
   };
 
-  /* CONTENTS ------------------------------------------------------------- */
+  /* CONTENTS ------------------------------------------------------------ */
   render.toc = function (host) {
     var items = spreads
       .map(function (sp, i) { return { sp: sp, i: i }; })
-      .filter(function (o) { return o.sp.hasAttribute("data-section") && !o.sp.hasAttribute("data-hide-toc"); });
+      .filter(function (o) {
+        return o.sp.hasAttribute("data-section") && !o.sp.hasAttribute("data-hide-toc");
+      });
 
     host.innerHTML = items
       .map(function (o, n) {
         return (
-          '<button class="toc__item reveal" type="button" data-goto="' + o.i + '">' +
-          '<span class="toc__no">' + pad(n + 1) + "</span>" +
-          '<span class="toc__title">' + esc(o.sp.getAttribute("data-section")) +
-          (o.sp.getAttribute("data-blurb")
-            ? "<small>" + esc(o.sp.getAttribute("data-blurb")) + "</small>" : "") +
-          "</span>" +
-          '<span class="toc__page">' + pad(o.i * 2) + "</span>" +
+          '<button class="toc__item" type="button" data-goto="' + o.i + '">' +
+          '<span class="toc__title">' + pad(n + 1) + " " +
+          esc(o.sp.getAttribute("data-section")) + "</span>" +
+          '<span class="toc__ch">' + esc(o.sp.getAttribute("data-ch") || "") + "</span>" +
+          '<p class="toc__sub">' + esc(o.sp.getAttribute("data-blurb") || "") + "</p>" +
           "</button>"
         );
       })
@@ -473,7 +472,110 @@
     });
   };
 
-  /* CONTRIBUTORS (friends) ----------------------------------------------- */
+  /* THE LORE — the field biography -------------------------------------- */
+  render.lore = function (host) {
+    host.innerHTML = ((S.lore && S.lore.entries) || [])
+      .map(function (e) {
+        return (
+          '<div class="lore-entry">' +
+          "<dt>" + esc(e.label) + "</dt>" +
+          "<dd>" + esc(fill(e.text)) + "</dd>" +
+          "</div>"
+        );
+      })
+      .join("");
+  };
+
+  /* THE REPORT CARD ----------------------------------------------------- */
+  render.metrics = function (host) {
+    host.innerHTML = ((S.reportCard && S.reportCard.rows) || [])
+      .map(function (r) {
+        return (
+          '<div class="metric">' +
+          '<span class="metric__label">' + esc(r.label) + "</span>" +
+          '<span class="metric__val">' + esc(r.shown || (+r.pct || 0) + "%") + "</span>" +
+          '<span class="metric__bar"><i style="width:' + (+r.pct || 0) + '%"></i></span>' +
+          "</div>"
+        );
+      })
+      .join("");
+  };
+
+  /* BESTIES — one to a page, or two side by side ------------------------ */
+  var TILTS = [-2, 1.5, -1.5, 2, -1];
+
+  function bestieCard(b, i, compact) {
+    var shape = compact ? "polaroid__img--square" : "polaroid__img--wide";
+
+    return (
+      '<article class="bestie reveal">' +
+      '<figure class="polaroid" style="--tilt:' + TILTS[i % TILTS.length] + 'deg">' +
+      (compact ? "" : '<span class="washi washi--tl">Confidential</span>') +
+      plate(b.photo, b.photo, shape) +
+      (b.caption ? "<figcaption>" + esc(b.caption) + "</figcaption>" : "") +
+      "</figure>" +
+
+      '<p class="bestie__entry" style="margin-top:14px">Entry ' + pad(i + 1) + "</p>" +
+      '<h2 class="bestie__name">' + esc(b.name) + "</h2>" +
+      (b.full ? '<span class="tag">' + esc(b.full) + "</span>" : "") +
+      '<p class="bestie__quote">&ldquo;' + esc(b.quote || "") + "&rdquo;</p>" +
+      '<button class="btn" type="button" data-letter="' + i + '">Read the letter</button>' +
+      "</article>"
+    );
+  }
+
+  render.bestie = function (host) {
+    var list = S.besties || [];
+    var i = parseInt(host.getAttribute("data-index"), 10) || 0;
+    if (!list[i]) { host.remove(); return; }
+
+    host.innerHTML = bestieCard(list[i], i, false);
+    wireLetters(host, list);
+  };
+
+  render.bestiePair = function (host) {
+    var list = S.besties || [];
+
+    host.innerHTML = slice(list, host)
+      .map(function (entry) { return bestieCard(entry.item, entry.i, true); })
+      .join("");
+
+    wireLetters(host, list);
+  };
+
+  function wireLetters(host, list) {
+    host.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-letter]");
+      if (!btn) return;
+      var b = list[+btn.getAttribute("data-letter")];
+      openLetter(b.name, fill(b.letter || ""), b.full || "");
+    });
+  }
+
+  /* FAMILY -------------------------------------------------------------- */
+  render.family = function (host) {
+    var list = S.family || [];
+
+    host.innerHTML = list
+      .map(function (f, i) {
+        return (
+          '<article class="letter-card">' +
+          '<figure class="polaroid" style="--tilt:' + TILTS[i % TILTS.length] +
+          'deg;float:right;width:34%;margin:0 0 10px 14px">' +
+          plate(f.photo, f.photo, "polaroid__img--square") +
+          "</figure>" +
+          '<p class="letter-card__to">' + esc(f.name) + "</p>" +
+          '<p class="letter-card__from">' + esc(f.from || "") + "</p>" +
+          "<p>" + esc(fill(f.letter || "")) + "</p>" +
+          '<div style="clear:both"></div>' +
+          "</article>"
+        );
+      })
+      .join("");
+  };
+
+  /* ---------- the letter modal ---------- */
+
   var modal;
 
   function openLetter(title, body, sub) {
@@ -505,355 +607,13 @@
     el(".letter__close", modal).focus();
   }
 
-  function closeLetter() {
-    if (modal) modal.hidden = true;
-  }
+  function closeLetter() { if (modal) modal.hidden = true; }
 
-  render.contributors = function (host) {
-    var list = S[host.getAttribute("data-source") || "friends"] || [];
+  /* ---------- the finale: candle and confetti ---------- */
 
-    host.className = "mosaic";
-
-    host.innerHTML = slice(list, host)
-      .map(function (entry, n) {
-        var f = entry.item, i = entry.i;
-
-        var words =
-          '<p class="contributor__role">' + esc(f.tag || "") + "</p>" +
-          '<h3 class="contributor__name">' + esc(f.name) + "</h3>" +
-          '<p class="contributor__quote">&ldquo;' + esc(f.quote || "") + "&rdquo;</p>" +
-          '<button class="btn btn--block" type="button" data-letter="' + i + '">' +
-          "Read the letter <span aria-hidden=\"true\">&rarr;</span></button>";
-
-        var picture =
-          '<figure class="plate contributor__plate">' +
-          '<span class="contributor__index" aria-hidden="true">' + pad(i + 1) + "</span>" +
-          plate(f.photo, f.photoHint, "square") +
-          "</figure>";
-
-        return (
-          '<article class="contributor reveal" data-tag="' + esc(f.tag || "") + '">' +
-          picture + words + "</article>"
-        );
-      })
-      .join("");
-
-    host.addEventListener("click", function (e) {
-      var btn = e.target.closest("[data-letter]");
-      if (!btn) return;
-      var f = list[+btn.getAttribute("data-letter")];
-      openLetter(f.name, fill(f.letter || ""), f.tag);
-    });
-  };
-
-  render.contributorTags = function (host) {
-    var tags = ["All"].concat(S.friendTags || []);
-
-    host.innerHTML = tags
-      .map(function (t, i) {
-        return (
-          '<button class="chip" type="button" data-tag="' + esc(t) + '" aria-pressed="' +
-          (i === 0) + '">' + esc(t) + "</button>"
-        );
-      })
-      .join("");
-
-    host.addEventListener("click", function (e) {
-      var chip = e.target.closest(".chip");
-      if (!chip) return;
-
-      all(".chip", host).forEach(function (c) {
-        c.setAttribute("aria-pressed", String(c === chip));
-      });
-
-      var want = chip.getAttribute("data-tag");
-      all("[data-tag]", el("[data-render='contributors']")).forEach(function (card) {
-        card.style.display = want === "All" || card.getAttribute("data-tag") === want ? "" : "none";
-      });
-    });
-  };
-
-  /* THE GALLERY — a page of photographs -------------------------------- */
-  render.gallery = function (host) {
-    host.className = "mosaic";
-
-    host.innerHTML = slice(S.gallery || [], host)
-      .map(function (entry) {
-        var g = entry.item;
-        return (
-          '<figure class="plate plate--inset reveal" style="margin:0">' +
-          plate(g.src, g.src, "square") +
-          caption("", g.caption || "") +
-          "</figure>"
-        );
-      })
-      .join("");
-  };
-
-  /* THE DOSSIER — the mock paperwork stuck to the front board ----------- */
-  render.dossier = function (host) {
-    var d = S.dossier || {};
-
-    var bars = (d.rows || []).map(function (r) {
-      return (
-        '<div class="dossier__row">' +
-        '<span class="dossier__label">' + esc(r.label) + "</span>" +
-        '<span class="dossier__meter"><i style="width:' + (+r.pct || 0) + '%"></i></span>' +
-        '<span class="dossier__pct">' + (+r.pct || 0) + "%</span>" +
-        '<span class="dossier__note">' + esc(r.note || "") + "</span>" +
-        "</div>"
-      );
-    }).join("");
-
-    var warnings = (d.warnings || []).map(function (w) {
-      return "<li>" + esc(fill(w)) + "</li>";
-    }).join("");
-
-    host.innerHTML =
-      '<div class="dossier">' +
-      '<div class="dossier__head">' +
-      "<span>Official record</span><span>" + esc(d.ref || "") + "</span>" +
-      "</div>" +
-
-      '<p class="dossier__subject">Subject</p>' +
-      '<h2 class="dossier__name">' + esc(S.name || "") + "</h2>" +
-
-      '<div class="dossier__bars">' + bars + "</div>" +
-
-      '<p class="dossier__warn-title">Handling instructions</p>' +
-      '<ul class="dossier__warnings">' + warnings + "</ul>" +
-
-      '<p class="dossier__small">' + esc(fill(d.smallprint || "")) + "</p>" +
-
-      '<span class="dossier__stamp">' + esc(d.stamp || "") + "</span>" +
-      "</div>";
-  };
-
-  /* ABOUT YOU — the facts list -------------------------------------------- */
-  render.facts = function (host) {
-    host.innerHTML = slice((S.about && S.about.facts) || [], host)
-      .map(function (entry) {
-        var f = entry.item;
-        return (
-          '<div class="fact reveal">' +
-          "<dt>" + esc(f.label) + "</dt>" +
-          "<dd>" + esc(fill(f.value)) + "</dd>" +
-          "</div>"
-        );
-      })
-      .join("");
-  };
-
-  /* THE UNPUBLISHED ARCHIVE (cringe) ------------------------------------- */
-  render.plates = function (host) {
-    host.className = "mosaic";
-
-    host.innerHTML = slice(S.cringe || [], host)
-      .map(function (entry, n) {
-        var c = entry.item, i = entry.i;
-
-        if (c.style === "note") {
-          return (
-            '<blockquote class="pullquote reveal mosaic__hero" style="margin:6px 0">' +
-            esc(c.caption) + "</blockquote>"
-          );
-        }
-
-        var lead = n === 0;
-
-        return (
-          '<figure class="plate plate--inset reveal' + (lead ? " mosaic__hero" : "") + '" style="margin:0">' +
-          plate(c.photo, c.hint, lead ? "wide" : "square") +
-          caption("", c.caption) +
-          "</figure>"
-        );
-      })
-      .join("");
-  };
-
-  /* FILMSTRIP — a column of small frames, like a strip of negatives ------- */
-  render.filmstrip = function (host) {
-    var perf = '<div class="filmstrip__perf" aria-hidden="true">' +
-      new Array(5).join("<i></i>") + "<i></i></div>";
-
-    var cells = (S.filmstrip || []).map(function (src) {
-      return src
-        ? '<img class="filmstrip__cell" src="' + esc(src) + '" alt="" loading="lazy" ' +
-          'data-hint="' + esc(src) + '">'
-        : '<div class="filmstrip__cell"></div>';
-    });
-
-    if (!cells.length) cells = ["", "", "", ""].map(function () {
-      return '<div class="filmstrip__cell"></div>';
-    });
-
-    host.innerHTML =
-      '<div class="filmstrip">' + perf +
-      cells.join(perf) + perf + "</div>";
-  };
-
-  /* NOW PLAYING — the song card that floats over a full-page photo -------- */
-  render.nowplaying = function (host) {
-    var np = S.nowPlaying || {};
-
-    var code = "";
-    for (var i = 0; i < 23; i++) {
-      code += '<i style="height:' + (26 + ((i * 37) % 62)) + '%"></i>';
-    }
-
-    var art = np.art
-      ? '<img class="nowplaying__art" src="' + esc(np.art) + '" alt="">'
-      : '<div class="nowplaying__art">Sleeve<br>assets/img/song-art.jpg</div>';
-
-    host.innerHTML =
-      '<div class="nowplaying">' + art +
-      '<p class="nowplaying__title">' + esc(np.title || "Our song") + "</p>" +
-      '<p class="nowplaying__sub">' + esc(np.sub || "") + "</p>" +
-      '<div class="nowplaying__bar"><i></i></div>' +
-      '<div class="nowplaying__times"><span>' + esc(np.elapsed || "0:02") +
-      "</span><span>-" + esc(np.total || "3:12") + "</span></div>" +
-      '<div class="nowplaying__controls">' +
-      '<span aria-hidden="true">&#9198;</span>' +
-      (np.link
-        ? '<a class="nowplaying__play" href="' + esc(np.link) +
-          '" target="_blank" rel="noopener" aria-label="Play the song">&#9654;</a>'
-        : '<button class="nowplaying__play" type="button" aria-label="Play the song">&#9654;</button>') +
-      '<span aria-hidden="true">&#9197;</span>' +
-      "</div>" +
-      '<div class="nowplaying__scan">' +
-      '<span class="nowplaying__code" aria-hidden="true">' + code + "</span>" +
-      "</div></div>";
-  };
-
-  /* MOVING PICTURES (videos) --------------------------------------------- */
-  render.stills = function (host) {
-    host.innerHTML = slice(S.videos || [], host)
-      .map(function (entry) {
-        var v = entry.item, i = entry.i;
-        var frame;
-
-        if (v.src && /youtube|youtu\.be|vimeo/.test(v.src)) {
-          frame =
-            '<iframe class="still__frame" src="' + esc(v.src) + '" title="' + esc(v.title) +
-            '" frameborder="0" allowfullscreen loading="lazy"></iframe>';
-        } else if (v.src) {
-          frame =
-            '<video class="still__frame" controls preload="none"' +
-            (v.poster ? ' poster="' + esc(v.poster) + '"' : "") +
-            '><source src="' + esc(v.src) + '"></video>';
-        } else {
-          frame =
-            '<div class="still__frame" role="img" aria-label="' + esc(v.title) + '"></div>' +
-            '<button class="still__play" type="button" aria-label="Film to come: ' +
-            esc(v.title) + '"><span aria-hidden="true">&#9658;</span></button>';
-        }
-
-        var sprockets = "";
-        for (var n = 0; n < 26; n++) sprockets += "<i></i>";
-
-        return (
-          '<figure class="plate reveal" style="margin:0">' +
-          '<div class="still__sprockets" aria-hidden="true">' + sprockets + "</div>" +
-          '<div class="still">' + frame + "</div>" +
-          '<div class="still__sprockets" aria-hidden="true">' + sprockets + "</div>" +
-          caption("", v.title + (v.note ? " — " + v.note : "")) +
-          "</figure>"
-        );
-      })
-      .join("");
-  };
-
-  /* A LIFE IN CHAPTERS (timeline) ---------------------------------------- */
-  render.chrono = function (host) {
-    host.innerHTML = (S.timeline || [])
-      .map(function (t) {
-        return (
-          '<article class="chrono__item reveal">' +
-          '<p class="chrono__year">' + esc(t.year) + "</p>" +
-          "<div>" +
-          '<h3 class="hed hed--xs">' + esc(t.title) + "</h3>" +
-          '<p class="body-copy" style="margin:0">' + esc(t.text) + "</p>" +
-          "</div></article>"
-        );
-      })
-      .join("");
-  };
-
-  /* LETTERS TO THE EDITOR (wishes) --------------------------------------- */
-  render.mail = function (host) {
-    function item(w) {
-      return (
-        '<article class="mail__item">' +
-        '<p class="mail__text">&ldquo;' + esc(w.text) + "&rdquo;</p>" +
-        '<p class="mail__from">' + esc(w.from) + "</p>" +
-        "</article>"
-      );
-    }
-
-    host.innerHTML = slice(S.wishes || [], host)
-      .map(function (entry) { return item(entry.item); })
-      .join("");
-
-    // Notes written on the page live in this browser only (localStorage).
-    // Copy the good ones into config.js to keep them for everyone.
-    var saved = [];
-    try { saved = JSON.parse(localStorage.getItem("archive-wishes") || "[]"); }
-    catch (err) { saved = []; }
-
-    saved.forEach(function (w) { host.insertAdjacentHTML("beforeend", item(w)); });
-
-    var form = el("[data-wish-form]");
-    if (!form) return;
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var from = form.elements.from.value.trim();
-      var text = form.elements.text.value.trim();
-      if (!from || !text) return;
-
-      var wish = { from: from, text: text };
-      saved.push(wish);
-      try { localStorage.setItem("archive-wishes", JSON.stringify(saved)); }
-      catch (err) { /* private browsing — it still shows for this visit */ }
-
-      host.insertAdjacentHTML("afterbegin", item(wish));
-      form.reset();
-
-      var said = el("[data-wish-said]");
-      if (said) said.textContent = "Received. Thank you — it's on the page.";
-    });
-  };
-
-  /* THE SOUNDTRACK (playlist) -------------------------------------------- */
-  render.chart = function (host) {
-    host.innerHTML = (S.tracks || [])
-      .map(function (t, i) {
-        return (
-          '<div class="chart__row reveal">' +
-          '<span class="chart__no">' + pad(i + 1) + "</span>" +
-          "<div>" +
-          '<p class="chart__title">' + esc(t.title) +
-          " <span>" + esc(t.artist) + "</span></p>" +
-          '<p class="chart__note">' + esc(t.note || "") + "</p>" +
-          "</div>" +
-          '<span class="chart__len">' + esc(t.len || "") + "</span>" +
-          "</div>"
-        );
-      })
-      .join("");
-  };
-
-  render.playlistLink = function (host) {
-    if (!S.playlistLink) { host.remove(); return; }
-    host.innerHTML =
-      '<a class="btn btn--ink" href="' + esc(S.playlistLink) +
-      '" target="_blank" rel="noopener">Play the record <span aria-hidden="true">&rarr;</span></a>';
-  };
-
-  /* THE LAST WORD (final) ------------------------------------------------ */
   function confetti(count) {
-    var colors = ["#f2dcdc", "#af2b3e", "#570013", "#e4c4c4", "#fffdf8", "#8e0f28"];
-    for (var i = 0; i < (count || 100); i++) {
+    var colors = ["#ff2a85", "#7b5cfa", "#ffdf6d", "#ffa3d7", "#7dd3fc", "#ff5e5b"];
+    for (var i = 0; i < (count || 110); i++) {
       var p = document.createElement("i");
       p.className = "confetti-piece";
       p.style.left = Math.random() * 100 + "vw";
@@ -872,15 +632,12 @@
 
     var reveal = el("[data-final-message]");
     var prompt = el("[data-final-prompt]");
-    var replay = el("[data-replay]");
-    var waiting = el("[data-final-waiting]");
 
     function blow() {
       if (cake.classList.contains("is-blown")) return;
       cake.classList.add("is-blown");
-      confetti(130);
+      confetti(140);
       if (prompt) prompt.style.visibility = "hidden";
-      if (waiting) waiting.hidden = true;
       if (reveal) {
         reveal.hidden = false;
         reveal.style.animation = "rise .7s ease .1s both";
@@ -892,43 +649,26 @@
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); blow(); }
     });
 
-    if (replay) {
-      replay.addEventListener("click", function () {
-        cake.classList.remove("is-blown");
-        if (reveal) { reveal.hidden = true; reveal.style.animation = ""; }
-        if (waiting) waiting.hidden = false;
-        if (prompt) prompt.style.visibility = "";
-        goTo(0);
-      });
-    }
-
-    var partyBtn = el("[data-confetti]");
-    if (partyBtn) partyBtn.addEventListener("click", function () { confetti(90); });
-
-    var home = el("[data-goto-cover]");
-    if (home) home.addEventListener("click", function () { goTo(0); });
+    var party = el("[data-confetti]");
+    if (party) party.addEventListener("click", function () { confetti(90); });
   }
 
-  /* ---------- missing photographs fall back to their slot ---------- */
-  /* Until a file is actually dropped into assets/img/, show the labelled
-     placeholder rather than a broken image icon. */
+  /* ---------- a missing photograph falls back to its labelled slot ---------- */
+
   function guardPhotos(root) {
     all("img[data-hint]", root || document).forEach(function (img) {
       function fallback() {
         var slot = document.createElement("div");
-        slot.className = img.className + " plate__slot";
-        slot.innerHTML =
-          '<p class="plate__hint">' + esc(img.getAttribute("data-hint")) + "</p>";
+        slot.className = img.className + " slot";
+        slot.innerHTML = "<span>" + esc(img.getAttribute("data-hint")) + "</span>";
         if (img.parentNode) img.parentNode.replaceChild(slot, img);
       }
 
       img.addEventListener("error", fallback);
-      // an image that already failed before this ran
       if (img.complete && img.naturalWidth === 0) fallback();
     });
   }
 
-  /* lazy images only try to load once their spread is shown, so re-check then */
   function guardOnArrival(sp) { guardPhotos(sp); }
 
   /* ---------- text bindings: <span data-text="name"></span> ---------- */
@@ -944,78 +684,7 @@
 
   /* ---------- boot ---------- */
 
-  /* Check which gallery photographs actually exist, so the config can list more
-     slots than there are files without leaving empty frames on the page. */
-  function probeGallery(done) {
-    var list = S.gallery || [];
-    if (!list.length) return done();
-
-    var pending = list.length;
-    var found = [];
-    var finished = false;
-
-    function finish() {
-      if (finished) return;
-      finished = true;
-      S.gallery = found.filter(Boolean);
-      done();
-    }
-
-    list.forEach(function (g, i) {
-      if (!g.src) { if (--pending === 0) finish(); return; }
-      var probe = new Image();
-      probe.onload = function () { found[i] = g; if (--pending === 0) finish(); };
-      probe.onerror = function () { if (--pending === 0) finish(); };
-      probe.src = g.src;
-    });
-
-    // never hold the book up on a slow or stalled probe
-    setTimeout(finish, 2500);
-  }
-
-  /* The gallery is however long the list says. Clone its spread until every
-     photograph has a page — four a page, eight a spread. */
-  function growGallery() {
-    var template = el("[data-gallery-template]");
-    if (!template) return;
-
-    var total = (S.gallery || []).length;
-    var perSpread = 8;
-    var needed = Math.max(1, Math.ceil(total / perSpread));
-
-    function dress(sp, n) {
-      var from = n * perSpread;
-      var hosts = all("[data-render='gallery']", sp);
-
-      sp.id = n === 0 ? "life-gallery" : "life-gallery-" + (n + 1);
-      if (hosts[0]) {
-        hosts[0].setAttribute("data-from", from);
-        hosts[0].setAttribute("data-to", from + perSpread / 2);
-      }
-      if (hosts[1]) {
-        hosts[1].setAttribute("data-from", from + perSpread / 2);
-        hosts[1].setAttribute("data-to", from + perSpread);
-      }
-
-      var kicker = el(".kicker", sp);
-      if (kicker && n > 0) kicker.textContent = "The gallery, continued";
-    }
-
-    for (var n = needed - 1; n >= 1; n--) {
-      var copy = template.cloneNode(true);
-      dress(copy, n);
-      template.parentNode.insertBefore(copy, template.nextSibling);
-    }
-
-    dress(template, 0);
-  }
-
   function boot() {
-    probeGallery(build);
-  }
-
-  function build() {
-    growGallery();
     spreads = all(".spread");
     chrome();
     bindText();

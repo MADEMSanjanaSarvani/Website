@@ -8,10 +8,9 @@
 # run it again after adding more photos.
 
 $names = @(
-  'cover','about',
-  'friend-1','friend-2','friend-3','friend-4',
-  'family-1','family-2','family-3','family-4',
-  'gallery-1','gallery-2','gallery-3','gallery-4'
+  'cover','lore',
+  'priya','sreehitha','bhavya','akshaya','sanjana',
+  'amma','nana'
 )
 
 $dir = Join-Path $PSScriptRoot '..\assets\img'
