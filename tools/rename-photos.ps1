@@ -17,8 +17,16 @@ $names = @(
 $dir = Join-Path $PSScriptRoot '..\assets\img'
 $dir = (Resolve-Path $dir).Path
 
+$heic = Get-ChildItem -Path $dir -File | Where-Object { $_.Extension -match '^\.(heic|heif)$' }
+if ($heic.Count -gt 0) {
+  Write-Host "Found $($heic.Count) HEIC photo(s). Browsers cannot show HEIC, and renaming"
+  Write-Host "one to .jpg does not convert it. In Windows Photos: Open, then"
+  Write-Host "... > Save as > JPG. Then run this again."
+  Write-Host ""
+}
+
 $photos = Get-ChildItem -Path $dir -File |
-          Where-Object { $_.Extension -match '^\.(jpg|jpeg|png|webp|heic)$' } |
+          Where-Object { $_.Extension -match '^\.(jpg|jpeg|png|webp)$' } |
           Where-Object { $names -notcontains $_.BaseName } |
           Sort-Object Name
 

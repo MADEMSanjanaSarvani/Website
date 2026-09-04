@@ -9,7 +9,7 @@ names=(cover hero about about-2 portrait song us record
        gallery-5 gallery-6 gallery-7 gallery-8)
 i=0
 shopt -s nullglob nocaseglob
-for f in "$dir"/*.{jpg,jpeg,png,webp,heic}; do
+for f in "$dir"/*.{jpg,jpeg,png,webp}; do
   base="$(basename "${f%.*}")"
   for n in "${names[@]}"; do [ "$base" = "$n" ] && continue 2; done
   while [ $i -lt ${#names[@]} ] && [ -e "$dir/${names[$i]}.jpg" ]; do i=$((i+1)); done
