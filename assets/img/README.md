@@ -1,6 +1,24 @@
 # Photographs
 
-Save the birthday girl's photos into this folder with these exact names.
+**The book shows placeholders until real files exist in this folder.** That is
+what the labelled coloured blocks are — each one names the file it is waiting
+for. Nothing is broken; the photographs simply are not here yet.
+
+## The quick way
+
+1. Save the photos into this folder (any names, any order).
+2. From the project folder run:
+
+       powershell -ExecutionPolicy Bypass -File tools\rename-photos.ps1
+
+   (Mac or Linux: `bash tools/rename-photos.sh`)
+
+3. Refresh the browser.
+
+The script renames whatever it finds into the names below, in order. If a photo
+lands in the wrong place, swap the two filenames — nothing else needs changing.
+
+## Or name them by hand
 Every slot in the book already points at them, and any file that is missing
 shows a labelled placeholder instead of a broken image.
 
