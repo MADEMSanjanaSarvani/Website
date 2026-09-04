@@ -49,7 +49,10 @@
   function plate(src, hint, shape) {
     var cls = "plate__frame" + (shape ? " plate__frame--" + shape : "");
     if (src) {
-      return '<img class="' + cls + '" src="' + esc(src) + '" alt="' + esc(hint || "") + '" loading="lazy">';
+      return (
+        '<img class="' + cls + '" src="' + esc(src) + '" alt="' + esc(hint || "") +
+        '" data-hint="' + esc(src) + '" loading="lazy">'
+      );
     }
     return (
       '<div class="' + cls + ' plate__slot">' +
@@ -196,6 +199,8 @@
     if (id && location.hash.slice(1) !== id) {
       history.replaceState(null, "", "#" + id);
     }
+
+    guardOnArrival(sp);
 
     var head = el(".hed", sp) || el(".masthead", sp);
     if (head) document.title = head.textContent.trim() + " — " + (S.magazineName || "The Archive");
@@ -743,8 +748,8 @@
   /* ---------- missing photographs fall back to their slot ---------- */
   /* Until a file is actually dropped into assets/img/, show the labelled
      placeholder rather than a broken image icon. */
-  function guardPhotos() {
-    all("img[data-hint]").forEach(function (img) {
+  function guardPhotos(root) {
+    all("img[data-hint]", root || document).forEach(function (img) {
       function fallback() {
         var slot = document.createElement("div");
         slot.className = img.className + " plate__slot";
@@ -758,6 +763,9 @@
       if (img.complete && img.naturalWidth === 0) fallback();
     });
   }
+
+  /* lazy images only try to load once their spread is shown, so re-check then */
+  function guardOnArrival(sp) { guardPhotos(sp); }
 
   /* ---------- text bindings: <span data-text="name"></span> ---------- */
 
