@@ -780,7 +780,78 @@
 
   /* ---------- boot ---------- */
 
+  /* Check which gallery photographs actually exist, so the config can list more
+     slots than there are files without leaving empty frames on the page. */
+  function probeGallery(done) {
+    var list = S.gallery || [];
+    if (!list.length) return done();
+
+    var pending = list.length;
+    var found = [];
+    var finished = false;
+
+    function finish() {
+      if (finished) return;
+      finished = true;
+      S.gallery = found.filter(Boolean);
+      done();
+    }
+
+    list.forEach(function (g, i) {
+      if (!g.src) { if (--pending === 0) finish(); return; }
+      var probe = new Image();
+      probe.onload = function () { found[i] = g; if (--pending === 0) finish(); };
+      probe.onerror = function () { if (--pending === 0) finish(); };
+      probe.src = g.src;
+    });
+
+    // never hold the book up on a slow or stalled probe
+    setTimeout(finish, 2500);
+  }
+
+  /* The gallery is however long the list says. Clone its spread until every
+     photograph has a page — four a page, eight a spread. */
+  function growGallery() {
+    var template = el("[data-gallery-template]");
+    if (!template) return;
+
+    var total = (S.gallery || []).length;
+    var perSpread = 8;
+    var needed = Math.max(1, Math.ceil(total / perSpread));
+
+    function dress(sp, n) {
+      var from = n * perSpread;
+      var hosts = all("[data-render='gallery']", sp);
+
+      sp.id = n === 0 ? "life-gallery" : "life-gallery-" + (n + 1);
+      if (hosts[0]) {
+        hosts[0].setAttribute("data-from", from);
+        hosts[0].setAttribute("data-to", from + perSpread / 2);
+      }
+      if (hosts[1]) {
+        hosts[1].setAttribute("data-from", from + perSpread / 2);
+        hosts[1].setAttribute("data-to", from + perSpread);
+      }
+
+      var kicker = el(".kicker", sp);
+      if (kicker && n > 0) kicker.textContent = "The gallery, continued";
+    }
+
+    for (var n = needed - 1; n >= 1; n--) {
+      var copy = template.cloneNode(true);
+      dress(copy, n);
+      template.parentNode.insertBefore(copy, template.nextSibling);
+    }
+
+    dress(template, 0);
+  }
+
   function boot() {
+    probeGallery(build);
+  }
+
+  function build() {
+    growGallery();
     spreads = all(".spread");
     chrome();
     bindText();
