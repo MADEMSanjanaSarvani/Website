@@ -276,19 +276,13 @@ body {
 .page {
   flex: 1 1 auto;
   min-height: 0;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  overflow: hidden;
   padding: clamp(18px, 3vh, 38px) clamp(20px, 2.6vw, 40px);
-  scrollbar-width: thin;
-  scrollbar-color: var(--rule) transparent;
 }
 
 /* extra air on the outer edge, tighter into the spine */
 .leaf--left .page { padding-left: clamp(24px, 3.4vw, 52px); padding-right: clamp(18px, 2vw, 30px); }
 .leaf--right .page { padding-right: clamp(24px, 3.4vw, 52px); padding-left: clamp(18px, 2vw, 30px); }
-
-.page::-webkit-scrollbar { width: 7px; }
-.page::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 4px; }
 
 .page__inner { max-width: 640px; }
 .leaf--right .page__inner { margin-left: auto; }
@@ -729,7 +723,7 @@ body {
 .contributor { break-inside: avoid; }
 
 .contributor__role {
-  margin: 10px 0 2px;
+  margin: 8px 0 2px;
   font-family: var(--font-sans);
   font-size: 0.6rem;
   font-weight: 700;
@@ -739,7 +733,7 @@ body {
 }
 
 .contributor__name {
-  margin: 0 0 6px;
+  margin: 0 0 4px;
   font-family: var(--font-sans);
   font-size: 1.15rem;
   font-weight: 600;
@@ -748,7 +742,7 @@ body {
 }
 
 .contributor__quote {
-  margin: 0 0 14px;
+  margin: 0 0 10px;
   font-size: 0.95rem;
   line-height: 1.5;
   color: var(--ink-soft);
@@ -885,7 +879,7 @@ body {
   .spread { grid-template-columns: 1fr; overflow-y: auto; overscroll-behavior: contain; }
   .leaf { border-radius: 0; box-shadow: none; overflow: visible; }
   .leaf + .leaf { border-top: 1px solid var(--rule); }
-  .leaf .page { overflow: visible; min-height: 0; }
+  .leaf .page { overflow: visible; min-height: 0; }  /* one scrolling column */
   .leaf--left .page, .leaf--right .page { padding: 24px 20px; }
   .leaf--right .runninghead { display: none; }
   .runninghead { padding-right: 118px; }
@@ -1506,7 +1500,7 @@ body {
 .mosaic {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(16px, 1.8vw, 26px);
+  gap: clamp(12px, 1.2vw, 18px);
   align-items: start;
 }
 
@@ -1736,6 +1730,10 @@ body {
 @media (max-width: 900px) {
   .fact { grid-template-columns: 1fr; gap: 4px; }
 }
+
+/* a page a continuation did not need: blank paper, no running head or folio */
+.leaf--blank .runninghead,
+.leaf--blank .folio { visibility: hidden; }
 
 /* ---------- 20. Print ---------- */
 @media print {

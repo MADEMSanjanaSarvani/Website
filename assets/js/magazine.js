@@ -77,46 +77,178 @@
   var index = 0;
   var busy = false;
 
+  /* Build a page's chrome: running head, the page body, the folio. */
+  function dressLeaf(leaf, section, side) {
+    if (leaf.hasAttribute("data-bare")) return;
+    if (el(".page", leaf)) return; // already dressed
+
+    var inner = document.createElement("div");
+    inner.className = "page__inner";
+    while (leaf.firstChild) inner.appendChild(leaf.firstChild);
+
+    var head = document.createElement("header");
+    head.className = "runninghead";
+    head.innerHTML = side === 0
+      ? "<span><b>" + esc(S.magazineName || "The Archive") + "</b></span><span>" +
+        esc(S.issueLine || "") + "</span>"
+      : "<span>" + esc(section) + "</span><span>" + esc(S.name || "") + "</span>";
+
+    var page = document.createElement("div");
+    page.className = "page";
+    page.appendChild(inner);
+
+    var foot = document.createElement("footer");
+    foot.className = "folio";
+    foot.innerHTML =
+      '<span class="folio__no"></span>' +
+      "<span>" + (side === 0 ? esc(section) : "") + "</span>";
+
+    leaf.appendChild(head);
+    leaf.appendChild(page);
+    leaf.appendChild(foot);
+  }
+
   function chrome() {
-    spreads.forEach(function (sp, i) {
+    spreads.forEach(function (sp) {
       var section = sp.getAttribute("data-section") || "";
+      all(".leaf", sp).forEach(function (leaf, side) { dressLeaf(leaf, section, side); });
+    });
+  }
 
+  /* Folios are numbered only once pagination has settled. */
+  function numberPages() {
+    spreads.forEach(function (sp, i) {
       all(".leaf", sp).forEach(function (leaf, side) {
-        if (leaf.hasAttribute("data-bare")) return; // cover and board carry no chrome
-
-        var pageNo = i * 2 + side;
-
-        var inner = document.createElement("div");
-        inner.className = "page__inner";
-        while (leaf.firstChild) inner.appendChild(leaf.firstChild);
-
-        var head = document.createElement("header");
-        head.className = "runninghead";
-        head.innerHTML = side === 0
-          ? "<span><b>" + esc(S.magazineName || "The Archive") + "</b></span><span>" +
-            esc(S.issueLine || "") + "</span>"
-          : "<span>" + esc(section) + "</span><span>" + esc(S.name || "") + "</span>";
-
-        var page = document.createElement("div");
-        page.className = "page";
-        page.appendChild(inner);
-
-        var foot = document.createElement("footer");
-        foot.className = "folio";
-        foot.innerHTML =
-          '<span class="folio__no">' + pad(pageNo) + "</span>" +
-          "<span>" + (side === 0 ? esc(section) : "") + "</span>";
-
-        leaf.appendChild(head);
-        leaf.appendChild(page);
-        leaf.appendChild(foot);
-      });
-
-      // stagger the reveals in reading order
-      all(".reveal", sp).forEach(function (node, n) {
-        node.style.setProperty("--i", n);
+        var no = el(".folio__no", leaf);
+        if (no) no.textContent = pad(i * 2 + side);
       });
     });
+
+    spreads.forEach(function (sp) {
+      all(".reveal", sp).forEach(function (node, n) { node.style.setProperty("--i", n); });
+    });
+  }
+
+  /* ==========================================================================
+     PAGINATION
+     Pages do not scroll. Anything that will not fit is lifted off the page and
+     carried onto a continuation spread, as many times as it takes.
+     ========================================================================== */
+
+  function overflows(page) {
+    return page.scrollHeight > page.clientHeight + 1;
+  }
+
+  /* Take content off the end of a page until what is left fits. Returns the
+     removed nodes in reading order, ready to be placed on the next page. */
+  function liftOverflow(page) {
+    var inner = el(".page__inner", page);
+    if (!inner) return [];
+
+    var moved = [];
+    var guard = 0;
+
+    while (overflows(page) && inner.lastElementChild && guard++ < 400) {
+      var last = inner.lastElementChild;
+
+      // A container of many things (a grid of photographs, a list of letters)
+      // is split item by item rather than moved whole.
+      if (last.children.length > 1) {
+        var carry = last.__carry;
+        if (!carry || carry.parentNode) {
+          carry = last.cloneNode(false);
+          last.__carry = carry;
+          moved.unshift(carry);
+        }
+        carry.insertBefore(last.lastElementChild, carry.firstChild);
+        if (!last.children.length) {
+          inner.removeChild(last);
+          last.__carry = null;
+        }
+        continue;
+      }
+
+      moved.unshift(last);
+      inner.removeChild(last);
+    }
+
+    return moved;
+  }
+
+  function continuationOf(sp) {
+    var copy = document.createElement("section");
+    copy.className = sp.className.replace(/\bis-[\w-]+/g, "").trim();
+    copy.setAttribute("data-section", sp.getAttribute("data-section") || "");
+    copy.setAttribute("data-hide-toc", "");
+    copy.setAttribute("data-continued", "");
+
+    var left = document.createElement("div");
+    left.className = "leaf leaf--left " + carriedLeafClasses(el(".leaf--left", sp));
+    var right = document.createElement("div");
+    right.className = "leaf leaf--right " + carriedLeafClasses(el(".leaf--right", sp));
+
+    copy.appendChild(left);
+    copy.appendChild(right);
+    sp.parentNode.insertBefore(copy, sp.nextSibling);
+    return copy;
+  }
+
+  // keep the page's character (dark, full-bleed, cover) on its continuation
+  function carriedLeafClasses(leaf) {
+    if (!leaf) return "";
+    return (leaf.className.match(/leaf--(dark|back)/g) || []).join(" ");
+  }
+
+  function paginate() {
+    var guard = 0;
+
+    for (var i = 0; i < spreads.length && guard++ < 80; i++) {
+      var sp = spreads[i];
+      if (sp.hasAttribute("data-no-paginate")) continue;
+
+      var leaves = all(".leaf", sp);
+      var leftPage = leaves[0] && el(".page", leaves[0]);
+      var rightPage = leaves[1] && el(".page", leaves[1]);
+      if (!leftPage && !rightPage) continue;
+
+      var carry = leftPage ? liftOverflow(leftPage) : [];
+
+      /* On a continuation the facing page is still empty, so what came off the
+         left page belongs there — the text carries on in reading order rather
+         than skipping a page. */
+      var rightInner = rightPage && el(".page__inner", rightPage);
+      if (carry.length && rightInner && !rightInner.children.length) {
+        carry.forEach(function (node) { rightInner.appendChild(node); });
+        carry = [];
+        leaves[1].classList.remove("leaf--blank");
+      }
+
+      if (rightPage) carry = carry.concat(liftOverflow(rightPage));
+      if (!carry.length) continue;
+
+      var next = continuationOf(sp);
+      var section = sp.getAttribute("data-section") || "";
+      var placed = 0;
+
+      all(".leaf", next).forEach(function (leaf, side) {
+        dressLeaf(leaf, section, side);
+        if (side !== 0) return; // everything lands on the left page and flows on
+        var inner = el(".page__inner", leaf);
+        if (!inner) return;
+        carry.forEach(function (node) { inner.appendChild(node); placed++; });
+      });
+
+      all(".leaf", next).forEach(function (leaf) {
+        var inner = el(".page__inner", leaf);
+        if (inner && !inner.children.length) leaf.classList.add("leaf--blank");
+      });
+
+      if (!placed) { next.remove(); continue; }
+
+      spreads = all(".spread");
+    }
+
+    spreads = all(".spread");
   }
 
   function flat() {
@@ -396,17 +528,8 @@
         var picture =
           '<figure class="plate contributor__plate">' +
           '<span class="contributor__index" aria-hidden="true">' + pad(i + 1) + "</span>" +
-          plate(f.photo, f.photoHint, n === 0 ? "wide" : "square") +
+          plate(f.photo, f.photoHint, "square") +
           "</figure>";
-
-        // the first on the page runs wide, with its words set against its foot
-        if (n === 0) {
-          return (
-            '<article class="contributor contributor--lead duo-plate reveal" data-tag="' +
-            esc(f.tag || "") + '">' + picture +
-            '<div class="duo-plate__words">' + words + "</div></article>"
-          );
-        }
 
         return (
           '<article class="contributor reveal" data-tag="' + esc(f.tag || "") + '">' +
@@ -459,7 +582,7 @@
         var g = entry.item;
         return (
           '<figure class="plate plate--inset reveal" style="margin:0">' +
-          plate(g.src, g.src, "tall") +
+          plate(g.src, g.src, "square") +
           caption("", g.caption || "") +
           "</figure>"
         );
@@ -502,7 +625,7 @@
 
         return (
           '<figure class="plate plate--inset reveal' + (lead ? " mosaic__hero" : "") + '" style="margin:0">' +
-          plate(c.photo, c.hint, lead ? "pano" : "square") +
+          plate(c.photo, c.hint, lead ? "wide" : "square") +
           caption("", c.caption) +
           "</figure>"
         );
@@ -566,8 +689,9 @@
 
   /* MOVING PICTURES (videos) --------------------------------------------- */
   render.stills = function (host) {
-    host.innerHTML = (S.videos || [])
-      .map(function (v, i) {
+    host.innerHTML = slice(S.videos || [], host)
+      .map(function (entry) {
+        var v = entry.item, i = entry.i;
         var frame;
 
         if (v.src && /youtube|youtu\.be|vimeo/.test(v.src)) {
@@ -868,6 +992,16 @@
     wireTurning();
     lastWord();
     guardPhotos();
+
+    // measure and reflow once the pages have been laid out
+    requestAnimationFrame(function () {
+      paginate();
+      numberPages();
+      syncChrome();
+      guardPhotos();
+    });
+
+    numberPages();
 
     var start = spreads.indexOf(document.getElementById(location.hash.slice(1)));
     index = start > 0 ? start : 0;
