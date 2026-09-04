@@ -1,57 +1,38 @@
 # Photographs
 
-**The book shows placeholders until real files exist in this folder.** That is
-what the labelled coloured blocks are — each one names the file it is waiting
-for. Nothing is broken; the photographs simply are not here yet.
+The book is ten pages and uses **fourteen** photographs. Any that are missing
+show a labelled placeholder rather than a broken image, so it always reads
+properly while you are still collecting them.
 
 ## The quick way
 
-1. Save the photos into this folder (any names, any order).
+1. Save the photos into this folder — any names, any order.
 2. From the project folder run:
 
        powershell -ExecutionPolicy Bypass -File tools\rename-photos.ps1
 
    (Mac or Linux: `bash tools/rename-photos.sh`)
 
-3. Refresh the browser.
+3. Refresh the browser with Ctrl+F5.
 
-The script renames whatever it finds into the names below, in order. If a photo
-lands in the wrong place, swap the two filenames — nothing else needs changing.
+## What goes where
 
-## Or name them by hand
-Every slot in the book already points at them, and any file that is missing
-shows a labelled placeholder instead of a broken image.
-
-## The named slots
-
-| File | Where it appears |
+| File | Page |
 | --- | --- |
-| `cover.jpg`    | The cover portrait |
-| `hero.jpg`     | Editor's letter, beside the pull quote |
-| `about.jpg`    | About You, beside the piece about her |
-| `about-2.jpg`  | About You, under the facts |
-| `portrait.jpg` | Life — the full-page photo |
-| `song.jpg`     | Life on film — full page, behind the song card |
-| `us.jpg`       | Life — the snapshot beside the filmstrip |
-| `record.jpg`   | The soundtrack sleeve |
+| `cover.jpg` | The cover |
+| `about.jpg` | About You, beside the piece about her |
+| `friend-1` … `friend-4` | One per friend, Friends spread |
+| `family-1` … `family-4` | One per family member, Family spread |
+| `gallery-1` … `gallery-4` | The Life page |
 
-## The filmstrip (down the photographs page)
-
-`strip-1.jpg` `strip-2.jpg` `strip-3.jpg` `strip-4.jpg`
-
-## The gallery spread
-
-`gallery-1.jpg` … `gallery-8.jpg`
-
-Add more by adding lines to `gallery` in `assets/js/config.js` — the spread
-lays out however many it is given.
+If a photo lands in the wrong slot, swap the two filenames — nothing else needs
+changing.
 
 ## Notes
 
-All the frames are portrait, so phone photos fit without being cropped through
-the face. Photographs are used at up to about 900px wide, so anything larger
-than ~1600px on the long edge is wasted weight — resize before committing if
-you want the repo to stay small.
+Frames are square or portrait, so phone photos fit without being cropped
+through the face. Anything larger than about 1600px on the long edge is wasted
+weight — resize before committing if you want the repo to stay small.
 
-Friends' and family's photos are not listed here: those are filenames in
-`config.js`, next to each person.
+iPhone `.HEIC` files cannot be shown by any browser, and renaming one to `.jpg`
+does not convert it. In Windows Photos: open it, then **… → Save as → JPG**.

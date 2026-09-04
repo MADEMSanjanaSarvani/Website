@@ -592,10 +592,9 @@
 
   /* ABOUT YOU — the facts list -------------------------------------------- */
   render.facts = function (host) {
-    var facts = (S.about && S.about.facts) || [];
-
-    host.innerHTML = facts
-      .map(function (f) {
+    host.innerHTML = slice((S.about && S.about.facts) || [], host)
+      .map(function (entry) {
+        var f = entry.item;
         return (
           '<div class="fact reveal">' +
           "<dt>" + esc(f.label) + "</dt>" +
@@ -752,7 +751,9 @@
       );
     }
 
-    host.innerHTML = (S.wishes || []).map(item).join("");
+    host.innerHTML = slice(S.wishes || [], host)
+      .map(function (entry) { return item(entry.item); })
+      .join("");
 
     // Notes written on the page live in this browser only (localStorage).
     // Copy the good ones into config.js to keep them for everyone.

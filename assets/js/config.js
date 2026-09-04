@@ -85,7 +85,7 @@ const SITE = {
       name: "Sarah J.",
       tag: "Besties",
       emoji: "🎀",
-      photo: "",
+      photo: "assets/img/friend-1.jpg",
       photoHint: "coffee shop chronicles, winter '24",
       quote: "Still can't believe we survived that trip to Miami…",
       letter:
@@ -98,7 +98,7 @@ const SITE = {
       name: "Mike T.",
       tag: "Partners in Crime",
       emoji: "😜",
-      photo: "",
+      photo: "assets/img/friend-2.jpg",
       style: "note",
       quote: "I'm only here for the cake. But seriously, happy birthday to the most dramatic person I know.",
       letter:
@@ -110,7 +110,7 @@ const SITE = {
       name: "The Study Group",
       tag: "College Era",
       emoji: "🎓",
-      photo: "",
+      photo: "assets/img/friend-3.jpg",
       photoHint: "graduation day, blurry and perfect",
       quote: "We carried you through Econ 101. You're welcome.",
       letter:
@@ -122,7 +122,7 @@ const SITE = {
       name: "Ananya",
       tag: "Day Ones",
       emoji: "🌸",
-      photo: "",
+      photo: "assets/img/friend-4.jpg",
       photoHint: "same bench, every year",
       quote: "Twelve years and you still steal my fries.",
       letter:
@@ -134,7 +134,7 @@ const SITE = {
       name: "Rhea & Kabir",
       tag: "Travel Buddies",
       emoji: "✈️",
-      photo: "",
+      photo: "assets/img/friend-5.jpg",
       photoHint: "airport floor, 4am, no regrets",
       quote: "Next trip is on you. That's the gift.",
       letter:
@@ -145,7 +145,7 @@ const SITE = {
       name: "Class of '19",
       tag: "School Era",
       emoji: "📚",
-      photo: "",
+      photo: "assets/img/friend-6.jpg",
       style: "note",
       quote: "You were loud in the back row and we're grateful for it.",
       letter:
@@ -160,7 +160,7 @@ const SITE = {
     {
       name: "Amma",
       tag: "Mother",
-      photo: "",
+      photo: "assets/img/family-1.jpg",
       photoHint: "assets/img/amma.jpg",
       quote: "My whole heart, walking around outside my body.",
       letter:
@@ -171,7 +171,7 @@ const SITE = {
     {
       name: "Nanna",
       tag: "Father",
-      photo: "",
+      photo: "assets/img/family-2.jpg",
       photoHint: "assets/img/nanna.jpg",
       quote: "Still my little girl. Still arguing with me about everything.",
       letter:
@@ -181,7 +181,7 @@ const SITE = {
     {
       name: "Dev",
       tag: "Brother",
-      photo: "",
+      photo: "assets/img/family-3.jpg",
       photoHint: "assets/img/dev.jpg",
       quote: "You owe me \u20b9200 from 2022. Happy birthday anyway.",
       letter:
@@ -192,7 +192,7 @@ const SITE = {
     {
       name: "The cousins",
       tag: "Chaos division",
-      photo: "",
+      photo: "assets/img/family-4.jpg",
       photoHint: "assets/img/cousins.jpg",
       quote: "Every wedding, same corner, same trouble.",
       letter:
@@ -257,46 +257,10 @@ const SITE = {
   /* ---------- THE GALLERY (a whole spread of her, in Life) ---------- */
   // Add or remove freely — the spread lays out however many you give it.
   gallery: [
-    { src: "assets/img/gallery-1.jpg", caption: "Temple evening" },
-    { src: "assets/img/gallery-2.jpg", caption: "That laugh" },
-    { src: "assets/img/gallery-3.jpg", caption: "The new haircut" },
-    { src: "assets/img/gallery-4.jpg", caption: "Dressed for the occasion" },
-    { src: "assets/img/gallery-5.jpg", caption: "Rooftop, festival morning" },
-    { src: "assets/img/gallery-6.jpg", caption: "Sitting for the photo" },
-    { src: "assets/img/gallery-7.jpg", caption: "The cafe, again" },
-    { src: "assets/img/gallery-8.jpg", caption: "Evening sky" },
-    { src: "assets/img/gallery-9.jpg", caption: "" },
-    { src: "assets/img/gallery-10.jpg", caption: "" },
-    { src: "assets/img/gallery-11.jpg", caption: "" },
-    { src: "assets/img/gallery-12.jpg", caption: "" },
-    { src: "assets/img/gallery-13.jpg", caption: "" },
-    { src: "assets/img/gallery-14.jpg", caption: "" },
-    { src: "assets/img/gallery-15.jpg", caption: "" },
-    { src: "assets/img/gallery-16.jpg", caption: "" },
-    { src: "assets/img/gallery-17.jpg", caption: "" },
-    { src: "assets/img/gallery-18.jpg", caption: "" },
-    { src: "assets/img/gallery-19.jpg", caption: "" },
-    { src: "assets/img/gallery-20.jpg", caption: "" },
-    { src: "assets/img/gallery-21.jpg", caption: "" },
-    { src: "assets/img/gallery-22.jpg", caption: "" },
-    { src: "assets/img/gallery-23.jpg", caption: "" },
-    { src: "assets/img/gallery-24.jpg", caption: "" },
-    { src: "assets/img/gallery-25.jpg", caption: "" },
-    { src: "assets/img/gallery-26.jpg", caption: "" },
-    { src: "assets/img/gallery-27.jpg", caption: "" },
-    { src: "assets/img/gallery-28.jpg", caption: "" },
-    { src: "assets/img/gallery-29.jpg", caption: "" },
-    { src: "assets/img/gallery-30.jpg", caption: "" },
-    { src: "assets/img/gallery-31.jpg", caption: "" },
-    { src: "assets/img/gallery-32.jpg", caption: "" },
-    { src: "assets/img/gallery-33.jpg", caption: "" },
-    { src: "assets/img/gallery-34.jpg", caption: "" },
-    { src: "assets/img/gallery-35.jpg", caption: "" },
-    { src: "assets/img/gallery-36.jpg", caption: "" },
-    { src: "assets/img/gallery-37.jpg", caption: "" },
-    { src: "assets/img/gallery-38.jpg", caption: "" },
-    { src: "assets/img/gallery-39.jpg", caption: "" },
-    { src: "assets/img/gallery-40.jpg", caption: "" }
+    { src: "assets/img/gallery-1.jpg", caption: "" },
+    { src: "assets/img/gallery-2.jpg", caption: "" },
+    { src: "assets/img/gallery-3.jpg", caption: "" },
+    { src: "assets/img/gallery-4.jpg", caption: "" }
   ],
 
   /* ---------- NOW PLAYING (the song card over the full-page photo) ------- */

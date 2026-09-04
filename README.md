@@ -22,30 +22,31 @@ left and right. Turn with:
 Each spread has its own address, so you can link straight to one:
 `index.html#contributors`, `index.html#lastword`, and so on.
 
-## Four chapters
+## Ten pages
 
-The contents page lists exactly four things. Chapter Four runs across several
-spreads; only its first one is listed, so the contents stays short.
+Five spreads, ten pages, and every page full. Nothing scrolls: a page holds
+what it holds, and the book is short on purpose.
 
-| Pages | Chapter | Left | Right |
-| --- | --- | --- | --- |
-| — | — | The closed board | **Cover** |
-| 02–03 | — | **Contents** | **Editor's letter** |
-| 04–05 | **About You** | Portrait and the piece about her | The facts, second portrait |
-| 06–07 | **Friends** | First three friends, with filters | The rest |
-| 08–09 | **Family** | Family, with their letters | Notes from everyone, write-in form |
-| 10–11 | **Life** | The chronology | Full-page photo |
-| 12–13 | Life, continued | The photographs | Filmstrip and snapshots |
-| 14–15 | Life, on film | The video reels | Full-page photo, now-playing card |
-| 16–17 | Life, with the sound on | The soundtrack | Sleeve art |
-| 18–19 | — | **The Last Word** — the cake | The message (after the candle) |
-| 20–21 | — | **Colophon** | The end |
+| Pages | Left | Right |
+| --- | --- | --- |
+| — | The closed board | **Cover** — masthead, portrait, the age |
+| 02–03 | **Contents** and the dedication | **About You** — portrait, the piece, the facts |
+| 04–05 | **Friends** — two of them | Two more, and a pull quote |
+| 06–07 | **Family** — two of them | Notes from everyone else |
+| 08–09 | **Life** — four photographs | **The last word** — tap the cake |
 
-To add a spread to the contents, give it a `data-section` and a `data-blurb`;
-to keep one out, add `data-hide-toc`.
+The contents page lists the four chapters and nothing else.
 
-The old single-page URLs (`friends.html`, `cringe.html`, `final.html` …) still
-work — they redirect to the right spread.
+Every letter opens in full when you click *Read the letter*, so a short book
+still holds all the words.
+
+### Making it longer
+
+Each page is a `<section class="spread">` with a left and a right `.leaf` —
+copy one, change what is inside, and it joins the book. Give it a
+`data-section` and `data-blurb` to appear in the contents, or `data-hide-toc`
+to stay out of it. Anything that will not fit on a page is carried onto a
+continuation page automatically.
 
 ## Changing everything
 

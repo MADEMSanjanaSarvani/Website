@@ -13,20 +13,18 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
 </head>
 <body>
-<div class="grain" aria-hidden="true"></div>
 
 <div class="deck">
 <div class="book">
 
-  <!-- ============================ 00 · COVER ============================ -->
+  <!-- ===================== PAGES 00–01 · THE COVER ====================== -->
   <section class="spread" id="cover" data-section="Cover" data-hide-toc>
-    <div class="leaf leaf--left leaf--board" data-bare
-         data-emboss="The Archive"></div>
+    <div class="leaf leaf--left leaf--board" data-bare data-emboss="The Archive"></div>
 
     <div class="leaf leaf--right leaf--cover" data-bare>
       <div class="cover">
         <div class="cover__strap">
-          <span data-text="issueLine">Issue No. 01</span>
+          <span data-text="issueLine">Issue No. 23</span>
           <span data-render="countdown">On sale soon</span>
         </div>
 
@@ -36,93 +34,52 @@
         <div class="cover__stage">
           <div class="cover__photo">
             <img class="plate__frame plate__frame--face" src="assets/img/cover.jpg"
-                 alt="Portrait of the birthday girl" data-hint="Cover portrait — assets/img/cover.jpg">
+                 alt="Portrait of the birthday girl"
+                 data-hint="Cover portrait — assets/img/cover.jpg">
             <p class="cover__age" data-text="age">23</p>
           </div>
         </div>
 
-        <div class="cover__lines" data-render="coverlines" data-side="left"></div>
-
         <div class="cover__foot">
           <span data-text="name">Her</span>
-          <span class="barcode" data-render="barcode" aria-hidden="true"></span>
+          <span data-text="tagline">Everything we refuse to forget.</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ================= 01 · CONTENTS / EDITOR'S LETTER ================== -->
-  <section class="spread" id="contents" data-section="Contents" data-hide-toc>
+  <!-- ============= PAGES 02–03 · CONTENTS / ABOUT YOU =================== -->
+  <section class="spread" id="about" data-section="About You"
+           data-blurb="Twenty-three years of you">
     <div class="leaf leaf--left">
       <p class="kicker reveal">In this book</p>
       <h2 class="hed reveal">Contents</h2>
-      <p class="dek reveal" data-text="tagline">Everything we refuse to forget.</p>
-      <nav class="toc" data-render="toc" aria-label="Contents"></nav>
+      <nav class="toc reveal" data-render="toc" aria-label="Contents"></nav>
+
+      <blockquote class="pullquote reveal" data-text="letterPull"></blockquote>
+
+      <p class="byline reveal" data-text="signedBy">everyone who loves you</p>
     </div>
 
     <div class="leaf leaf--right">
-      <p class="kicker reveal">From the editor</p>
-      <h2 class="hed hed--sm reveal" data-text="letterTitle">A note before you begin</h2>
+      <p class="kicker reveal">Chapter One</p>
+      <h2 class="hed hed--sm reveal" data-text="about.title">About you</h2>
 
       <div class="side-plate reveal">
         <figure class="plate plate--inset" style="margin:0">
           <img class="plate__frame plate__frame--tall plate__frame--face"
-               src="assets/img/hero.jpg" alt="" data-hint="assets/img/hero.jpg">
-          <figcaption>
-            <span class="plate__no">Fig. 01</span>
-            <span data-text="name">The birthday girl</span>
-          </figcaption>
-        </figure>
-
-        <blockquote class="pullquote" style="margin:0" data-text="letterPull"></blockquote>
-      </div>
-
-      <div class="body-copy measure reveal">
-        <p data-text="intro"></p>
-        <p><span data-text="signoff"></span><br>
-           <em data-text="signedBy"></em></p>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ========================= 02 · ABOUT YOU =========================== -->
-  <section class="spread" id="about" data-section="About You"
-           data-blurb="Twenty-three years of you">
-    <div class="leaf leaf--left">
-      <p class="kicker reveal">Chapter One</p>
-      <h2 class="hed reveal" data-text="about.title">About you</h2>
-
-      <div class="side-plate reveal">
-        <figure class="plate plate--inset" style="margin:0">
-          <img class="plate__frame plate__frame--tall" src="assets/img/about.jpg"
-               alt="" data-hint="assets/img/about.jpg">
-          <figcaption>
-            <span class="plate__no">Fig. 02</span>
-            <span data-text="name">The birthday girl</span>
-          </figcaption>
+               src="assets/img/about.jpg" alt="" data-hint="assets/img/about.jpg">
         </figure>
 
         <div class="body-copy" style="white-space:pre-line" data-text="about.text"></div>
       </div>
-    </div>
 
-    <div class="leaf leaf--right">
-      <p class="kicker reveal">The facts</p>
-      <dl class="facts reveal" data-render="facts"></dl>
-
-      <figure class="plate plate--inset plate--half reveal" style="margin:26px 0 0">
-        <img class="plate__frame plate__frame--tall plate__frame--face"
-             src="assets/img/about-2.jpg" alt="" data-hint="assets/img/about-2.jpg">
-        <figcaption>
-          <span class="plate__no">Fig. 03</span>
-          <span>Exactly as you are</span>
-        </figcaption>
-      </figure>
+      <dl class="facts reveal" style="margin-top:20px" data-render="facts"
+          data-from="0" data-to="4"></dl>
     </div>
   </section>
 
-  <!-- ========================== 03 · FRIENDS ============================ -->
+  <!-- ================== PAGES 04–05 · FRIENDS ========================== -->
   <section class="spread" id="friends" data-section="Friends"
            data-blurb="The people who had the privilege">
     <div class="leaf leaf--left">
@@ -131,20 +88,23 @@
       <p class="dek measure reveal">The people who had the privilege of knowing
          <span data-text="name">her</span>.</p>
 
-      <div class="chip-row reveal" data-render="contributorTags" role="group"
-           aria-label="Filter friends"></div>
-
       <div data-render="contributors" data-source="friends"
            data-from="0" data-to="2"></div>
     </div>
 
     <div class="leaf leaf--right">
       <p class="kicker reveal">Friends, continued</p>
-      <div data-render="contributors" data-source="friends" data-from="2"></div>
+      <div data-render="contributors" data-source="friends"
+           data-from="2" data-to="4"></div>
+
+      <blockquote class="pullquote reveal" style="margin-top:18px">
+        You make ordinary Tuesdays feel like something worth showing up for.
+        <cite>The general consensus</cite>
+      </blockquote>
     </div>
   </section>
 
-  <!-- =========================== 04 · FAMILY ============================ -->
+  <!-- =================== PAGES 06–07 · FAMILY ========================== -->
   <section class="spread" id="family" data-section="Family"
            data-blurb="The ones who were always there">
     <div class="leaf leaf--left">
@@ -152,176 +112,30 @@
       <h2 class="hed reveal">Family</h2>
       <p class="dek measure reveal">The ones who were there before anyone else was.</p>
 
-      <div data-render="contributors" data-source="family"></div>
+      <div data-render="contributors" data-source="family"
+           data-from="0" data-to="2"></div>
     </div>
 
     <div class="leaf leaf--right">
       <p class="kicker reveal">Notes</p>
       <h3 class="hed hed--xs reveal">From everyone else</h3>
-      <div class="mail reveal" data-render="mail"></div>
-
-      <hr class="rule">
-
-      <form class="reveal" data-wish-form>
-        <h3 class="hed hed--xs">Add yours</h3>
-        <p class="body-copy" style="font-size:0.92rem">
-          A note written here stays on your own device. Send the good ones to
-          <span data-text="nickname">her friend</span> and they get set in print.
-        </p>
-
-        <label class="field">
-          <span>Your name</span>
-          <input name="from" type="text" maxlength="40" required autocomplete="name">
-        </label>
-
-        <label class="field">
-          <span>Your note</span>
-          <textarea name="text" rows="3" maxlength="400" required></textarea>
-        </label>
-
-        <button class="btn btn--ink" type="submit">
-          Pin it up <span aria-hidden="true">&rarr;</span>
-        </button>
-        <p class="byline" data-wish-said style="margin-top:12px"></p>
-      </form>
+      <div class="mail reveal" data-render="mail" data-from="0" data-to="4"></div>
     </div>
   </section>
 
-  <!-- ============================ 05 · LIFE ============================= -->
+  <!-- ============== PAGES 08–09 · LIFE / THE LAST WORD ================= -->
   <section class="spread" id="life" data-section="Life"
-           data-blurb="The long version, year by year">
+           data-blurb="In pictures, and one last thing">
     <div class="leaf leaf--left">
       <p class="kicker reveal">Chapter Four</p>
-      <h2 class="hed reveal">Life</h2>
-
-      <figure class="plate plate--inset reveal" style="margin:0 0 10px">
-        <div class="plate__frame plate__frame--pano plate__slot">
-          <p class="plate__hint">assets/img/then.jpg</p>
-        </div>
-        <figcaption>
-          <span class="plate__no">Fig. 04</span>
-          <span>The oldest photograph anyone could find</span>
-        </figcaption>
-      </figure>
-
-      <div class="chrono" data-render="chrono"></div>
-    </div>
-
-    <div class="leaf leaf--right leaf--fill">
-      <div class="fill">
-        <img class="fill__photo" src="assets/img/portrait.jpg" alt=""
-             data-hint="Full-page photo — assets/img/portrait.jpg">
-        <div class="fill__veil" aria-hidden="true"></div>
-
-        <div class="fill__body center">
-          <p class="script">Home</p>
-          <p class="byline" style="color:rgba(255,255,255,.8)">
-            Every version of you, still the same person
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================== 06 · LIFE · THE PHOTOGRAPHS =================== -->
-  <section class="spread" id="life-photos" data-section="Life" data-hide-toc>
-    <div class="leaf leaf--left">
-      <p class="kicker reveal">Life, continued</p>
-      <h2 class="hed hed--sm reveal" data-text="cringeTitle">Things we should probably delete</h2>
-      <p class="dek reveal" data-text="cringeSub">(but won't)</p>
-      <div data-render="plates" data-from="0" data-to="4"></div>
-    </div>
-
-    <div class="leaf leaf--right">
-      <div class="grid" style="grid-template-columns:auto minmax(0,1fr);align-items:start;gap:20px">
-        <div class="reveal" data-render="filmstrip" style="width:104px"></div>
-
-        <div class="stack">
-          <p class="script reveal">Happiness</p>
-
-          <figure class="snap reveal">
-            <div class="plate__frame plate__frame--wide plate__slot">
-              <p class="plate__hint">assets/img/us.jpg</p>
-            </div>
-            <figcaption>the good one</figcaption>
-          </figure>
-
-          <div data-render="plates" data-from="4"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ====================== 07 · LIFE · ON FILM ========================= -->
-  <section class="spread" id="life-film" data-section="Life" data-hide-toc>
-    <div class="leaf leaf--left">
-      <p class="kicker reveal">Life, on film</p>
-      <h2 class="hed hed--sm reveal">Moving <em>pictures</em></h2>
-      <p class="dek measure reveal">Every one of these was filmed vertically and we refuse to apologise.</p>
-      <div class="grid" data-render="stills" data-from="0" data-to="2"></div>
-    </div>
-
-    <div class="leaf leaf--right leaf--fill">
-      <div class="fill">
-        <div class="fill__photo" role="img" aria-label="Photograph"></div>
-        <p class="fill__hint">Full-page photo — assets/img/song.jpg</p>
-        <div class="fill__veil" aria-hidden="true"></div>
-
-        <div class="fill__body" data-render="nowplaying"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ====================== 08 · LIFE · THE SOUND ======================= -->
-  <section class="spread" id="life-music" data-section="Life" data-hide-toc>
-    <div class="leaf leaf--left">
-      <p class="kicker reveal">Life, with the sound on</p>
-      <h2 class="hed hed--sm reveal" data-text="playlistTitle">The soundtrack</h2>
-      <div class="chart mt-lg" data-render="chart"></div>
-    </div>
-
-    <div class="leaf leaf--right">
-      <p class="kicker reveal">Sleeve</p>
-
-      <figure class="snap reveal">
-        <div class="plate__frame plate__frame--square plate__slot">
-          <p class="plate__hint">assets/img/record.jpg</p>
-        </div>
-        <figcaption>play loud, sing badly</figcaption>
-      </figure>
-
-      <blockquote class="pullquote reveal">
-        Every one of these has a specific memory attached and you know exactly which.
-        <cite>Side A</cite>
-      </blockquote>
-
-      <div class="reveal" data-render="playlistLink"></div>
-    </div>
-  </section>
-
-  <!-- ===================== 09 · LIFE · THE GALLERY ====================== -->
-  <section class="spread spread--gallery" id="life-gallery" data-section="Life"
-           data-hide-toc data-gallery-template>
-    <div class="leaf leaf--left">
-      <p class="kicker reveal">Life, in pictures</p>
-      <h2 class="hed hed--sm reveal">The <em>gallery</em></h2>
+      <h2 class="hed hed--sm reveal">Life, <em>in pictures</em></h2>
       <div data-render="gallery" data-from="0" data-to="4"></div>
     </div>
 
-    <div class="leaf leaf--right">
-      <p class="kicker reveal">Continued</p>
-      <div data-render="gallery" data-from="4"></div>
-    </div>
-  </section>
-
-  <!-- ========================= 10 · THE LAST WORD ======================= -->
-  <section class="spread" id="lastword" data-section="The Last Word" data-hide-toc>
-    <div class="leaf leaf--left leaf--dark">
+    <div class="leaf leaf--right leaf--dark">
       <div class="center">
         <p class="kicker reveal" style="justify-content:center">The last page</p>
         <h2 class="hed hed--sm reveal" data-text="final.title">Make a wish</h2>
-        <p class="dek reveal" style="margin:0 auto 18px"
-           data-text="final.sub">Then blow out the candle</p>
       </div>
 
       <div class="cake-stage">
@@ -343,50 +157,16 @@
 
         <p class="byline" data-final-prompt>Tap the cake</p>
       </div>
-    </div>
 
-    <div class="leaf leaf--right leaf--dark">
-      <article data-final-message hidden>
-        <hr class="rule rule--double" style="border-color:rgba(242,220,220,.5)">
-        <h3 class="hed hed--sm">Happy birthday,<br><span data-text="name">you</span>.</h3>
-        <p class="body-copy" style="white-space:pre-line" data-text="final.message"></p>
-
-        <p style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
+      <article data-final-message hidden class="center">
+        <h3 class="hed hed--xs">Happy birthday,
+          <span data-text="name">you</span>.</h3>
+        <p class="body-copy" style="white-space:pre-line;font-size:0.95rem"
+           data-text="final.message"></p>
+        <p style="margin-top:16px">
           <button class="btn" type="button" data-confetti>More confetti</button>
-          <button class="btn" type="button" data-replay>
-            <span data-text="final.button">Read it again</span>
-          </button>
         </p>
       </article>
-
-      <p class="script center" data-final-waiting>Blow the candle out first</p>
-    </div>
-  </section>
-
-  <!-- ========================== 09 · COLOPHON ========================== -->
-  <section class="spread" id="backcover" data-section="Colophon" data-hide-toc>
-    <div class="leaf leaf--left leaf--back">
-      <p class="kicker reveal">Colophon</p>
-      <h2 class="hed hed--sm reveal" data-text="magazineName">The Archive</h2>
-      <p class="dek reveal">
-        <span data-text="issueLine">Issue No. 01</span> — printed once, in a run of one.
-      </p>
-      <hr class="rule" style="background:rgba(242,220,220,.35)">
-      <p class="body-copy reveal" data-text="footer">
-        Made with too much love and not enough sleep.
-      </p>
-    </div>
-
-    <div class="leaf leaf--right leaf--back">
-      <div class="center">
-        <p class="script reveal">The end</p>
-        <p class="byline reveal" style="margin-bottom:24px">
-          for <span data-text="name">you</span>, always
-        </p>
-        <button class="btn reveal" type="button" data-goto-cover>
-          Back to the cover <span aria-hidden="true">&rarr;</span>
-        </button>
-      </div>
     </div>
   </section>
 
