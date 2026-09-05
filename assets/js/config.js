@@ -88,9 +88,24 @@ const SITE = {
       caption: "Laughing till crying in the car.",
       quote: "Still can't believe we survived that trip.",
       letter:
-        "Happy birthday to the person who has seen me at my absolute worst and " +
-        "still texts me every morning.\n\nHere's to another year of you being " +
-        "ridiculous and me enabling it."
+        "Hey disaster ❤️,\n" +
+        "\n" +
+        "Mana friendship ela start ayyindo gurthosthe ippatiki Naku navvu vastundi 😂. First day nuvvu naatho WhatsApp lo chat chesav, adi nuvve ani kuda naaku teliyadu. Nenu ninnu “akka” ani pilichanu. 😂 Akkada nunchi start ayina mana friendship 4 years varaku ila untundi ani appudu asalu anukoledu.\n" +
+        "\n" +
+        "Hostel lo manam kalisi spend chesina time naaku eppatiki special. Kalisi cooking cheyyadam, cooking chestu matladadam cheyyadam, pakkana vallani comment cheyyadam 😂,  dance cheyyadam, songs padadam… roju edo oka allari. Appudu avi normal moments laga anipinchayi, kani ippudu avi gurthosthe chala miss avtunna.\n" +
+        "\n" +
+        "Nuvvu chala naughty ee😂,ni tho vuna valaki kuda chala conform zone estav. Nannu mi intiki teesukellav, akkada kuda manam kalisi time spend chesam. Aa memory kuda naaku chala istam and most memorable kuda❤️.\n" +
+        "\n" +
+        "4 years ayyaka manam separate avvadam matram chala sad anipinchindi. Endukante inthavaraku almost every day kalisi unde vallam roju ani share chesukoni epudu atleast month ki kuda call levu gaa ante sharing chesukovadam martham missing. Eppudaina edaina cheppali ante immediate ga cheppukune vallam. Suddenly inka eppudu kalustamo? ani anipinchindi. 🥹\n" +
+        "\n" +
+        "Kani manam daily kalisi undakapoyina mana friendship matram ala end avvakudadhu. Life lo entha busy aina, enni days ayina kalavakunda unna, malli kalisinappudu mana madhya same comfort, same navvulu, same madness and a crazy jokes martham alane untayi ❤️.\n" +
+        "\n" +
+        "Malli kalisinappudu mana first topic kuda mana hostel days eh untayi 😂. Appudu manam chesina pichi panulu  anni gurthu techukoni malli alane  navvukundam.\n" +
+        "\n" +
+        "Thank you for being such a beautiful part of my 4 years. ❤️🫶🏻\n" +
+        "\n" +
+        "Love you ra Raveen ❤️\n" +
+        "Nee forever friend and commenting partner 😂❤️"
     },
     {
       name: "Sreehitha",
@@ -99,8 +114,25 @@ const SITE = {
       caption: "The one who always says yes to a plan.",
       quote: "You are the reason my camera roll is full.",
       letter:
-        "Twenty-two looks good on you.\n\nThank you for every 1am phone call, " +
-        "every terrible idea, and every single time you picked up on the first ring."
+        "Wish you a very very happy birthday, Raveena 🎂❤️\n" +
+        "\n" +
+        "I wish you a wonderful year ahead filled with lots of fun, happiness, love and beautiful memories.\n" +
+        "\n" +
+        "Eppudu ilage happy ga, smiling ga undali 🫶🏻 Nee life lo nuvvu korukune prati okkati jaragali, always you should have reasons to smile and be happy.\n" +
+        "\n" +
+        "I genuinely feel great to have a friend like you 😁 Life lo konni people just ala random ga enter avtharu, but somehow they become really special… and I feel you are one of those people for me ❤️\n" +
+        "\n" +
+        "I feel everything happens for a reason in our life, and maybe destiny always had its own way of making us stay together and keeping our bond strong 🏋️ Enni situations vachina, enni changes vachina, somehow mana iddarini kalisi unchadaniki destiny oka reason create chesthune untundi anipisthundi. No matter what happens or how things change, somehow we always find our way back to each other. And I feel that's what made our bond this special 💕\n" +
+        "\n" +
+        "We've shared so many random talks, laughs, jokes and memories, and I hope we keep creating many more together 🫶🏻\n" +
+        "\n" +
+        "Enjoy your special day like anything! 🥳🎉 Always celebrate yourself, keep that beautiful smile 😄 and maintain it as long as possible. Ee roju full ga enjoy cheyyi, because today is completely yours! 🥳\n" +
+        "\n" +
+        "Always create your own happiness, believe in yourself and accomplish all the goals you have for yourself. Nee dreams anni nijam avvali, and nuvvu anukunna life ni create cheskovali. Never let anything or anyone take away your peace and happiness.\n" +
+        "\n" +
+        "Stay strong 💪🏻, stay healthy 🥗 and most importantly, stay the same crazy and happy person you are 😂 Eppudu ilage untu, nannu kuda nee craziness tho torture chesthu undu 😂\n" +
+        "\n" +
+        "Once again, happiest birthday, birthday girl!!! 🥳 Have the best day ever and make lots of beautiful memories! ✨"
     },
     {
       name: "Bhavya",
