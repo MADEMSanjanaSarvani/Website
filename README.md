@@ -36,7 +36,8 @@ with the window. Turn with:
 | --- | --- | --- |
 | 1 | **Cover** — masthead, portrait, barcode, Priceless | **Contents** and the editorial quote |
 | 2 | **The Raveen Lore** — field biography | **The Report Card** — verified metrics |
-| 3 … | **Best Friends Confidential** — one friend to a page | *and on, one per page* |
+| 3 | **The Archive** — the photograph album | *continued* |
+| 4 … | **Best Friends Confidential** — one friend to a page | *and on, one per page* |
 | last | **Pillars of Strength** — Amma & Nana | **The Finale** — tap the cake |
 
 Every letter opens in full when you press *Read the letter*, so a single page
@@ -50,8 +51,20 @@ Five friends make a twelve-page issue, seven make fourteen. Pages come in
 facing pairs, so an odd number of friends leaves one page over — it becomes
 the chapter's closing roll call rather than a blank.
 
-The **Pages** and **Besties** figures on the contents page are counted by the
-magazine itself, so they cannot go stale. Verified from two friends to ten,
+### The Archive
+
+A gallery spread: twelve photographs with a line under each, six to a page.
+Add or remove entries in `gallery.photos` and the sheet re-lays itself. Each
+photograph keeps its own proportions, so upright and sideways ones sit
+together the way a contact sheet does.
+
+A gallery is the one thing page-scaling cannot rescue: a grid takes its height
+from the page's *width*, so shrinking the page shrinks nothing. Each
+photograph is sized by its height instead — a share of the page — with the
+width following its own shape.
+
+The **Pages**, **Chapters** and **Besties** figures on the contents page are
+counted by the magazine itself, so they cannot go stale. Verified from two friends to ten,
 with no page under 59% full and none overflowing.
 
 ## Changing everything

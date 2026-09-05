@@ -29,7 +29,7 @@ const SITE = {
   // `count` lets the magazine count for itself: pages, spreads, besties, family.
   issueStats: [
     { count: "pages",   label: "Pages" },
-    { n: "03",          label: "Chapters" },
+    { count: "chapters", label: "Chapters" },
     { count: "besties", label: "Besties" },
     { n: "01",          label: "Copy ever" }
   ],
@@ -77,7 +77,31 @@ const SITE = {
     ]
   },
 
-  /* ---------- Chapter Two · Besties Confidential ----------
+  /* ---------- Chapter Two · The Archive ----------
+     A gallery spread. Add or remove filenames and the grid re-lays itself;
+     four to a page reads best. Any file in assets/img/ can go here. */
+  gallery: {
+    kicker: "Chapter 02 · The Archive",
+    title: "The Archive",
+    dek: "Twelve of our favourites. No occasion, no reason \u2014 just her.",
+    photos: [
+      { src: "assets/img/gallery-34.jpg", caption: "That smile, completely unedited." },
+      { src: "assets/img/gallery-33.jpg", caption: "Laughing before we were ready." },
+      { src: "assets/img/gallery-24.jpg", caption: "Somewhere green, glowing." },
+      { src: "assets/img/gallery-31.jpg", caption: "All dressed up, still our girl." },
+      { src: "assets/img/gallery-29.jpg", caption: "Golden hour found her first." },
+      { src: "assets/img/gallery-22.jpg", caption: "Caught mid-laugh, as usual." },
+
+      { src: "assets/img/gallery-27.jpg", caption: "Soft day, softer heart." },
+      { src: "assets/img/gallery-5.jpg",  caption: "College days, the best days." },
+      { src: "assets/img/gallery-4.jpg",  caption: "Terrace evenings with her." },
+      { src: "assets/img/gallery-21.jpg", caption: "Quiet, and quietly wonderful." },
+      { src: "assets/img/gallery-32.jpg", caption: "Every colour suits her." },
+      { src: "assets/img/gallery-26.jpg", caption: "Six yards and all that grace." }
+    ]
+  },
+
+  /* ---------- Chapter Three · Besties Confidential ----------
      One friend to a page, however many there are. An odd number leaves a last
      page for the closing note below. */
   besties: [

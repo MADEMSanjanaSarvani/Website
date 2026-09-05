@@ -228,7 +228,7 @@
      up narrows the measure, which shrinks the photograph, which frees height,
      which invites more scaling — left alone it runs to the ceiling and sets a
      small page in enormous type. */
-  var DESIGN_PAGE_H = 520;
+  var DESIGN_PAGE_H = 450;
 
   function setFit(inner, f) {
     if (f === 1) {
@@ -568,6 +568,8 @@
     if (key === "pages") return pad(spreads.length * 2);
     if (key === "spreads") return pad(spreads.length);
     if (key === "besties") return pad((S.besties || []).length);
+    if (key === "chapters") return pad(all(".spread[data-ch]").length);
+    if (key === "photos") return pad(((S.gallery || {}).photos || []).length);
     if (key === "family") return pad((S.family || []).length);
     return null;
   }
@@ -721,7 +723,7 @@
 
     if (kicker) {
       kicker.textContent = index === 0
-        ? "Chapter 02 \u00b7 Besties Confidential"
+        ? "Chapter 03 \u00b7 Besties Confidential"
         : "Entry " + pad(index + 1) + " \u00b7 Confidential";
     }
 
@@ -738,6 +740,27 @@
       openLetter(b.name, fill(b.letter || ""), b.full || "");
     });
   }
+
+  /* GALLERY ------------------------------------------------------------- */
+  render.gallery = function (host) {
+    var g = S.gallery || {};
+    var list = g.photos || [];
+    var span = slice(list, host);
+
+    host.innerHTML = span
+      .map(function (entry, k) {
+        var ph = entry.item;
+        return (
+          '<figure class="shot" style="--tilt:' + TILTS[entry.i % TILTS.length] + 'deg">' +
+          plate(ph.src, ph.src, "polaroid__img--tall") +
+          (ph.caption ? "<figcaption>" + esc(ph.caption) + "</figcaption>" : "") +
+          "</figure>"
+        );
+      })
+      .join("");
+
+    shapePhotos(host);
+  };
 
   /* FAMILY -------------------------------------------------------------- */
   render.family = function (host) {
@@ -860,10 +883,13 @@
        writing underneath — the same page, laid out the other way round. */
     var card = img.closest(".bestie");
     if (card) card.classList.toggle("bestie--wide", ratio > 1.1);
+
+    var shot = img.closest(".shot");
+    if (shot) shot.classList.toggle("shot--wide", ratio > 1.1);
   }
 
   function shapePhotos(root) {
-    all(".bestie .polaroid__img", root || document).forEach(function (img) {
+    all(".bestie .polaroid__img, .shot .polaroid__img", root || document).forEach(function (img) {
       if (!img.tagName || img.tagName !== "IMG") return;
       if (img.complete) shapePhoto(img);
       else img.addEventListener("load", function () { shapePhoto(img); }, { once: true });
