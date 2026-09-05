@@ -207,10 +207,17 @@
      is laid out at its natural size and then optically scaled down, the way a
      printed spread is reduced to fit a smaller sheet. */
 
-  var FIT_STEPS = [1, 0.96, 0.92, 0.88, 0.84, 0.8, 0.76, 0.72, 0.68, 0.64];
+  /* Largest first: a page takes the biggest size it can be shown whole at.
+     Above 1 the page is composed narrow and enlarged, the way a book set in
+     one measure is printed at a larger trim — the line lengths, the margins
+     and the proportions are the design's, only bigger. */
+  var FIT_STEPS = [
+    2.3, 2.2, 2.1, 2, 1.9, 1.8, 1.72, 1.64, 1.56, 1.48, 1.4, 1.33, 1.26, 1.19, 1.12, 1.06,
+    1, 0.96, 0.92, 0.88, 0.84, 0.8, 0.76, 0.72, 0.68, 0.64
+  ];
 
   function setFit(inner, f) {
-    if (f >= 1) {
+    if (f === 1) {
       inner.style.width = "";
       inner.style.transform = "";
       return;
@@ -220,14 +227,16 @@
     inner.style.transform = "scale(" + f + ")";
   }
 
-  /* The smallest step at which this page fits, or 0 if even the last is short. */
+  /* The largest step this page fits at, or 0 if it will not fit at any. */
   function fitFor(page) {
     var inner = el(".page__inner", page);
     if (!inner) return 1;
 
     for (var i = 0; i < FIT_STEPS.length; i++) {
       setFit(inner, FIT_STEPS[i]);
-      if (inner.scrollHeight * FIT_STEPS[i] <= page.clientHeight + 1) {
+      /* Leave a hair of air at the foot: a line sitting exactly on the folio
+         reads as cut off even when it technically fits. */
+      if (inner.scrollHeight * FIT_STEPS[i] <= page.clientHeight * 0.985) {
         return FIT_STEPS[i];
       }
     }
@@ -744,6 +753,20 @@
 
   function guardOnArrival(sp) { guardPhotos(sp); }
 
+  /* Resolve once the typefaces have arrived AND every photograph has either
+     loaded or failed. Bodoni is a good deal wider than the fallback serif, so
+     a page measured before the webfonts land is measured at the wrong size. */
+  function whenReady(done) {
+    var fonts = (document.fonts && document.fonts.ready) || null;
+    if (!fonts) return whenImagesSettle(done);
+
+    var moved = false;
+    function go() { if (moved) return; moved = true; whenImagesSettle(done); }
+
+    fonts.then(go, go);
+    setTimeout(go, 3000);          // never wait on a font server forever
+  }
+
   /* Resolve once every photograph has either loaded or failed. */
   function whenImagesSettle(done) {
     var imgs = all("img").filter(function (i) { return !i.complete; });
@@ -768,6 +791,24 @@
       finished = true;
       requestAnimationFrame(done);
     }, 2000);
+  }
+
+  /* The window can change shape after the book is built — a resize, a rotate,
+     a zoom. Re-fitting is safe to repeat: each spread is measured again from
+     full size, so it grows back as well as shrinks. */
+  function refit() {
+    all(".spread").forEach(function (sp) {
+      var pages = all(".page", sp);
+      if (pages.length) fitSpread(pages);
+    });
+  }
+
+  function watchWindow() {
+    var pending;
+    window.addEventListener("resize", function () {
+      clearTimeout(pending);
+      pending = setTimeout(refit, 150);
+    });
   }
 
   /* ---------- text bindings: <span data-text="name"></span> ---------- */
@@ -801,13 +842,14 @@
     lastWord();
     guardPhotos();
 
-    // Reflow only once every photograph has resolved — a page measured while an
-    // image is still loading reports the wrong height.
-    whenImagesSettle(function () {
+    // Reflow only once the typefaces and photographs have resolved — a page
+    // measured while either is still loading reports the wrong height.
+    whenReady(function () {
       guardPhotos();
       paginate();
       numberPages();
       syncChrome();
+      watchWindow();
     });
 
     numberPages();

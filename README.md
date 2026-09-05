@@ -13,11 +13,12 @@ Plain HTML/CSS/JS. No build step, no dependencies. Open `index.html` and it runs
 
 ## Reading it
 
-**No page ever scrolls.** Each spread is composed rather than poured: on a
-short screen the whole page is laid out at its natural size and then scaled
-down to fit, the way a printed spread is reduced onto a smaller sheet, so the
-ten pages stay ten pages on a 1366×768 laptop and on a 4K monitor alike. Turn
-with:
+**No page ever scrolls, and no page is left half empty.** Each spread is
+composed rather than poured: the page is laid out at its natural size and then
+printed to whatever sheet the window gives it — reduced on a small laptop,
+enlarged on a big monitor — so the line lengths, margins and proportions stay
+the design's at every size. Ten pages are ten pages from 1280×720 to 2560×1400,
+and every page sits between 77% and 98% full. Turn with:
 
 - the **‹ ›** arrows at the edges
 - the **arrow keys** (`Home` / `End` jump to the ends)

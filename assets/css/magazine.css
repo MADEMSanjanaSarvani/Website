@@ -246,7 +246,11 @@ body {
 .leaf--left .page { padding-left: clamp(26px, 3.6vw, 54px); }
 .leaf--right .page { padding-right: clamp(26px, 3.6vw, 54px); }
 
-.page__inner { }
+/* A block formatting context, so the last child's bottom margin is counted
+   inside the page rather than collapsing out of the measurement. */
+/* Positioned, so a pinned decoration (washi tape, a sticker) is placed in the
+   page's own scaled coordinates rather than drifting against the leaf. */
+.page__inner { position: relative; display: flow-root; }
 
 .folio {
   flex: 0 0 auto;
