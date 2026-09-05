@@ -13,8 +13,11 @@ Plain HTML/CSS/JS. No build step, no dependencies. Open `index.html` and it runs
 
 ## Reading it
 
-**No page ever scrolls.** Each page holds exactly what fits; anything longer is
-carried onto the next page automatically. Turn with:
+**No page ever scrolls.** Each spread is composed rather than poured: on a
+short screen the whole page is laid out at its natural size and then scaled
+down to fit, the way a printed spread is reduced onto a smaller sheet, so the
+ten pages stay ten pages on a 1366×768 laptop and on a 4K monitor alike. Turn
+with:
 
 - the **‹ ›** arrows at the edges
 - the **arrow keys** (`Home` / `End` jump to the ends)

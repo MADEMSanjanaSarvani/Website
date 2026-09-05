@@ -246,7 +246,7 @@ body {
 .leaf--left .page { padding-left: clamp(26px, 3.6vw, 54px); }
 .leaf--right .page { padding-right: clamp(26px, 3.6vw, 54px); }
 
-.page__inner { min-height: 100%; }
+.page__inner { }
 
 .folio {
   flex: 0 0 auto;
@@ -566,7 +566,7 @@ body {
   inset: auto 12px 46px;
   z-index: 4;
   padding: 12px 14px;
-  background: linear-gradient(to top, rgba(26, 22, 43, 0.86), rgba(26, 22, 43, 0));
+  background: linear-gradient(to top, rgba(26, 22, 43, 0.94) 35%, rgba(26, 22, 43, 0.6));
   color: #fff;
   text-align: left;
 }
@@ -654,7 +654,7 @@ body {
   align-items: baseline;
   gap: 4px 14px;
   width: 100%;
-  padding: 12px 2px;
+  padding: 15px 2px;
   border: 0;
   border-bottom: 1px dashed var(--rule);
   background: none;
@@ -752,8 +752,8 @@ body {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 4px 12px;
-  padding: 11px 2px 9px;
+  gap: 5px 12px;
+  padding: 12px 2px 11px;
   border-bottom: 1px solid var(--rule);
 }
 
@@ -802,7 +802,7 @@ body {
 
 /* the single-page dossier photograph is held back from the full measure so the
    whole card fits on one page */
-.bestie > .polaroid { max-width: 84%; }
+.bestie > .polaroid { max-width: 92%; }
 
 .bestie__entry {
   font-family: var(--label);
@@ -886,11 +886,18 @@ body {
     radial-gradient(ellipse at 50% 30%, #ffe9f3 0%, var(--paper) 62%);
 }
 
+.leaf--finale .page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .finale {
   display: grid;
   place-items: center;
-  gap: 14px;
-  height: 100%;
+  align-content: center;
+  gap: 20px;
+  min-height: 100%;
   text-align: center;
 }
 
@@ -907,7 +914,7 @@ body {
   text-transform: uppercase;
 }
 
-.cake { width: clamp(130px, 16vh, 180px); cursor: pointer; }
+.cake { width: clamp(170px, 22vh, 240px); margin-top: 44px; cursor: pointer; }
 
 .candle {
   position: absolute;
@@ -952,6 +959,72 @@ body {
 }
 
 @keyframes fall { to { transform: translateY(108vh) rotate(760deg); opacity: 0.1; } }
+
+/* the contents stats strip */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1.5px solid var(--ink);
+}
+
+.stat { text-align: center; }
+
+.stat b {
+  display: block;
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--pink);
+}
+
+.stat span {
+  font-family: var(--label);
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* the big numeral on the finale page */
+.finale__age {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(4rem, 9vw, 7rem);
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+  color: var(--pink);
+}
+
+/* once the last word is out, the teaser furniture stands aside */
+.finale.is-open { gap: 12px; }
+.finale.is-open .dek,
+.finale.is-open .finale__age,
+.finale.is-open .finale__rule,
+.finale.is-open .finale__colophon,
+.finale.is-open [data-final-prompt] { display: none; }
+.finale.is-open .cake { width: clamp(110px, 13vh, 148px); margin-top: 66px; }
+
+.finale__rule {
+  width: min(220px, 60%);
+  margin: 4px 0 0;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.finale__colophon {
+  margin: 0;
+  font-family: var(--label);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
 
 /* ---------- 17. Letters modal ---------- */
 .modal {

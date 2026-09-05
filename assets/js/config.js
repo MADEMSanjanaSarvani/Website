@@ -22,6 +22,15 @@ const SITE = {
   birthday: "2026-11-14",           // drives the countdown on the cover
   coverPhoto: "assets/img/cover.jpg",
 
+  /* ---------- The contents page ---------- */
+  // The little stats strip under the contents list.
+  issueStats: [
+    { n: "10", label: "Pages" },
+    { n: "03", label: "Chapters" },
+    { n: "05", label: "Besties" },
+    { n: "01", label: "Copy ever" }
+  ],
+
   /* ---------- Contents ---------- */
   editorialQuote:
     "22 years. Countless memories. Too many unhinged phone calls at 1 AM. " +
@@ -58,7 +67,10 @@ const SITE = {
       { label: "Replying to Texts on Time", pct: 15, shown: "15%" },
       { label: "Drama & Expressive Storytelling", pct: 99, shown: "99%" },
       { label: "Stealing Food From Everyone's Plate", pct: 92, shown: "92%" },
-      { label: "Loyalty & Love to Her Besties", pct: 100, shown: "∞ INFINITE" }
+      { label: "Loyalty & Love to Her Besties", pct: 100, shown: "∞ INFINITE" },
+      { label: "Winning Arguments She Started", pct: 87, shown: "87%" },
+      { label: "Saying \"I'm Five Minutes Away\"", pct: 96, shown: "96%" },
+      { label: "Actually Being Five Minutes Away", pct: 9, shown: "9%" }
     ]
   },
 
@@ -152,7 +164,8 @@ const SITE = {
       "crisis. Thank you for every ordinary day you made better just by being " +
       "in it.\n\nHere's to twenty-two.",
     signoff: "With all our love — your squad",
-    button: "Throw confetti"
+    button: "Throw confetti",
+    tease: "One last thing before you close it."
   },
 
   /* ---------- The song on the cover ---------- */

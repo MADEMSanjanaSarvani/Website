@@ -199,6 +199,62 @@
     return (leaf.className.match(/leaf--(dark|back)/g) || []).join(" ");
   }
 
+  /* ---------- fitting a designed page to the window ---------- */
+
+  /* A spread is composed, not poured: its two pages are meant to be read
+     side by side. On a short laptop screen the same content simply has less
+     room, so rather than spill half a page onto a continuation the whole page
+     is laid out at its natural size and then optically scaled down, the way a
+     printed spread is reduced to fit a smaller sheet. */
+
+  var FIT_STEPS = [1, 0.96, 0.92, 0.88, 0.84, 0.8, 0.76, 0.72, 0.68, 0.64];
+
+  function setFit(inner, f) {
+    if (f >= 1) {
+      inner.style.width = "";
+      inner.style.transform = "";
+      return;
+    }
+    inner.style.transformOrigin = "top left";
+    inner.style.width = (100 / f) + "%";
+    inner.style.transform = "scale(" + f + ")";
+  }
+
+  /* The smallest step at which this page fits, or 0 if even the last is short. */
+  function fitFor(page) {
+    var inner = el(".page__inner", page);
+    if (!inner) return 1;
+
+    for (var i = 0; i < FIT_STEPS.length; i++) {
+      setFit(inner, FIT_STEPS[i]);
+      if (inner.scrollHeight * FIT_STEPS[i] <= page.clientHeight + 1) {
+        return FIT_STEPS[i];
+      }
+    }
+
+    setFit(inner, 1);
+    return 0;
+  }
+
+  /* Both pages take the same reduction so the spread reads as one sheet. */
+  function fitSpread(pages) {
+    var factors = pages.map(fitFor);
+    if (factors.some(function (f) { return !f; })) {
+      pages.forEach(function (pg) {
+        var inner = el(".page__inner", pg);
+        if (inner) setFit(inner, 1);
+      });
+      return false;
+    }
+
+    var f = Math.min.apply(null, factors);
+    pages.forEach(function (pg) {
+      var inner = el(".page__inner", pg);
+      if (inner) setFit(inner, f);
+    });
+    return true;
+  }
+
   function paginate() {
     var guard = 0;
 
@@ -210,6 +266,10 @@
       var leftPage = leaves[0] && el(".page", leaves[0]);
       var rightPage = leaves[1] && el(".page", leaves[1]);
       if (!leftPage && !rightPage) continue;
+
+      /* Scale the spread to fit before considering a continuation — a page
+         that can be shown whole should never be broken in two. */
+      if (fitSpread([leftPage, rightPage].filter(Boolean))) continue;
 
       var carry = leftPage ? liftOverflow(leftPage) : [];
 
@@ -472,6 +532,16 @@
     });
   };
 
+  /* CONTENTS — the little stats strip -------------------------------------- */
+  render.stats = function (host) {
+    host.innerHTML = (S.issueStats || [])
+      .map(function (t) {
+        return '<div class="stat"><b>' + esc(t.n) + "</b><span>" +
+               esc(t.label) + "</span></div>";
+      })
+      .join("");
+  };
+
   /* THE LORE — the field biography -------------------------------------- */
   render.lore = function (host) {
     host.innerHTML = ((S.lore && S.lore.entries) || [])
@@ -637,6 +707,9 @@
       if (cake.classList.contains("is-blown")) return;
       cake.classList.add("is-blown");
       confetti(140);
+      /* The message takes the room the teaser furniture was holding. */
+      var stage = cake.closest(".finale");
+      if (stage) stage.classList.add("is-open");
       if (prompt) prompt.style.visibility = "hidden";
       if (reveal) {
         reveal.hidden = false;
@@ -671,6 +744,32 @@
 
   function guardOnArrival(sp) { guardPhotos(sp); }
 
+  /* Resolve once every photograph has either loaded or failed. */
+  function whenImagesSettle(done) {
+    var imgs = all("img").filter(function (i) { return !i.complete; });
+    if (!imgs.length) return requestAnimationFrame(done);
+
+    var pending = imgs.length;
+    var finished = false;
+
+    function tick() {
+      if (--pending > 0 || finished) return;
+      finished = true;
+      requestAnimationFrame(done);
+    }
+
+    imgs.forEach(function (img) {
+      img.addEventListener("load", tick, { once: true });
+      img.addEventListener("error", tick, { once: true });
+    });
+
+    setTimeout(function () {
+      if (finished) return;
+      finished = true;
+      requestAnimationFrame(done);
+    }, 2000);
+  }
+
   /* ---------- text bindings: <span data-text="name"></span> ---------- */
 
   function bindText() {
@@ -702,12 +801,13 @@
     lastWord();
     guardPhotos();
 
-    // measure and reflow once the pages have been laid out
-    requestAnimationFrame(function () {
+    // Reflow only once every photograph has resolved — a page measured while an
+    // image is still loading reports the wrong height.
+    whenImagesSettle(function () {
+      guardPhotos();
       paginate();
       numberPages();
       syncChrome();
-      guardPhotos();
     });
 
     numberPages();
