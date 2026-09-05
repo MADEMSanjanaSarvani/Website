@@ -8,6 +8,10 @@
 
 /* ---------- 1. Tokens ---------- */
 :root {
+  /* roughly the height of one page body — the book is min(92vh, 62vw) and a
+     page gives up about a sixth of that to the running head and the folio */
+  --page-h: calc(min(92vh, 62vw) * 0.84);
+
   /* paper */
   --paper: #fdfbf7;          /* warm art-paper canvas */
   --paper-2: #ffffff;        /* milk white — polaroid substrate */
@@ -376,10 +380,15 @@ body {
 
 .polaroid:hover { transform: rotate(0deg); }
 
+/* A photograph's height comes from the page's WIDTH (100% of the measure at
+   its aspect ratio), so scaling the page cannot shrink it — on a short window
+   one photograph could outgrow the whole page. Each is given a share of the
+   page's height instead, and crops into it. */
 .polaroid__img {
   display: block;
   width: 100%;
   aspect-ratio: 4 / 5;
+  max-height: calc(var(--page-h) * 0.44);
   object-fit: cover;
   object-position: center 28%;
   border-radius: 2px;
@@ -580,6 +589,7 @@ body {
   width: 100%;
   height: auto;
   aspect-ratio: auto;          /* the polaroid owns the shape */
+  max-height: none;            /* the stage already bounds it */
   object-fit: cover;
 }
 
@@ -826,6 +836,7 @@ body {
 /* the single-page dossier photograph is held back from the full measure so the
    whole card fits on one page */
 .bestie > .polaroid { max-width: 92%; }
+.bestie > .polaroid .polaroid__img { max-height: calc(var(--page-h) * 0.42); }
 
 .bestie__entry {
   font-family: var(--label);
@@ -866,6 +877,7 @@ body {
 .bestie-pair .bestie__name { font-size: clamp(1.1rem, 1.8vw, 1.4rem); }
 .bestie-pair .bestie__quote { font-size: 0.82rem; margin: 8px 0 10px; }
 .bestie-pair .bestie > .polaroid { max-width: 100%; }
+.bestie-pair .polaroid__img { max-height: calc(var(--page-h) * 0.34); }
 
 /* three to a page: the cards give up the tape and tighten their type */
 .bestie-pair[style*="--cols: 3"] { gap: 12px; }
@@ -874,6 +886,8 @@ body {
 .bestie-pair[style*="--cols: 3"] .btn { padding: 8px 14px; font-size: 0.6rem; }
 
 /* ---------- 15. Family ---------- */
+.letter-card .polaroid__img { max-height: calc(var(--page-h) * 0.26); }
+
 .letter-card {
   position: relative;
   padding: 16px 18px;

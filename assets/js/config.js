@@ -7,18 +7,20 @@
 const SITE = {
   /* ---------- The issue ---------- */
   magazineName: "RAVEEN",
-  issueLine: "Vol. 22 · Special Edition",
+  issueLine: "Vol. {age} · Special Edition",
   strapline: "Worldwide Birthday Release",
   edition: "Collector's Issue",
   coverPrice: "Priceless",
   barcodeNo: "9 780220 200322",
-  editionNo: "Edition N° 22",
+  editionNo: "Edition N° {age}",
 
-  /* ---------- The birthday girl ---------- */
+  /* ---------- The birthday girl ----------
+     Change `age` and the whole magazine follows: the cover line, the volume
+     number, the edition, the editorial quote and the finale all read it. */
   name: "Raveen",
   fullName: "Lakkakula Sai Raveena Sowgandhika",
   age: 22,
-  coverLine: "Turning 22 & looking undeniably iconic",
+  coverLine: "Turning {age} & looking undeniably iconic",
   birthday: "2026-11-14",           // drives the countdown on the cover
   coverPhoto: "assets/img/cover.jpg",
 
@@ -33,7 +35,7 @@ const SITE = {
 
   /* ---------- Contents ---------- */
   editorialQuote:
-    "22 years. Countless memories. Too many unhinged phone calls at 1 AM. " +
+    "{age} years. Countless memories. Too many unhinged phone calls at 1 AM. " +
     "One irreplaceable Raveen.",
   editorialBy: "The Editorial Board (Your Squad)",
 
@@ -158,7 +160,7 @@ const SITE = {
   finale: {
     kicker: "The Grand Finale · Back Cover",
     badge: "Golden Milestone",
-    title: "Happy 22nd, Raveen!",
+    title: "Happy {ageOrdinal}, {name}!",
     message:
       "You are the loudest laugh in every room and the safest place in every " +
       "crisis. Thank you for every ordinary day you made better just by being " +
@@ -175,5 +177,12 @@ const SITE = {
     link: ""                        // paste a Spotify or YouTube link
   }
 };
+
+/* "22" -> "22nd", so the finale headline follows the age as well. */
+SITE.ageOrdinal = (function (n) {
+  var tens = n % 100;
+  if (tens >= 11 && tens <= 13) return n + "th";
+  return n + ({ 1: "st", 2: "nd", 3: "rd" }[n % 10] || "th");
+})(SITE.age);
 
 if (typeof window !== "undefined") window.SITE = SITE;
