@@ -32,12 +32,21 @@ and every page sits between 77% and 98% full. Turn with:
 | --- | --- | --- |
 | 01–02 | **Cover** — masthead, portrait, barcode, Priceless | **Contents** and the editorial quote |
 | 03–04 | **The Raveen Lore** — field biography | **The Report Card** — verified metrics |
-| 05–06 | **Entry 01** — a bestie dossier | **Entry 02** |
-| 07–08 | **Entries 03 & 04** — the squad | **Entry 05** |
+| 05–06 | **Best Friends Confidential** — the dossiers | *continued* |
+| 07–08 | *continued* | *continued* |
 | 09–10 | **Pillars of Strength** — Amma & Nana | **The Finale** — tap the cake |
 
 Every letter opens in full when you press *Read the letter*, so ten pages still
 hold all the words.
+
+### The friends chapter lays itself out
+
+Pages 05–08 come from the `besties` list in `config.js`, however long it is.
+Two to four friends fit on a single spread and pages 07–08 drop out of the
+book; five or more spread across all four. A friend alone on a page gets the
+full dossier, two share a page, three go in a row. Add or remove names and the
+chapter re-lays itself — verified from two friends to twelve, with no page left
+empty and none overflowing.
 
 ## Changing everything
 

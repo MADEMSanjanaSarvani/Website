@@ -1,8 +1,11 @@
 # Photographs
 
-The magazine is ten pages and uses **nine** photographs. Any that are missing
-show a labelled slot rather than a broken image, so the book always reads
-properly while you are still collecting them.
+One photograph per slot. Any that are missing show a labelled slot rather than
+a broken image, so the book always reads properly while you are still
+collecting them.
+
+The exact list depends on how many friends are in `assets/js/config.js` — the
+rename script below reads it from there, so it is always right.
 
 ## The quick way
 
@@ -17,27 +20,35 @@ properly while you are still collecting them.
 
 ## What goes where
 
+Photographs are matched in reading order:
+
 | File | Page |
 | --- | --- |
 | `cover.jpg` | P.01 — the cover portrait |
 | `lore.jpg` | P.03 — the field biography |
-| `priya.jpg` | P.05 — Entry 01 |
-| `sreehitha.jpg` | P.06 — Entry 02 |
-| `bhavya.jpg` | P.07 — Entry 03 |
-| `akshaya.jpg` | P.07 — Entry 04 |
-| `sanjana.jpg` | P.08 — Entry 05 |
-| `amma.jpg` | P.09 — Amma's letter |
-| `nana.jpg` | P.09 — Nana's letter |
+| one per friend | P.05 onwards — the dossiers, in config order |
+| `amma.jpg` | Amma's letter |
+| `nana.jpg` | Nana's letter |
+
+Run the script with no photos in the folder and it prints the full list it
+wants for your current config.
 
 If a photo lands in the wrong slot, swap the two filenames.
 
-Names come from `assets/js/config.js` — rename a bestie there and point
+Names come from `assets/js/config.js` — rename a friend there and point
 `photo:` at whatever file you like.
+
+## How many friends
+
+The friends chapter lays itself out from the list in `config.js`. Two to four
+friends fit on one spread and the second one drops out of the book; five or
+more spread across both. One friend to a page gets a full dossier, two share a
+page, three go in a row. Verified from two friends to twelve.
 
 ## Notes
 
-The cover is portrait 3:4; dossier photographs are landscape 16:11; the squad
-and family photographs are square. Anything larger than about 1600px on the
+The cover is portrait 3:4; a friend with a page to herself gets a landscape
+16:11 crop; friends sharing a page and the family photographs are square. Anything larger than about 1600px on the
 long edge is wasted weight.
 
 iPhone `.HEIC` files cannot be shown by any browser, and renaming one to `.jpg`

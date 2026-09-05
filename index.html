@@ -121,25 +121,26 @@
 
     <div class="leaf leaf--left">
       <p class="kicker reveal">Chapter 02 · Besties Confidential</p>
-      <div data-render="bestie" data-index="0"></div>
+      <div data-render="bestieSlot" data-slot="0"></div>
     </div>
 
     <div class="leaf leaf--right">
-      <p class="kicker reveal">Entry 02 · Confidential</p>
-      <div data-render="bestie" data-index="1"></div>
+      <p class="kicker reveal">Confidential</p>
+      <div data-render="bestieSlot" data-slot="1"></div>
     </div>
   </section>
 
-  <!-- =========== SPREAD 4 · PAGES 07–08 · BESTIES, PART II =========== -->
+  <!-- =========== SPREAD 4 · PAGES 07–08 · BESTIES, PART II ===========
+       Filled only when there are more friends than the first spread holds;
+       otherwise it drops out of the book and the magazine is eight pages. -->
   <section class="spread" id="besties-2" data-section="Best Friends Confidential"
-           data-hide-toc>
+           data-hide-toc data-optional>
 
     <div class="leaf leaf--left">
-      <p class="kicker reveal">The squad dossier</p>
-      <div class="bestie-pair reveal" data-render="bestiePair"
-           data-from="2" data-to="4"></div>
+      <p class="kicker reveal">Confidential</p>
+      <div data-render="bestieSlot" data-slot="2"></div>
 
-      <div class="quotebox reveal" style="margin-top:20px">
+      <div class="quotebox reveal" style="margin-top:20px" data-with-besties>
         <p>Between them they have covered every era, every haircut and every
            questionable decision. No notes.</p>
         <cite>— Filed by the Board of Besties</cite>
@@ -147,8 +148,8 @@
     </div>
 
     <div class="leaf leaf--right">
-      <p class="kicker reveal">Entry 05 · Squad archive</p>
-      <div data-render="bestie" data-index="4"></div>
+      <p class="kicker reveal">Confidential</p>
+      <div data-render="bestieSlot" data-slot="3"></div>
     </div>
   </section>
 

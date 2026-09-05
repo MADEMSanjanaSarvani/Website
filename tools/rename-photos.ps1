@@ -4,17 +4,31 @@
 # Run it from the project folder:
 #     powershell -ExecutionPolicy Bypass -File tools\rename-photos.ps1
 #
-# Nothing is deleted. If a name is already taken the file is skipped, so you can
-# run it again after adding more photos.
+# The list of slots is read from assets/js/config.js, so however many friends
+# the magazine has, this follows. Nothing is deleted, and a name that is already
+# taken is skipped, so you can run it again after adding more photos.
 
-$names = @(
-  'cover','lore',
-  'priya','sreehitha','bhavya','akshaya','sanjana',
-  'amma','nana'
-)
+$dir = (Resolve-Path (Join-Path $PSScriptRoot '..\assets\img')).Path
+$configPath = Join-Path $dir '..\js\config.js'
 
-$dir = Join-Path $PSScriptRoot '..\assets\img'
-$dir = (Resolve-Path $dir).Path
+if (-not (Test-Path $configPath)) {
+  Write-Host "Could not find assets\js\config.js. Run this from the project folder."
+  exit 1
+}
+
+# every assets/img/<name>.jpg the config asks for, in reading order
+$config = Get-Content $configPath -Raw
+$names = [regex]::Matches($config, 'assets/img/([A-Za-z0-9_-]+)\.jpg') |
+         ForEach-Object { $_.Groups[1].Value } |
+         Select-Object -Unique
+
+if ($names.Count -eq 0) {
+  Write-Host "config.js does not name any photographs. Nothing to do."
+  exit
+}
+
+Write-Host "The magazine is asking for $($names.Count) photograph(s)."
+Write-Host ""
 
 $heic = Get-ChildItem -Path $dir -File | Where-Object { $_.Extension -match '^\.(heic|heif)$' }
 if ($heic.Count -gt 0) {
@@ -46,6 +60,12 @@ foreach ($p in $photos) {
   $i++
 }
 
+$missing = $names | Where-Object { -not (Test-Path (Join-Path $dir ($_ + '.jpg'))) }
 Write-Host ""
-Write-Host "Done. Refresh the page in your browser."
+if ($missing.Count -gt 0) {
+  Write-Host "Still waiting on: $($missing -join ', ')"
+} else {
+  Write-Host "Every slot is filled."
+}
+Write-Host "Refresh the page with Ctrl+F5."
 Write-Host "If a photo landed in the wrong place, just swap the two filenames."

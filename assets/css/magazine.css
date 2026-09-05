@@ -858,13 +858,20 @@ body {
 /* two to a page, side by side */
 .bestie-pair {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
   gap: 18px;
   align-items: start;
 }
 
 .bestie-pair .bestie__name { font-size: clamp(1.1rem, 1.8vw, 1.4rem); }
 .bestie-pair .bestie__quote { font-size: 0.82rem; margin: 8px 0 10px; }
+.bestie-pair .bestie > .polaroid { max-width: 100%; }
+
+/* three to a page: the cards give up the tape and tighten their type */
+.bestie-pair[style*="--cols: 3"] { gap: 12px; }
+.bestie-pair[style*="--cols: 3"] .bestie__name { font-size: clamp(0.95rem, 1.4vw, 1.15rem); }
+.bestie-pair[style*="--cols: 3"] .bestie__quote { font-size: 0.74rem; }
+.bestie-pair[style*="--cols: 3"] .btn { padding: 8px 14px; font-size: 0.6rem; }
 
 /* ---------- 15. Family ---------- */
 .letter-card {
