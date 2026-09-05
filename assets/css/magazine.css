@@ -853,12 +853,32 @@ body {
   gap: 10px;
 }
 
-/* Taller than a standard portrait: the photographs are shot on a phone held
-   upright, so a deeper frame keeps more of them and fills the page. */
+/* A deep portrait by default, because most arrive from a phone held upright.
+   A photograph that loads replaces this with its own proportions. */
 .bestie > .polaroid .polaroid__img {
   aspect-ratio: 2 / 3;
   max-height: calc(var(--page-h) * 0.9);
 }
+
+/* a landscape photograph takes the full measure, the writing below it */
+.bestie--wide { display: block; }
+
+/* Sized by its height, so the photograph keeps its own proportions instead of
+   being letterboxed back into a strip by a height cap it cannot honour. */
+.bestie--wide > .polaroid {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto clamp(14px, 2vh, 22px);
+}
+
+.bestie--wide > .polaroid .polaroid__img {
+  width: auto;
+  max-width: 100%;
+  height: calc(var(--page-h) * 0.62);
+  max-height: none;
+}
+
+.bestie--wide .bestie__body { align-items: start; }
 
 /* narrow enough that two columns would leave neither any room */
 @media (max-width: 900px) {
