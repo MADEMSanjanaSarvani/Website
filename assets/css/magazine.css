@@ -885,6 +885,49 @@ body {
 .bestie-pair[style*="--cols: 3"] .bestie__quote { font-size: 0.74rem; }
 .bestie-pair[style*="--cols: 3"] .btn { padding: 8px 14px; font-size: 0.6rem; }
 
+/* the chapter's roll call, on the spare page of an odd count */
+.rollcall {
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: roll;
+}
+
+.rollcall li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: 4px 12px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--rule);
+}
+
+.rollcall__no {
+  grid-row: span 2;
+  font-family: var(--label);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--pink);
+}
+
+.rollcall__name {
+  font-family: var(--display);
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.rollcall__full {
+  grid-column: 2;
+  font-family: var(--label);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
 /* ---------- 15. Family ---------- */
 .letter-card .polaroid__img { max-height: calc(var(--page-h) * 0.26); }
 

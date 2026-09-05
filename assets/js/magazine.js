@@ -120,6 +120,12 @@
 
   /* Folios are numbered only once pagination has settled. */
   function numberPages() {
+    all("[data-count]").forEach(function (stat) {
+      var n = countOf(stat.getAttribute("data-count"));
+      var b = el("b", stat);
+      if (n != null && b) b.textContent = n;
+    });
+
     spreads.forEach(function (sp, i) {
       all(".leaf", sp).forEach(function (leaf, side) {
         var no = el(".folio__no", leaf);
@@ -547,10 +553,22 @@
   };
 
   /* CONTENTS — the little stats strip -------------------------------------- */
+  /* A stat may name a figure the magazine counts for itself, so the contents
+     page cannot claim ten pages and five friends once the list has changed. */
+  function countOf(key) {
+    if (key === "pages") return pad(spreads.length * 2);
+    if (key === "spreads") return pad(spreads.length);
+    if (key === "besties") return pad((S.besties || []).length);
+    if (key === "family") return pad((S.family || []).length);
+    return null;
+  }
+
   render.stats = function (host) {
     host.innerHTML = (S.issueStats || [])
       .map(function (t) {
-        return '<div class="stat"><b>' + esc(t.n) + "</b><span>" +
+        var counted = t.count ? countOf(t.count) : null;
+        return '<div class="stat"' + (t.count ? ' data-count="' + esc(t.count) + '"' : "") +
+               "><b>" + esc(counted != null ? counted : t.n) + "</b><span>" +
                esc(t.label) + "</span></div>";
       })
       .join("");
@@ -608,73 +626,94 @@
     );
   }
 
-  /* How the friends divide across the chapter's pages.
+  /* The chapter is as long as the friendship list: one friend to a page.
 
-     The chapter is four pages long. Two friends or fewer share a single
-     spread; any more are spread across all four, as evenly as they go, with
-     the remainder taken by the earlier pages so nobody is left alone on the
-     last one. The result is a list of page sizes: [2, 1, 1, 1] for five
-     friends, [3, 2, 2, 2] for nine, [1, 1] for two. */
-  function bestiePages(n) {
-    if (n <= 0) return [];
-    if (n <= 2) return n === 1 ? [1] : [1, 1];
-    if (n <= 4) return [Math.ceil(n / 2), Math.floor(n / 2)];
-
-    var sizes = [];
-    var base = Math.floor(n / 4);
-    var extra = n % 4;
-    for (var i = 0; i < 4; i++) sizes.push(base + (i < extra ? 1 : 0));
-    return sizes;
+     Pages come in facing pairs, so an odd number of friends leaves one page
+     over — it becomes the chapter's closing note rather than a blank. */
+  function bestiePageCount(n) {
+    if (!n) return 0;
+    return n + (n % 2 ? 1 : 0);
   }
 
-  /* Which friends land on a given page, as [from, to). */
-  function bestieRange(sizes, slot) {
-    var from = 0;
-    for (var i = 0; i < slot; i++) from += sizes[i] || 0;
-    return [from, from + (sizes[slot] || 0)];
-  }
+  /* Build the chapter before anything is dressed or measured, by copying the
+     template spread as many times as the list needs. */
+  function buildBesties() {
+    var list = S.besties || [];
+    var template = document.getElementById("besties");
+    if (!template) return;
 
-  function entryLabel(from, to) {
-    if (to - from === 1) return "Entry " + pad(from + 1) + " \u00b7 Confidential";
-    return "Entries " + pad(from + 1) + "\u2013" + pad(to) + " \u00b7 Confidential";
+    if (!list.length) { template.remove(); spreads = all(".spread"); return; }
+
+    var wanted = bestiePageCount(list.length) / 2;
+    var previous = template;
+
+    for (var i = 0; i < wanted; i++) {
+      var sp = template;
+
+      if (i > 0) {
+        sp = template.cloneNode(true);
+        sp.id = "besties-" + (i + 1);
+        sp.setAttribute("data-hide-toc", "");   // one contents line for the chapter
+        sp.removeAttribute("data-blurb");
+        sp.removeAttribute("data-ch");
+        previous.parentNode.insertBefore(sp, previous.nextSibling);
+      }
+
+      all(".leaf", sp).forEach(function (leaf, side) {
+        leaf.setAttribute("data-bestie", i * 2 + side);
+      });
+
+      previous = sp;
+    }
+
+    spreads = all(".spread");
   }
 
   render.bestieSlot = function (host) {
     var list = S.besties || [];
-    var slot = parseInt(host.getAttribute("data-slot"), 10) || 0;
-    var sizes = bestiePages(list.length);
-    var span = bestieRange(sizes, slot);
-    var count = span[1] - span[0];
-
     var leaf = host.closest(".leaf");
+    var index = parseInt(leaf && leaf.getAttribute("data-bestie"), 10);
     var kicker = leaf && el(".kicker", leaf);
 
-    if (!count) {
-      /* No friends reach this page. Take the page's furniture with it so the
-         spread can be dropped whole rather than left standing empty. */
-      if (kicker) kicker.remove();
-      all("[data-with-besties]", leaf).forEach(function (n) { n.remove(); });
-      host.remove();
+    /* The page past the last friend closes the chapter: a roll call of
+       everyone in it, so the spare half of the spread is a page in its own
+       right rather than a stray quotation on an empty sheet. */
+    if (index === list.length) {
+      if (kicker) kicker.textContent = "Filed \u00b7 Chapter 02";
+      host.className = "reveal";
+      host.innerHTML =
+        '<h2 class="hed hed--sm">' + esc(S.bestiesRollTitle || "The Board of Besties") + "</h2>" +
+
+        '<ol class="rollcall">' +
+        list.map(function (b, n) {
+          return "<li><span class=\"rollcall__no\">" + pad(n + 1) + "</span>" +
+                 '<span class="rollcall__name">' + esc(b.name) + "</span>" +
+                 '<span class="rollcall__full">' + esc(b.full || "") + "</span></li>";
+        }).join("") +
+        "</ol>" +
+
+        '<div class="quotebox" style="margin-top:18px">' +
+        "<p>" + esc(S.bestiesClosing ||
+          "Between them they have covered every era, every haircut and every " +
+          "questionable decision. No notes.") + "</p>" +
+        "<cite>&mdash; " + esc(S.bestiesClosingBy || "Filed by the Board of Besties") +
+        "</cite></div>" +
+
+        '<p class="byline" style="margin-top:16px">' +
+        esc("Chapter 02 \u00b7 " + list.length + " entries \u00b7 all verified") + "</p>";
       return;
     }
 
+    if (!list[index]) { if (kicker) kicker.remove(); host.remove(); return; }
+
     if (kicker) {
-      kicker.textContent = slot === 0
+      kicker.textContent = index === 0
         ? "Chapter 02 \u00b7 Besties Confidential"
-        : entryLabel(span[0], span[1]);
+        : "Entry " + pad(index + 1) + " \u00b7 Confidential";
     }
 
-    /* One friend takes the page; two or more share it and go compact. */
-    host.className = count > 1 ? "bestie-pair reveal" : "reveal";
-    if (count > 1) host.style.setProperty("--cols", Math.min(count, 3));
-
-    host.innerHTML = list.slice(span[0], span[1])
-      .map(function (b, k) { return bestieCard(b, span[0] + k, count > 1); })
-      .join("");
-
-    /* A page carrying more than a pair has no room for an aside. */
-    if (count > 2) all("[data-with-besties]", leaf).forEach(function (n) { n.remove(); });
-
+    host.className = "reveal";
+    host.innerHTML = bestieCard(list[index], index, false);
     wireLetters(host, list);
   };
 
@@ -896,6 +935,7 @@
 
   function boot() {
     spreads = all(".spread");
+    buildBesties();
     chrome();
     bindText();
 
@@ -903,8 +943,6 @@
       var fn = render[host.getAttribute("data-render")];
       if (fn) fn(host);
     });
-
-    dropEmptySpreads();
 
     // the table of contents needs the spreads measured first, so it runs late
     var toc = el("[data-render='toc']");

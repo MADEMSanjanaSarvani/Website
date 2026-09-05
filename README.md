@@ -13,12 +13,16 @@ Plain HTML/CSS/JS. No build step, no dependencies. Open `index.html` and it runs
 
 ## Reading it
 
-**No page ever scrolls, and no page is left half empty.** Each spread is
-composed rather than poured: the page is laid out at its natural size and then
-printed to whatever sheet the window gives it — reduced on a small laptop,
-enlarged on a big monitor — so the line lengths, margins and proportions stay
-the design's at every size. Ten pages are ten pages from 1280×720 to 2560×1400,
-and every page sits between 77% and 98% full. Turn with:
+**No page ever scrolls, no page is split, and none is left half empty.** Each
+spread is composed rather than poured: the page is laid out at its natural size
+and then printed to whatever sheet the window gives it — reduced on a small
+laptop, enlarged on a big monitor — so the line lengths, margins and
+proportions stay the design's at every size.
+
+A browser window is not a screen: a maximized 1366×768 laptop with tabs, an
+address bar and a favourites bar leaves about 1366×600 of page. The book is
+tested down to 1024×500 and up to 2560×1400, and the page count never changes
+with the window. Turn with:
 
 - the **‹ ›** arrows at the edges
 - the **arrow keys** (`Home` / `End` jump to the ends)
@@ -26,27 +30,29 @@ and every page sits between 77% and 98% full. Turn with:
 - the **corner** at the bottom right
 - the **Contents** button, or any line on the contents page
 
-## Ten pages
+## The pages
 
-| Pages | Left | Right |
+| Spread | Left | Right |
 | --- | --- | --- |
-| 01–02 | **Cover** — masthead, portrait, barcode, Priceless | **Contents** and the editorial quote |
-| 03–04 | **The Raveen Lore** — field biography | **The Report Card** — verified metrics |
-| 05–06 | **Best Friends Confidential** — the dossiers | *continued* |
-| 07–08 | *continued* | *continued* |
-| 09–10 | **Pillars of Strength** — Amma & Nana | **The Finale** — tap the cake |
+| 1 | **Cover** — masthead, portrait, barcode, Priceless | **Contents** and the editorial quote |
+| 2 | **The Raveen Lore** — field biography | **The Report Card** — verified metrics |
+| 3 … | **Best Friends Confidential** — one friend to a page | *and on, one per page* |
+| last | **Pillars of Strength** — Amma & Nana | **The Finale** — tap the cake |
 
-Every letter opens in full when you press *Read the letter*, so ten pages still
-hold all the words.
+Every letter opens in full when you press *Read the letter*, so a single page
+still holds all the words.
 
-### The friends chapter lays itself out
+### The friends chapter is as long as the friendship list
 
-Pages 05–08 come from the `besties` list in `config.js`, however long it is.
-Two to four friends fit on a single spread and pages 07–08 drop out of the
-book; five or more spread across all four. A friend alone on a page gets the
-full dossier, two share a page, three go in a row. Add or remove names and the
-chapter re-lays itself — verified from two friends to twelve, with no page left
-empty and none overflowing.
+Each friend gets a page of her own, and the chapter grows to fit: the magazine
+copies its template spread as many times as `besties` in `config.js` needs.
+Five friends make a twelve-page issue, seven make fourteen. Pages come in
+facing pairs, so an odd number of friends leaves one page over — it becomes
+the chapter's closing roll call rather than a blank.
+
+The **Pages** and **Besties** figures on the contents page are counted by the
+magazine itself, so they cannot go stale. Verified from two friends to ten,
+with no page under 59% full and none overflowing.
 
 ## Changing everything
 

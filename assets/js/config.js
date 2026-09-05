@@ -26,11 +26,12 @@ const SITE = {
 
   /* ---------- The contents page ---------- */
   // The little stats strip under the contents list.
+  // `count` lets the magazine count for itself: pages, spreads, besties, family.
   issueStats: [
-    { n: "10", label: "Pages" },
-    { n: "03", label: "Chapters" },
-    { n: "05", label: "Besties" },
-    { n: "01", label: "Copy ever" }
+    { count: "pages",   label: "Pages" },
+    { n: "03",          label: "Chapters" },
+    { count: "besties", label: "Besties" },
+    { n: "01",          label: "Copy ever" }
   ],
 
   /* ---------- Contents ---------- */
@@ -76,8 +77,9 @@ const SITE = {
     ]
   },
 
-  /* ---------- Chapter Two · Besties Confidential ---------- */
-  // The first two get a page each; the rest share a page.
+  /* ---------- Chapter Two · Besties Confidential ----------
+     One friend to a page, however many there are. An odd number leaves a last
+     page for the closing note below. */
   besties: [
     {
       name: "Priya",
@@ -132,6 +134,13 @@ const SITE = {
         "is true."
     }
   ],
+
+  // the chapter's closing page, used when the number of friends is odd
+  bestiesRollTitle: "The Board of Besties",
+  bestiesClosing:
+    "Between them they have covered every era, every haircut and every " +
+    "questionable decision. No notes.",
+  bestiesClosingBy: "Filed by the Board of Besties",
 
   /* ---------- Chapter Three · Family ---------- */
   familyTitle: "Pillars of Strength",

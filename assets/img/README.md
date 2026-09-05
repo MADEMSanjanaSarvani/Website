@@ -40,15 +40,14 @@ Names come from `assets/js/config.js` — rename a friend there and point
 
 ## How many friends
 
-The friends chapter lays itself out from the list in `config.js`. Two to four
-friends fit on one spread and the second one drops out of the book; five or
-more spread across both. One friend to a page gets a full dossier, two share a
-page, three go in a row. Verified from two friends to twelve.
+Each friend gets a page of her own, and the chapter grows to fit the list in
+`config.js` — so one photograph per friend, plus the cover, the biography and
+the two family portraits.
 
 ## Notes
 
-The cover is portrait 3:4; a friend with a page to herself gets a landscape
-16:11 crop; friends sharing a page and the family photographs are square. Anything larger than about 1600px on the
+The cover is portrait 3:4; a friend's dossier photograph is a landscape 16:11
+crop; the family photographs are square. Anything larger than about 1600px on the
 long edge is wasted weight.
 
 iPhone `.HEIC` files cannot be shown by any browser, and renaming one to `.jpg`
