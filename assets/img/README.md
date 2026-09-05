@@ -46,11 +46,15 @@ the two family portraits.
 
 ## Notes
 
-The cover is portrait 3:4 and a friend's dossier photograph is a deep 2:3
-portrait — both are shaped for a phone held upright, which is how these
-photographs actually arrive. The family photographs are square. Nothing is
-stretched: a photograph crops into its frame from the upper part, so faces
-near the top survive. Anything larger than about 1600px on the
+**A friend's photograph can be any shape.** The page reads its proportions
+when it loads and lays itself out to suit: an upright photograph stands beside
+the writing, a sideways one takes the full width with the writing underneath.
+Neither is cropped to fit a frame it does not match, so nobody gets cut out of
+a group photograph. Very extreme shapes are eased towards the page's limits
+(0.62 to 1.4).
+
+The cover is portrait 3:4 and the family photographs are square; both crop
+from the upper part of the frame, so faces near the top survive. Anything larger than about 1600px on the
 long edge is wasted weight.
 
 iPhone `.HEIC` files cannot be shown by any browser, and renaming one to `.jpg`

@@ -843,6 +843,33 @@
     if (party) party.addEventListener("click", function () { confetti(90); });
   }
 
+  /* ---------- a photograph keeps its own shape ---------- */
+
+  /* These arrive from phones: some held upright, some turned sideways. A
+     single fixed frame has to cut one or the other, and on a group photograph
+     what it cuts is a person. Each dossier photograph takes its own
+     proportions instead, within limits the page can hold. */
+  function shapePhoto(img) {
+    if (!img.naturalWidth || !img.naturalHeight) return;
+
+    var ratio = img.naturalWidth / img.naturalHeight;
+    img.style.aspectRatio = Math.min(1.4, Math.max(0.62, ratio));
+
+    /* A landscape photograph is short: standing it beside the writing leaves
+       half the page empty. It takes the full measure instead, with the
+       writing underneath — the same page, laid out the other way round. */
+    var card = img.closest(".bestie");
+    if (card) card.classList.toggle("bestie--wide", ratio > 1.1);
+  }
+
+  function shapePhotos(root) {
+    all(".bestie .polaroid__img", root || document).forEach(function (img) {
+      if (!img.tagName || img.tagName !== "IMG") return;
+      if (img.complete) shapePhoto(img);
+      else img.addEventListener("load", function () { shapePhoto(img); }, { once: true });
+    });
+  }
+
   /* ---------- a missing photograph falls back to its labelled slot ---------- */
 
   function guardPhotos(root) {
@@ -969,6 +996,7 @@
     // measured while either is still loading reports the wrong height.
     whenReady(function () {
       guardPhotos();
+      shapePhotos();
       paginate();
       numberPages();
       syncChrome();
