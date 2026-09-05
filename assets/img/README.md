@@ -46,8 +46,11 @@ the two family portraits.
 
 ## Notes
 
-The cover is portrait 3:4; a friend's dossier photograph is a landscape 16:11
-crop; the family photographs are square. Anything larger than about 1600px on the
+The cover is portrait 3:4 and a friend's dossier photograph is a deep 2:3
+portrait — both are shaped for a phone held upright, which is how these
+photographs actually arrive. The family photographs are square. Nothing is
+stretched: a photograph crops into its frame from the upper part, so faces
+near the top survive. Anything larger than about 1600px on the
 long edge is wasted weight.
 
 iPhone `.HEIC` files cannot be shown by any browser, and renaming one to `.jpg`

@@ -223,6 +223,13 @@
   var MIN_FIT = 0.42;
   var MAX_FIT = 2.3;
 
+  /* The page height the design is drawn for. Enlargement is tied to the sheet,
+     not to how sparse a page happens to be: on a photograph-led page, scaling
+     up narrows the measure, which shrinks the photograph, which frees height,
+     which invites more scaling — left alone it runs to the ceiling and sets a
+     small page in enormous type. */
+  var DESIGN_PAGE_H = 520;
+
   function setFit(inner, f) {
     if (f === 1) {
       inner.style.width = "";
@@ -247,15 +254,17 @@
     var target = page.clientHeight * 0.985;   // a hair of air above the folio
     if (target <= 0) return 1;
 
+    var ceiling = Math.min(MAX_FIT, Math.max(MIN_FIT, page.clientHeight / DESIGN_PAGE_H));
+
     function fits(f) {
       setFit(inner, f);
       return inner.scrollHeight * f <= target;
     }
 
-    if (fits(MAX_FIT)) return MAX_FIT;
+    if (fits(ceiling)) return ceiling;
     if (!fits(MIN_FIT)) { setFit(inner, MIN_FIT); return MIN_FIT; }
 
-    var lo = MIN_FIT, hi = MAX_FIT;
+    var lo = MIN_FIT, hi = ceiling;
     for (var i = 0; i < 12; i++) {
       var mid = (lo + hi) / 2;
       if (fits(mid)) lo = mid; else hi = mid;
@@ -607,7 +616,9 @@
   var TILTS = [-2, 1.5, -1.5, 2, -1];
 
   function bestieCard(b, i, compact) {
-    var shape = compact ? "polaroid__img--square" : "polaroid__img--wide";
+    /* A friend with a page to herself gets a portrait: the photographs people
+       actually send are taken on a phone, held upright. */
+    var shape = compact ? "polaroid__img--square" : "polaroid__img--tall";
 
     return (
       '<article class="bestie reveal">' +
@@ -617,11 +628,13 @@
       (b.caption ? "<figcaption>" + esc(b.caption) + "</figcaption>" : "") +
       "</figure>" +
 
-      '<p class="bestie__entry" style="margin-top:14px">Entry ' + pad(i + 1) + "</p>" +
+      '<div class="bestie__body">' +
+      '<p class="bestie__entry">Entry ' + pad(i + 1) + "</p>" +
       '<h2 class="bestie__name">' + esc(b.name) + "</h2>" +
       (b.full ? '<span class="tag">' + esc(b.full) + "</span>" : "") +
       '<p class="bestie__quote">&ldquo;' + esc(b.quote || "") + "&rdquo;</p>" +
       '<button class="btn" type="button" data-letter="' + i + '">Read the letter</button>' +
+      "</div>" +
       "</article>"
     );
   }

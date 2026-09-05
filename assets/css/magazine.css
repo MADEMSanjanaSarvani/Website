@@ -831,12 +831,40 @@ body {
 }
 
 /* ---------- 14. Besties ---------- */
-.bestie { position: relative; }
+/* A dossier is a page of its own: the portrait stands beside the writing,
+   the way a magazine sets a profile, rather than sitting on top of it in a
+   letterbox strip that would slice an upright phone photograph in half. */
+.bestie {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr);
+  gap: clamp(20px, 2.6vw, 38px);
+  align-items: start;
+}
 
-/* the single-page dossier photograph is held back from the full measure so the
-   whole card fits on one page */
-.bestie > .polaroid { max-width: 92%; }
-.bestie > .polaroid .polaroid__img { max-height: calc(var(--page-h) * 0.42); }
+.bestie > .polaroid { max-width: 100%; margin: 0; }
+
+/* the writing is one block in the second column, not five loose rows that
+   would spread themselves down the height of the photograph */
+.bestie__body {
+  display: flex;
+  flex-direction: column;
+  align-items: start;          /* a pill is as wide as its words */
+  gap: 10px;
+}
+
+/* Taller than a standard portrait: the photographs are shot on a phone held
+   upright, so a deeper frame keeps more of them and fills the page. */
+.bestie > .polaroid .polaroid__img {
+  aspect-ratio: 2 / 3;
+  max-height: calc(var(--page-h) * 0.9);
+}
+
+/* narrow enough that two columns would leave neither any room */
+@media (max-width: 900px) {
+  .bestie { display: block; }
+  .bestie > .polaroid { max-width: 92%; margin: 0 0 14px; }
+}
 
 .bestie__entry {
   font-family: var(--label);
