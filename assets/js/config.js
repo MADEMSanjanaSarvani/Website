@@ -185,9 +185,91 @@ const SITE = {
       caption: "The one who made this whole thing.",
       quote: "I built you a magazine. Say thank you.",
       letter:
-        "I made you an entire magazine, which should tell you everything about " +
-        "how much you mean to me.\n\nHappy birthday, Raveen. Every page of this " +
-        "is true."
+        "Firstly, wishing you a very, very happy birthday! 🎉🎂❤️♾️\n" +
+        "\n" +
+        "Edhi aina feelings ni words lo rayadam koncham kastam… because some people and some relationships are just too special to explain completely. No matter how much I write, I feel like I still won’t be able to put into words what you mean to me. But today, I want to try to express at least a small part of everything I feel and all the memories we have created together.\n" +
+        "\n" +
+        "I genuinely feel blessed to have a person like you in my life. There are very few people with whom we can be completely ourselves, without thinking about how we look, what we say, or what the other person might think. Somehow, you became that person for me. You made me feel that being completely comfortable with someone and sharing every little thing can happen naturally.And when I look back, I still wonder how beautifully everything happened.\n" +
+        "\n" +
+        "Four years....Four whole years of being together through almost everything.\n" +
+        "\n" +
+        "From morning chores to college vibes, from eating and sleeping to fighting and making up, from random conversations to serious discussions, from laughing at the most stupid things to supporting each other during difficult times… what not? 😂❤️\n" +
+        "\n" +
+        "We literally experienced so many phases of life together.Those four years gave me some of the most beautiful and unforgettable memories of my life. I remember our conversations, our silly fights, our laughs, our arguments, our understanding, our random plans, and all those little moments that felt normal at that time but feel incredibly precious now.\n" +
+        "\n" +
+        "As life passes, things naturally start changing. After college, our lives slowly started moving in different directions. Responsibilities increased, priorities changed, and our routines became different.\n" +
+        "\n" +
+        "We became apart…Not by hearts, but by distance.And honestly, I think that is what makes our bond even more special.Because even though we don’t talk or meet the way we used to, I never felt that we actually left each other.Life simply became busy.\n" +
+        "\n" +
+        "These days, sometimes I think twice before calling you. Not because I don’t want to talk to you or because I don’t miss you. It’s actually the opposite.\n" +
+        "\n" +
+        "I know your life has become more busy and stressful. You have your work, your responsibilities, your people, and your own beautiful moments. And because I always believe that we should give time to the people who are physically around us, sometimes I stop myself from calling because I don’t want to disturb your work, your peace, your time, or any beautiful moment you might be having.So if there are times when I don’t call or don’t disturb you, please never misunderstand my silence.Sometimes silence also comes from care.\n" +
+        "\n" +
+        "But there is one thing I will never forget how much you supported me.Only I know personally how much you have done for me and how many times you tried to bring me out of all the things that were distracting me or keeping me stuck.You somehow always found a way to support me.Sometimes through your words, sometimes through your actions, and sometimes simply by being there.\n" +
+        "\n" +
+        "If someone else had been in your place, maybe they wouldn’t have cared as much. But you somehow always tried to help me in whatever way was possible.\n" +
+        "\n" +
+        "And I genuinely admire you for that.\n" +
+        "\n" +
+        "Thank you for listening to me.\n" +
+        "\n" +
+        "Thank you for understanding me.\n" +
+        "\n" +
+        "Thank you for correcting me when I needed it.\n" +
+        "\n" +
+        "Thank you for supporting me when I needed someone.\n" +
+        "\n" +
+        "Thank you for trying to bring me back whenever I was getting distracted.\n" +
+        "\n" +
+        "And thank you for all those little things you probably don’t even remember doing.\n" +
+        "\n" +
+        "I remember them.And I am truly grateful for them.\n" +
+        "\n" +
+        "Another thing I want to say is about your family.I genuinely feel so comfortable with you and your family. I never felt like I was part of someone else’s family whenever I was around you all.Instead, somewhere along the way, I started feeling like **this is my family too.** ❤️The love, care, comfort, and acceptance I feel with you all is something I consider a blessing.Sometimes I genuinely feel like I have two moms and two dads. ❤️\n" +
+        "\n" +
+        "And honestly, not everyone gets to experience that kind of comfort outside their own home. So I will always be thankful for that.I hope that no matter how much life changes, this bond and comfort will always remain.\n" +
+        "\n" +
+        "I hope we never become strangers just because life gets busy.I hope that even if we don’t talk for months, whenever we finally meet, it still feels like nothing changed.Like we just picked up from where we left off.And most importantly, I want you to know that **I will always be there for you.**\n" +
+        "\n" +
+        "I may not always be physically present, and I may not always know what to say or how to solve your problems, but I will always genuinely wish the best for you.\n" +
+        "\n" +
+        "I will always be happy to see you happy.\n" +
+        "\n" +
+        "I will always want you to succeed.\n" +
+        "\n" +
+        "And I will always want life to give you everything you truly deserve.\n" +
+        "\n" +
+        "On your birthday, I wish you nothing but happiness, peace, success, and beautiful moments.\n" +
+        "\n" +
+        "I hope all your hard work gives you the results you deserve.\n" +
+        "\n" +
+        "I hope you achieve everything you dream about.\n" +
+        "\n" +
+        "I hope you laugh more, travel more, enjoy more, and live more.\n" +
+        "\n" +
+        "And most importantly, I hope you never lose the beautiful person you are while trying to become everything you want to be.\n" +
+        "\n" +
+        "Life will keep changing. People will come and go. Responsibilities will increase. Distances may come between us. But some people remain special no matter how much time passes.\n" +
+        "\n" +
+        "You will always be one of those people for me.\n" +
+        "\n" +
+        "I genuinely hope we meet soon. I hope we get to sit together again, talk for hours, laugh about our old memories, discuss our lives, and create new memories that we can look back on years later.\n" +
+        "\n" +
+        "Maybe things will never be exactly like those college days again.\n" +
+        "\n" +
+        "And that’s okay.\n" +
+        "\n" +
+        "Because every phase of life has its own beauty.\n" +
+        "\n" +
+        "What matters is that no matter how much life changes, we never stop caring for each other.\n" +
+        "\n" +
+        "So today, on your birthday, I just want to say **Thank you for being you.**\n" +
+        "\n" +
+        "**Happy Birthday once again! 🎉🎂❤️**\n" +
+        "\n" +
+        "Lots and lots of love. 😘❤️♾️\n" +
+        "\n" +
+        "And no matter how old we grow, how busy life gets, or how far we are **you’ll always be one of my favourite people and one of the most beautiful chapters of my life.** ❤️♾️"
     }
   ],
 

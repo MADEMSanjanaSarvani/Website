@@ -812,7 +812,11 @@
 
     el("#letter-title", modal).textContent = title;
     el("[data-sub]", modal).textContent = sub || "";
-    el(".letter__body", modal).textContent = body;
+    /* Letters are written where **stars** mean emphasis, so honour them here
+       rather than printing the stars. Everything is escaped first; the only
+       markup that gets through is the emphasis itself. */
+    el(".letter__body", modal).innerHTML =
+      esc(body).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
     modal.hidden = false;
     el(".letter__close", modal).focus();
   }
