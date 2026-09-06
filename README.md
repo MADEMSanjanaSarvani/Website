@@ -53,10 +53,11 @@ the chapter's closing roll call rather than a blank.
 
 ### The Archive
 
-A gallery spread: twelve photographs with a line under each, six to a page.
-Add or remove entries in `gallery.photos` and the sheet re-lays itself. Each
-photograph keeps its own proportions, so upright and sideways ones sit
-together the way a contact sheet does.
+The photograph album, with a line under every picture. The chapter is as long
+as the album: add or remove entries in `gallery.photos` and the magazine makes
+as many spreads as they need, sharing them out evenly so no page holds three
+while its neighbour holds six. Each photograph keeps its own proportions, so
+upright and sideways ones sit together the way a contact sheet does.
 
 A gallery is the one thing page-scaling cannot rescue: a grid takes its height
 from the page's *width*, so shrinking the page shrinks nothing. Each

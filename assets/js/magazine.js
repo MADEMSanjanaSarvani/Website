@@ -741,6 +741,74 @@
     });
   }
 
+  /* The Archive is as long as the album: the spread is a template the
+     magazine copies as many times as the photographs need. Pages come in
+     facing pairs, so the count is rounded up to an even number and the
+     photographs shared out evenly — no page left holding three while its
+     neighbour holds six. */
+  function galleryPages(n) {
+    if (!n) return [];
+
+    var pages = Math.max(2, Math.ceil(n / 6));
+    if (pages % 2) pages++;
+
+    var sizes = [];
+    var base = Math.floor(n / pages);
+    var extra = n % pages;
+    for (var i = 0; i < pages; i++) sizes.push(base + (i < extra ? 1 : 0));
+    return sizes;
+  }
+
+  function buildGallery() {
+    var list = (S.gallery || {}).photos || [];
+    var template = document.getElementById("gallery");
+    if (!template) return;
+
+    if (!list.length) { template.remove(); spreads = all(".spread"); return; }
+
+    var sizes = galleryPages(list.length);
+    var wanted = sizes.length / 2;
+    var previous = template;
+    var lastLeaf = null;
+    var from = 0;
+
+    for (var i = 0; i < wanted; i++) {
+      var sp = template;
+
+      if (i > 0) {
+        sp = template.cloneNode(true);
+        sp.id = "gallery-" + (i + 1);
+        sp.setAttribute("data-hide-toc", "");   // one contents line for the chapter
+        sp.removeAttribute("data-blurb");
+        sp.removeAttribute("data-ch");
+        all("[data-gallery-head]", sp).forEach(function (n) { n.remove(); });
+        previous.parentNode.insertBefore(sp, previous.nextSibling);
+      }
+
+      all(".leaf", sp).forEach(function (leaf, side) {
+        var host = el("[data-render='gallery']", leaf);
+        var count = sizes[i * 2 + side] || 0;
+        if (!host) return;
+
+        if (!count) { host.remove(); return; }
+
+        host.setAttribute("data-from", from);
+        host.setAttribute("data-to", from + count);
+        from += count;
+        lastLeaf = leaf;
+      });
+
+      previous = sp;
+    }
+
+    /* the closing line belongs at the end of the chapter, not on every page */
+    all("[data-gallery-foot]").forEach(function (n) {
+      if (!lastLeaf || !lastLeaf.contains(n)) n.remove();
+    });
+
+    spreads = all(".spread");
+  }
+
   /* GALLERY ------------------------------------------------------------- */
   render.gallery = function (host) {
     var g = S.gallery || {};
@@ -1005,6 +1073,7 @@
 
   function boot() {
     spreads = all(".spread");
+    buildGallery();
     buildBesties();
     chrome();
     bindText();
