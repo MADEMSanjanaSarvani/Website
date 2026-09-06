@@ -938,6 +938,151 @@
     if (party) party.addEventListener("click", function () { confetti(90); });
   }
 
+  /* ---------- putting a photograph in from this computer ----------
+
+     Every photograph has to reach the magazine as a file in assets/img, and
+     getting it there — finding it, copying it, renaming it — is the part that
+     goes wrong. So the page can take one directly: turn on Photos, click the
+     picture you want to replace, choose the file, and it is in.
+
+     What you pick is scaled down and kept in this browser, so it survives a
+     refresh on this computer. That is enough to see it and check the crop —
+     but only this computer has it. For the magazine to carry the photograph
+     to anyone else, the file still has to be committed, so the panel hands
+     back a correctly named copy to drop into assets/img. */
+
+  var PHOTO_STORE = "raveen:photo:";
+  var MAX_EDGE = 1600;
+
+  function savedPhoto(src) {
+    try { return localStorage.getItem(PHOTO_STORE + src); } catch (e) { return null; }
+  }
+
+  function applySavedPhotos(root) {
+    all("img[data-hint]", root || document).forEach(function (img) {
+      var key = img.getAttribute("data-hint");
+      var saved = savedPhoto(key);
+      if (saved) img.src = saved;
+    });
+  }
+
+  /* Scaled down before it is stored: a phone photograph as a data URL is
+     several megabytes, and the browser's store holds about five in total. */
+  function shrink(file, done) {
+    var reader = new FileReader();
+    reader.onload = function () {
+      var img = new Image();
+      img.onload = function () {
+        var scale = Math.min(1, MAX_EDGE / Math.max(img.width, img.height));
+        var c = document.createElement("canvas");
+        c.width = Math.round(img.width * scale);
+        c.height = Math.round(img.height * scale);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        done(c.toDataURL("image/jpeg", 0.86));
+      };
+      img.onerror = function () { done(null); };
+      img.src = reader.result;
+    };
+    reader.onerror = function () { done(null); };
+    reader.readAsDataURL(file);
+  }
+
+  function photoPicker() {
+    var btn = el("[data-photobtn]");
+    if (!btn) return;
+
+    var input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.style.position = "fixed";      /* off-screen rather than display:none,
+                                            which can stop the picker opening */
+    input.style.left = "-9999px";
+    document.body.appendChild(input);
+
+    var note = document.createElement("p");
+    note.className = "photonote";
+    note.hidden = true;
+    document.body.appendChild(note);
+
+    var target = null;
+
+    function say(text) {
+      note.textContent = text;
+      note.hidden = false;
+    }
+
+    btn.addEventListener("click", function () {
+      var on = document.body.classList.toggle("is-picking");
+      btn.textContent = on ? "Done" : "Photos";
+      if (on) say("Click any photograph to replace it.");
+      else note.hidden = true;
+    });
+
+    document.addEventListener("click", function (e) {
+      if (!document.body.classList.contains("is-picking")) return;
+
+      /* The whole frame is the target, not just the picture: a cover has its
+         name plate laid over the photograph, and clicking that is clicking
+         the photograph as far as anyone is concerned. */
+      var spot = e.target.closest(".polaroid__img, .slot");
+      if (!spot) {
+        var frame = e.target.closest(".polaroid, .shot, .cover__photo, .letter-card");
+        if (frame) spot = el(".polaroid__img, .slot", frame);
+      }
+      if (!spot) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+      target = spot;
+      input.value = "";
+      input.click();
+    }, true);
+
+    input.addEventListener("change", function () {
+      var file = input.files && input.files[0];
+      if (!file || !target) return;
+
+      var slot = target.getAttribute("data-hint") ||
+                 (el("span", target) && el("span", target).textContent) || "";
+      slot = slot.trim();
+
+      say("Reading " + file.name + "…");
+
+      shrink(file, function (url) {
+        if (!url) { say("That file could not be read. If it is a .HEIC from an iPhone, save it as JPG first."); return; }
+
+        /* an empty slot is a div; a photograph is an img — swap in an img */
+        var img = target;
+        if (target.tagName !== "IMG") {
+          img = document.createElement("img");
+          img.className = target.className.replace(" slot", "");
+          img.setAttribute("data-hint", slot);
+          target.parentNode.replaceChild(img, target);
+        }
+
+        img.src = url;
+        img.setAttribute("data-hint", slot);
+
+        try {
+          localStorage.setItem(PHOTO_STORE + slot, url);
+        } catch (err) {
+          say("Shown, but too large for this browser to remember. It will go when you refresh.");
+        }
+
+        shapePhotos(img.closest(".spread") || document);
+        refit();
+
+        var name = slot.split("/").pop() || "photo.jpg";
+        note.innerHTML =
+          "In. It is kept on this computer only — to put it in the magazine " +
+          "for good, " +
+          '<a href="' + url + '" download="' + esc(name) + '">save ' + esc(name) + "</a>" +
+          " and drop it into assets/img, then commit.";
+        note.hidden = false;
+      });
+    });
+  }
+
   /* ---------- a photograph keeps its own shape ---------- */
 
   /* These arrive from phones: some held upright, some turned sideways. A
@@ -1094,12 +1239,14 @@
     // Reflow only once the typefaces and photographs have resolved — a page
     // measured while either is still loading reports the wrong height.
     whenReady(function () {
+      applySavedPhotos();
       guardPhotos();
       shapePhotos();
       paginate();
       numberPages();
       syncChrome();
       watchWindow();
+      photoPicker();
     });
 
     numberPages();

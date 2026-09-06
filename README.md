@@ -68,6 +68,24 @@ The **Pages**, **Chapters** and **Besties** figures on the contents page are
 counted by the magazine itself, so they cannot go stale. Verified from two friends to ten,
 with no page under 59% full and none overflowing.
 
+## Putting a photograph in without touching files
+
+Getting a photograph into `assets/img` — finding it, copying it, renaming it —
+is the part that goes wrong. So the page can take one directly:
+
+1. Press **Photos** (top right).
+2. Click the picture you want to replace. Empty slots work too.
+3. Choose the file.
+
+It is scaled down and kept in your browser, so it survives a refresh **on that
+computer only**. That is enough to see it and check the crop. For the magazine
+to carry the photograph to anyone else the file still has to be committed, so
+the bar at the bottom hands back a correctly named copy — save it, drop it into
+`assets/img`, and commit.
+
+When the magazine is finished, delete the `<button class="photobtn" …>` line in
+`index.html` and the button is gone.
+
 ## Changing everything
 
 **You only need to edit one file: `assets/js/config.js`.** The name, age, the

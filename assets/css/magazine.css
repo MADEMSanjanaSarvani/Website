@@ -1319,6 +1319,55 @@ body {
 
 .tocbtn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--pink-deep); }
 
+/* putting a photograph in from this computer */
+.photobtn {
+  position: fixed;
+  top: 52px;
+  right: 18px;
+  z-index: 520;
+  padding: 7px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--lavender);
+  color: #fff;
+  cursor: pointer;
+  font-family: var(--label);
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: 0 3px 0 #5b3fd6;
+}
+
+.photobtn:active { transform: translateY(2px); box-shadow: 0 1px 0 #5b3fd6; }
+
+body.is-picking .polaroid__img,
+body.is-picking .slot {
+  outline: 3px dashed var(--lavender);
+  outline-offset: 3px;
+  cursor: pointer;
+}
+
+.photonote {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  z-index: 620;
+  transform: translateX(-50%);
+  max-width: min(680px, 92vw);
+  margin: 0;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--studio);
+  color: #fff;
+  font-family: var(--body);
+  font-size: 0.78rem;
+  text-align: center;
+  box-shadow: var(--lift-2);
+}
+
+.photonote a { color: var(--butter); }
+
 .masthead-tag {
   display: none;
   position: fixed;
@@ -1387,7 +1436,56 @@ body {
   .runninghead { padding-right: 120px; }
   .flipper, .under { display: none; }
   .bestie-pair { grid-template-columns: 1fr; }
-  .masthead-tag { display: none; }
+  /* putting a photograph in from this computer */
+.photobtn {
+  position: fixed;
+  top: 52px;
+  right: 18px;
+  z-index: 520;
+  padding: 7px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--lavender);
+  color: #fff;
+  cursor: pointer;
+  font-family: var(--label);
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: 0 3px 0 #5b3fd6;
+}
+
+.photobtn:active { transform: translateY(2px); box-shadow: 0 1px 0 #5b3fd6; }
+
+body.is-picking .polaroid__img,
+body.is-picking .slot {
+  outline: 3px dashed var(--lavender);
+  outline-offset: 3px;
+  cursor: pointer;
+}
+
+.photonote {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  z-index: 620;
+  transform: translateX(-50%);
+  max-width: min(680px, 92vw);
+  margin: 0;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--studio);
+  color: #fff;
+  font-family: var(--body);
+  font-size: 0.78rem;
+  text-align: center;
+  box-shadow: var(--lift-2);
+}
+
+.photonote a { color: var(--butter); }
+
+.masthead-tag { display: none; }
 }
 
 /* ---------- 21. Print ---------- */
@@ -1402,5 +1500,54 @@ body {
     box-shadow: none;
     min-height: 100vh;
   }
-  .turn, .corner, .tocbtn, .progress, .masthead-tag { display: none; }
+  .turn, .corner, .tocbtn, .progress, /* putting a photograph in from this computer */
+.photobtn {
+  position: fixed;
+  top: 52px;
+  right: 18px;
+  z-index: 520;
+  padding: 7px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--lavender);
+  color: #fff;
+  cursor: pointer;
+  font-family: var(--label);
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: 0 3px 0 #5b3fd6;
+}
+
+.photobtn:active { transform: translateY(2px); box-shadow: 0 1px 0 #5b3fd6; }
+
+body.is-picking .polaroid__img,
+body.is-picking .slot {
+  outline: 3px dashed var(--lavender);
+  outline-offset: 3px;
+  cursor: pointer;
+}
+
+.photonote {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  z-index: 620;
+  transform: translateX(-50%);
+  max-width: min(680px, 92vw);
+  margin: 0;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--studio);
+  color: #fff;
+  font-family: var(--body);
+  font-size: 0.78rem;
+  text-align: center;
+  box-shadow: var(--lift-2);
+}
+
+.photonote a { color: var(--butter); }
+
+.masthead-tag { display: none; }
 }
