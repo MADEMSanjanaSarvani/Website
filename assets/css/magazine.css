@@ -241,6 +241,7 @@ body {
 .runninghead b { color: var(--pink); font-weight: 700; }
 
 .page {
+  position: relative;              /* stickers hang off the page itself */
   flex: 1 1 auto;
   min-height: 0;
   overflow: hidden;               /* pages hold what they hold */
@@ -462,7 +463,7 @@ body {
 /* a sticker pasted onto a page: no card, no border, just the cut-out */
 .sticker-img {
   height: auto;
-  max-width: 40%;
+  max-width: 70%;
   padding: 0;
   border: 0;
   border-radius: 6px;
@@ -471,6 +472,24 @@ body {
   pointer-events: none;
   user-select: none;
 }
+
+/* a sticker you placed yourself: inert until Photos mode, then grabbable */
+body.is-picking .sticker-mine {
+  pointer-events: auto;
+  cursor: grab;
+  outline: 2px dashed var(--lavender);
+  outline-offset: 4px;
+}
+
+body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
+
+.stickerbtn {
+  top: 88px;
+  background: var(--coral);
+  box-shadow: 0 3px 0 #c9403d;
+}
+
+.stickerbtn:active { box-shadow: 0 1px 0 #c9403d; }
 
 /* the ink-outlined chip */
 .tag {
@@ -999,6 +1018,34 @@ body {
   font-style: italic;
   font-size: 0.66rem;
   line-height: 1.3;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+/* the whole twenty-two years, banded across the top of the closing page */
+.pact__photo {
+  margin: 14px 0 0;
+  padding: 6px 6px 4px;
+  background: var(--paper-2);
+  border-radius: 4px;
+  box-shadow: var(--lift-1);
+  transform: rotate(-0.6deg);
+}
+
+.pact__photo .polaroid__img {
+  display: block;
+  width: 100%;
+  aspect-ratio: auto;
+  max-height: calc(var(--page-h) * 0.34);
+  object-fit: cover;
+  object-position: center 45%;
+}
+
+.pact__photo figcaption {
+  margin-top: 6px;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 0.72rem;
   text-align: center;
   color: var(--ink-soft);
 }

@@ -103,6 +103,24 @@ it fills space without pushing the writing about.
 is missing simply does not appear, so it is safe to list one before adding the
 file. PNGs with transparent backgrounds look best.
 
+## Putting stickers where you want them
+
+Press **Photos**, then **+ Sticker**, and choose the file. It lands on the
+spread you are looking at and from there:
+
+- **drag** it anywhere, including across to the facing page
+- **wheel** over it to make it bigger or smaller
+- **shift + wheel** to tilt it
+- **double-click** to take it off
+
+Position, size and tilt are held as shares of the page, so a sticker stays
+where you put it whatever size the window is. They hang off the page rather
+than sitting inside the writing, so adding one never shrinks the text. Kept in
+this browser, like a chosen photograph.
+
+`stickers` in `config.js` does the same thing permanently, for stickers that
+should reach whoever opens the magazine.
+
 ## Adding a friend from the page
 
 The last page of the friends chapter has **+ Add a friend**. Fill in her name,

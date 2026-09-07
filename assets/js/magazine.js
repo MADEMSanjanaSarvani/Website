@@ -276,6 +276,8 @@
 
   /* Both pages take the same reduction so the spread reads as one sheet. */
   function fitSpread(pages) {
+    /* Stickers hang off the page itself rather than the page body, so what is
+       measured here is only the writing — pasting one on cannot shrink it. */
     var f = Math.min.apply(null, pages.map(fitFor));
     pages.forEach(function (pg) {
       var inner = el(".page__inner", pg);
@@ -700,6 +702,14 @@
         '<h2 class="hed hed--sm">' + esc(pact.title || "The Pact") + "</h2>" +
         (pact.dek ? '<p class="dek">' + esc(pact.dek) + "</p>" : "") +
 
+        (pact.photo
+          ? '<figure class="pact__photo">' +
+            plate(pact.photo, pact.photo, "") +
+            (pact.photoCaption
+              ? "<figcaption>" + esc(pact.photoCaption) + "</figcaption>" : "") +
+            "</figure>"
+          : "") +
+
         '<ol class="pact">' +
         (pact.clauses || []).map(function (c) {
           return "<li>" + esc(c) + "</li>";
@@ -941,6 +951,188 @@
     if (party) party.addEventListener("click", function () { confetti(90); });
   }
 
+  /* ---------- stickers you place yourself ----------
+
+     In Photos mode a sticker can be dropped onto any page and dragged where
+     you want it. Position, size and tilt are held as shares of the page, so a
+     sticker stays where it was put whatever size the window is. Kept in this
+     browser, like a chosen photograph. */
+
+  var STICKER_STORE = "raveen:stickers";
+
+  function myStickers() {
+    try { return JSON.parse(localStorage.getItem(STICKER_STORE) || "[]"); }
+    catch (e) { return []; }
+  }
+
+  function saveStickers(list) {
+    try { localStorage.setItem(STICKER_STORE, JSON.stringify(list)); return true; }
+    catch (e) { return false; }
+  }
+
+  function stickerNode(st, i) {
+    var img = document.createElement("img");
+    /* sticker--float is what makes it positioned; without it the sticker sits
+       in the flow at the foot of the page and cannot be picked up */
+    img.className = "sticker--float sticker-img sticker-mine";
+    img.src = st.src;
+    img.alt = "";
+    img.setAttribute("data-mine", i);
+    img.style.left = st.x + "%";
+    img.style.top = st.y + "%";
+    img.style.width = st.w + "%";
+    img.style.transform = "rotate(" + (st.tilt || 0) + "deg)";
+    return img;
+  }
+
+  function drawMyStickers() {
+    all(".sticker-mine").forEach(function (n) { n.remove(); });
+
+    myStickers().forEach(function (st, i) {
+      var sp = document.getElementById(st.on);
+      if (!sp) return;
+      var leaves = all(".leaf", sp);
+      var leaf = st.side === "right" ? leaves[1] : leaves[0];
+      var page = leaf && el(".page", leaf);
+      if (!page) return;
+      page.appendChild(stickerNode(st, i));
+    });
+  }
+
+  /* Which page is under the pointer, and where on it, as shares of the page */
+  function pageUnder(x, y) {
+    var found = null;
+    all(".spread.is-current .page").forEach(function (page) {
+      var r = page.getBoundingClientRect();
+      if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) {
+        var leaf = page.closest(".leaf");
+        var sp = page.closest(".spread");
+        found = {
+          inner: page,
+          on: sp.id,
+          side: all(".leaf", sp).indexOf(leaf) === 1 ? "right" : "left",
+          x: ((x - r.left) / r.width) * 100,
+          y: ((y - r.top) / r.height) * 100
+        };
+      }
+    });
+    return found;
+  }
+
+  function stickerTools(say) {
+    var input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.style.position = "fixed";
+    input.style.left = "-9999px";
+    document.body.appendChild(input);
+
+    input.addEventListener("change", function () {
+      var file = input.files && input.files[0];
+      if (!file) return;
+
+      shrink(file, function (url) {
+        if (!url) { say("That file could not be read."); return; }
+
+        var sp = spreads[index];
+        var list = myStickers();
+        list.push({
+          src: url, on: sp.id || "", side: "left",
+          x: 38, y: 40, w: 18, tilt: -6
+        });
+
+        if (!saveStickers(list)) {
+          say("This browser will not hold another sticker. Remove one first.");
+          return;
+        }
+
+        drawMyStickers();
+        say("Drag it where you want it. Wheel over it to resize, shift+wheel to tilt, double-click to remove.");
+      });
+    });
+
+    /* dragging, on the sticker itself */
+    var dragging = null;
+
+    document.addEventListener("pointerdown", function (e) {
+      if (!document.body.classList.contains("is-picking")) return;
+      var st = e.target.closest(".sticker-mine");
+      if (!st) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+      dragging = st;
+      st.setPointerCapture(e.pointerId);
+      st.classList.add("is-held");
+    }, true);
+
+    document.addEventListener("pointermove", function (e) {
+      if (!dragging) return;
+      var spot = pageUnder(e.clientX, e.clientY);
+      if (!spot) return;
+
+      if (spot.inner !== dragging.parentNode) spot.inner.appendChild(dragging);
+      dragging.style.left = spot.x + "%";
+      dragging.style.top = spot.y + "%";
+      dragging.__spot = spot;
+    });
+
+    document.addEventListener("pointerup", function () {
+      if (!dragging) return;
+
+      var i = +dragging.getAttribute("data-mine");
+      var spot = dragging.__spot;
+      var list = myStickers();
+
+      if (list[i] && spot) {
+        list[i].on = spot.on;
+        list[i].side = spot.side;
+        list[i].x = Math.round(spot.x * 10) / 10;
+        list[i].y = Math.round(spot.y * 10) / 10;
+        saveStickers(list);
+      }
+
+      dragging.classList.remove("is-held");
+      dragging = null;
+    });
+
+    /* resize and tilt on the wheel, remove on a double-click */
+    document.addEventListener("wheel", function (e) {
+      if (!document.body.classList.contains("is-picking")) return;
+      var st = e.target.closest(".sticker-mine");
+      if (!st) return;
+
+      e.preventDefault();
+      var i = +st.getAttribute("data-mine");
+      var list = myStickers();
+      if (!list[i]) return;
+
+      if (e.shiftKey) {
+        list[i].tilt = (list[i].tilt || 0) + (e.deltaY > 0 ? 3 : -3);
+        st.style.transform = "rotate(" + list[i].tilt + "deg)";
+      } else {
+        list[i].w = Math.min(70, Math.max(4, (list[i].w || 18) + (e.deltaY > 0 ? -1.5 : 1.5)));
+        st.style.width = list[i].w + "%";
+      }
+      saveStickers(list);
+    }, { passive: false });
+
+    document.addEventListener("dblclick", function (e) {
+      if (!document.body.classList.contains("is-picking")) return;
+      var st = e.target.closest(".sticker-mine");
+      if (!st) return;
+
+      e.preventDefault();
+      var list = myStickers();
+      list.splice(+st.getAttribute("data-mine"), 1);
+      saveStickers(list);
+      drawMyStickers();
+      say("Sticker removed.");
+    }, true);
+
+    return input;
+  }
+
   /* ---------- adding a friend to the chapter ----------
 
      The chapter is as long as the list, so a friend added here becomes a page
@@ -1153,10 +1345,24 @@
       note.hidden = false;
     }
 
+    var stickerInput = stickerTools(say);
+
+    var addSticker = document.createElement("button");
+    addSticker.className = "photobtn stickerbtn";
+    addSticker.type = "button";
+    addSticker.textContent = "+ Sticker";
+    addSticker.hidden = true;
+    addSticker.addEventListener("click", function () {
+      stickerInput.value = "";
+      stickerInput.click();
+    });
+    btn.parentNode.insertBefore(addSticker, btn.nextSibling);
+
     btn.addEventListener("click", function () {
       var on = document.body.classList.toggle("is-picking");
       btn.textContent = on ? "Done" : "Photos";
-      if (on) say("Click any photograph to replace it.");
+      addSticker.hidden = !on;
+      if (on) say("Click a photograph to replace it, or add a sticker and drag it where you like.");
       else note.hidden = true;
     });
 
@@ -1279,8 +1485,8 @@
 
       var leaves = all(".leaf", sp);
       var leaf = st.side === "right" ? leaves[1] : leaves[0];
-      var inner = leaf && el(".page__inner", leaf);
-      if (!inner) return;
+      var page = leaf && el(".page", leaf);
+      if (!page) return;
 
       var img = document.createElement("img");
       img.className = "sticker--float sticker-img";
@@ -1294,7 +1500,7 @@
       img.style.width = (st.size || 0.18) * 100 + "%";
       img.style.transform = "rotate(" + (st.tilt == null ? -6 : st.tilt) + "deg)";
 
-      inner.appendChild(img);
+      page.appendChild(img);
     });
   }
 
@@ -1314,7 +1520,7 @@
     });
   }
 
-  function guardOnArrival(sp) { guardPhotos(sp); }
+  function guardOnArrival(sp) { guardPhotos(sp); drawMyStickers(); }
 
   /* Resolve once the typefaces have arrived AND every photograph has either
      loaded or failed. Bodoni is a good deal wider than the fallback serif, so
@@ -1435,6 +1641,8 @@
       shapePhotos();
       paginate();
       placeStickers();
+      drawMyStickers();
+      refit();
       numberPages();
       syncChrome();
       watchWindow();
