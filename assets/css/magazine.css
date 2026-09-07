@@ -241,6 +241,7 @@ body {
 .runninghead b { color: var(--pink); font-weight: 700; }
 
 .page {
+  position: relative;              /* stickers hang off the page itself */
   flex: 1 1 auto;
   min-height: 0;
   overflow: hidden;               /* pages hold what they hold */
@@ -458,6 +459,37 @@ body {
   z-index: 9;
   box-shadow: var(--lift-2);
 }
+
+/* a sticker pasted onto a page: no card, no border, just the cut-out */
+.sticker-img {
+  height: auto;
+  max-width: 70%;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  box-shadow: 0 6px 16px rgba(26, 22, 43, 0.16);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* a sticker you placed yourself: inert until Photos mode, then grabbable */
+body.is-picking .sticker-mine {
+  pointer-events: auto;
+  cursor: grab;
+  outline: 2px dashed var(--lavender);
+  outline-offset: 4px;
+}
+
+body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
+
+.stickerbtn {
+  top: 88px;
+  background: var(--coral);
+  box-shadow: 0 3px 0 #c9403d;
+}
+
+.stickerbtn:active { box-shadow: 0 1px 0 #c9403d; }
 
 /* the ink-outlined chip */
 .tag {
@@ -990,6 +1022,34 @@ body {
   color: var(--ink-soft);
 }
 
+/* the whole twenty-two years, banded across the top of the closing page */
+.pact__photo {
+  margin: 14px 0 0;
+  padding: 6px 6px 4px;
+  background: var(--paper-2);
+  border-radius: 4px;
+  box-shadow: var(--lift-1);
+  transform: rotate(-0.6deg);
+}
+
+.pact__photo .polaroid__img {
+  display: block;
+  width: 100%;
+  aspect-ratio: auto;
+  max-height: calc(var(--page-h) * 0.34);
+  object-fit: cover;
+  object-position: center 45%;
+}
+
+.pact__photo figcaption {
+  margin-top: 6px;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 0.72rem;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
 /* the terms of the friendship, on the spare page of an odd count */
 .pact {
   counter-reset: clause;
@@ -1221,6 +1281,102 @@ body {
   text-transform: uppercase;
   color: var(--ink-faint);
 }
+
+/* a quieter button, for something optional beside the main one */
+.btn--quiet {
+  background: transparent;
+  color: var(--lavender);
+  border: 2px solid var(--lavender);
+  box-shadow: none;
+}
+
+.btn--quiet:active { transform: translateY(1px); }
+
+.addfriend { margin-top: 4px; }
+
+/* the form for adding a friend to the chapter */
+.form label {
+  display: block;
+  margin-top: 12px;
+  font-family: var(--label);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.form input,
+.form textarea {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  padding: 9px 11px;
+  border: 1.5px solid var(--rule);
+  border-radius: 8px;
+  background: var(--paper);
+  box-sizing: border-box;
+  font-family: var(--body);
+  font-size: 0.9rem;
+  color: var(--ink);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.form input:focus,
+.form textarea:focus { outline: 2px solid var(--lavender); border-color: transparent; }
+
+.form textarea { resize: vertical; line-height: 1.55; }
+
+.form__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0 0;
+}
+
+.form__note {
+  margin: 14px 0 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.form__label {
+  margin: 18px 0 0;
+  font-family: var(--label);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.form__list { margin: 6px 0 0; padding: 0; list-style: none; }
+
+.form__list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px dashed var(--rule);
+  font-family: var(--display);
+  font-size: 0.95rem;
+}
+
+.form__list button {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--ink-faint);
+}
+
+.form__list button:hover { color: var(--pink); }
 
 /* ---------- 17. Letters modal ---------- */
 .modal {

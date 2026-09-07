@@ -67,13 +67,13 @@ const SITE = {
     stamp: "★ Certified Best Girl by Board of Besties ★",
     rows: [
       { label: "Being Iconic & Slaying Outfits", pct: 100, shown: "100%" },
-      { label: "Replying to Texts on Time", pct: 15, shown: "15%" },
-      { label: "Drama & Expressive Storytelling", pct: 99, shown: "99%" },
-      { label: "Stealing Food From Everyone's Plate", pct: 92, shown: "92%" },
-      { label: "Loyalty & Love to Her Besties", pct: 100, shown: "∞ INFINITE" },
-      { label: "Winning Arguments She Started", pct: 87, shown: "87%" },
-      { label: "Saying \"I'm Five Minutes Away\"", pct: 96, shown: "96%" },
-      { label: "Actually Being Five Minutes Away", pct: 9, shown: "9%" }
+      { label: "Replying to Texts on Time", pct: 95, shown: "95%" },
+      { label: "Drama & Expressive Storytelling", pct: 90, shown: "90%" },
+      { label: "Stealing Food From Everyone's Plate", pct: 50, shown: "50%" },
+      { label: "Loyalty & Love to Her Besties", pct: 100, shown: "100%" },
+      { label: "Winning Arguments She Started", pct: 75, shown: "75%" },
+      { label: "Saying \"I'm Five Minutes Away\"", pct: 95, shown: "95%" },
+      { label: "Actually Being Five Minutes Away", pct: 95, shown: "95%" }
     ]
   },
 
@@ -306,6 +306,10 @@ const SITE = {
     kicker: "Filed \u00b7 Chapter 03",
     title: "The Pact",
     dek: "Entered into without discussion, and binding on everyone who signed.",
+
+    // the whole twenty-two years across the top of the page
+    photo: "assets/img/life.jpg",
+    photoCaption: "Twenty-two years, all at once.",
     clauses: [
       "Replies may take three days. No one is to bring it up.",
       "Voice notes may run past nine minutes without objection or apology.",
@@ -357,6 +361,21 @@ const SITE = {
     button: "Throw confetti",
     tease: "One last thing before you close it."
   },
+
+  /* ---------- Stickers ----------
+     Pasted onto a page, not laid out with it, so they fill space without
+     pushing the writing about. A sticker whose file is missing simply does
+     not appear, so it is safe to list one before adding the file.
+
+       on:   the spread's id  — cover, lore, gallery, besties, family
+       side: "left" or "right"
+       at:   top-left, top-right, bottom-left, bottom-right, mid-left, mid-right
+       size: share of the page's width (0.18 = 18%)
+       tilt: degrees                                                        */
+  stickers: [
+    // { src: "assets/img/sticker-1.png", on: "lore", side: "right",
+    //   at: "bottom-right", size: 0.2, tilt: -7 },
+  ],
 
   /* ---------- The song on the cover ---------- */
   song: {

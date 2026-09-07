@@ -87,6 +87,53 @@ the bar at the bottom hands back a correctly named copy — save it, drop it int
 When the magazine is finished, delete the `<button class="photobtn" …>` line in
 `index.html` and the button is gone.
 
+## Stickers
+
+`stickers` in `config.js` pastes a cut-out onto a page. It goes *inside* the
+page body, so it scales with everything else, and it is pinned to a corner, so
+it fills space without pushing the writing about.
+
+```js
+{ src: "assets/img/sticker-1.png", on: "lore", side: "right",
+  at: "bottom-right", size: 0.2, tilt: -7 }
+```
+
+`on` is the spread's id (`cover`, `lore`, `gallery`, `besties`, `family`),
+`size` is a share of the page width, `tilt` is in degrees. A sticker whose file
+is missing simply does not appear, so it is safe to list one before adding the
+file. PNGs with transparent backgrounds look best.
+
+## Putting stickers where you want them
+
+Press **Photos**, then **+ Sticker**, and choose the file. It lands on the
+spread you are looking at and from there:
+
+- **drag** it anywhere, including across to the facing page
+- **wheel** over it to make it bigger or smaller
+- **shift + wheel** to tilt it
+- **double-click** to take it off
+
+Position, size and tilt are held as shares of the page, so a sticker stays
+where you put it whatever size the window is. They hang off the page rather
+than sitting inside the writing, so adding one never shrinks the text. Kept in
+this browser, like a chosen photograph.
+
+`stickers` in `config.js` does the same thing permanently, for stickers that
+should reach whoever opens the magazine.
+
+## Adding a friend from the page
+
+The last page of the friends chapter has **+ Add a friend**. Fill in her name,
+her line and her letter and she gets a page of her own, in the chapter, like
+everyone else — the chapter is as long as the list, so it simply grows.
+
+She is kept in this browser, so she stays on that computer. **Copy for
+config.js** hands back the lines to paste into the `besties` list to keep her
+for good, and anyone added can be taken back out from the same form.
+
+Her photograph slot will be empty at first: press **Photos**, click the empty
+frame on her page, and choose the file.
+
 ## Changing everything
 
 **You only need to edit one file: `assets/js/config.js`.** The name, age, the
@@ -120,6 +167,25 @@ Defined in `assets/css/magazine.css`:
 A page is a `.leaf` inside a `<section class="spread">`. Copy a spread, change
 what is inside, and it joins the magazine. `data-section` + `data-blurb` +
 `data-ch` put it in the contents; `data-hide-toc` keeps it out.
+
+## If a change does not show up
+
+The stylesheet and scripts are loaded with a `?v=` tag on the end:
+
+```html
+<link rel="stylesheet" href="assets/css/magazine.css?v=12">
+<script src="assets/js/config.js?v=12"></script>
+<script src="assets/js/magazine.js?v=12"></script>
+```
+
+A browser caches by URL, so while that number stays the same it can keep
+serving the copy it already has, however many times the file has changed
+underneath. **Raise all three numbers whenever the CSS or JS changes**, and
+refresh with **Ctrl+F5**. To check which version you are actually running:
+
+```powershell
+git log --oneline -1
+```
 
 ## Publishing it
 
