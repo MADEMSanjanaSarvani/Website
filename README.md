@@ -87,6 +87,19 @@ the bar at the bottom hands back a correctly named copy — save it, drop it int
 When the magazine is finished, delete the `<button class="photobtn" …>` line in
 `index.html` and the button is gone.
 
+## Adding a friend from the page
+
+The last page of the friends chapter has **+ Add a friend**. Fill in her name,
+her line and her letter and she gets a page of her own, in the chapter, like
+everyone else — the chapter is as long as the list, so it simply grows.
+
+She is kept in this browser, so she stays on that computer. **Copy for
+config.js** hands back the lines to paste into the `besties` list to keep her
+for good, and anyone added can be taken back out from the same form.
+
+Her photograph slot will be empty at first: press **Photos**, click the empty
+frame on her page, and choose the file.
+
 ## Changing everything
 
 **You only need to edit one file: `assets/js/config.js`.** The name, age, the

@@ -722,6 +722,17 @@
     host.className = "reveal";
     host.innerHTML = bestieCard(list[index], index, false);
     wireLetters(host, list);
+
+    /* the last page of the chapter is where it can be made longer */
+    if (index === list.length - 1) {
+      var add = document.createElement("button");
+      add.className = "btn btn--quiet addfriend";
+      add.type = "button";
+      add.textContent = "+ Add a friend";
+      add.addEventListener("click", openFriendForm);
+      var body = el(".bestie__body", host);
+      if (body) body.appendChild(add);
+    }
   };
 
   function wireLetters(host, list) {
@@ -928,6 +939,145 @@
 
     var party = el("[data-confetti]");
     if (party) party.addEventListener("click", function () { confetti(90); });
+  }
+
+  /* ---------- adding a friend to the chapter ----------
+
+     The chapter is as long as the list, so a friend added here becomes a page
+     like any other. Kept in this browser, the same way a chosen photograph is:
+     enough for her to add whoever she likes to her own copy. The form hands
+     back the lines for config.js so an addition can be made permanent. */
+
+  var FRIENDS_STORE = "raveen:friends";
+
+  function addedFriends() {
+    try { return JSON.parse(localStorage.getItem(FRIENDS_STORE) || "[]"); }
+    catch (e) { return []; }
+  }
+
+  function saveFriends(list) {
+    try { localStorage.setItem(FRIENDS_STORE, JSON.stringify(list)); return true; }
+    catch (e) { return false; }
+  }
+
+  /* config.js lines for everyone added here, ready to paste in */
+  function friendsAsConfig(list) {
+    return list.map(function (f) {
+      function q(v) { return JSON.stringify(v || ""); }
+      return "    {\n" +
+        "      name: " + q(f.name) + ",\n" +
+        "      full: " + q(f.full) + ",\n" +
+        "      photo: " + q(f.photo) + ",\n" +
+        "      caption: " + q(f.caption) + ",\n" +
+        "      quote: " + q(f.quote) + ",\n" +
+        "      letter: " + q(f.letter) + "\n" +
+        "    }";
+    }).join(",\n");
+  }
+
+  var friendForm = null;
+
+  function openFriendForm() {
+    if (!friendForm) {
+      friendForm = document.createElement("div");
+      friendForm.className = "modal";
+      friendForm.innerHTML =
+        '<article class="letter form" role="dialog" aria-modal="true">' +
+        '<button class="letter__close" type="button" aria-label="Close">&times;</button>' +
+        '<p class="kicker">Chapter 03 · Best Friends Confidential</p>' +
+        '<h2 class="hed hed--sm">Add a friend</h2>' +
+        '<p class="dek">She gets a page of her own, the same as everyone else.</p>' +
+
+        '<label>Name<input type="text" data-f="name" placeholder="What you call her"></label>' +
+        '<label>Full name<input type="text" data-f="full" placeholder="Shown on the little badge"></label>' +
+        '<label>Her line<input type="text" data-f="quote" placeholder="Something she always says"></label>' +
+        '<label>Photo caption<input type="text" data-f="caption" placeholder="A line under the photograph"></label>' +
+        '<label>The letter<textarea data-f="letter" rows="7" placeholder="Blank lines separate paragraphs."></textarea></label>' +
+
+        '<p class="form__note"></p>' +
+        '<p class="form__row">' +
+        '<button class="btn" type="button" data-save>Add her page</button>' +
+        '<button class="btn btn--quiet" type="button" data-export hidden>Copy for config.js</button>' +
+        "</p>" +
+        '<div data-added></div>' +
+        "</article>";
+      document.body.appendChild(friendForm);
+
+      friendForm.addEventListener("click", function (e) {
+        if (e.target === friendForm || e.target.classList.contains("letter__close")) {
+          friendForm.hidden = true;
+        }
+      });
+
+      el("[data-save]", friendForm).addEventListener("click", function () {
+        var get = function (k) {
+          var f = el('[data-f="' + k + '"]', friendForm);
+          return f ? f.value.trim() : "";
+        };
+        var note = el(".form__note", friendForm);
+
+        if (!get("name")) { note.textContent = "She needs a name at least."; return; }
+
+        var list = addedFriends();
+        list.push({
+          name: get("name"),
+          full: get("full"),
+          quote: get("quote"),
+          caption: get("caption"),
+          letter: get("letter"),
+          photo: "assets/img/friend-" + ((S.besties || []).length + list.length + 1) + ".jpg"
+        });
+
+        if (!saveFriends(list)) {
+          note.textContent = "This browser would not store her. Try removing a photograph first.";
+          return;
+        }
+
+        note.textContent = "Added. Reopening the magazine with her page in it…";
+        setTimeout(function () { location.reload(); }, 700);
+      });
+
+      el("[data-export]", friendForm).addEventListener("click", function () {
+        var text = friendsAsConfig(addedFriends());
+        var note = el(".form__note", friendForm);
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(
+            function () { note.textContent = "Copied. Paste it into the besties list in config.js."; },
+            function () { note.textContent = text; }
+          );
+        } else {
+          note.textContent = text;
+        }
+      });
+    }
+
+    /* everyone added here, with a way to take one back out */
+    var added = addedFriends();
+    var box = el("[data-added]", friendForm);
+    box.innerHTML = added.length
+      ? '<p class="form__label">Added on this computer</p>' +
+        '<ul class="form__list">' + added.map(function (f, i) {
+          return "<li>" + esc(f.name) +
+                 '<button type="button" data-drop="' + i + '" aria-label="Remove">&times;</button></li>';
+        }).join("") + "</ul>"
+      : "";
+
+    el("[data-export]", friendForm).hidden = !added.length;
+
+    all("[data-drop]", box).forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var list = addedFriends();
+        list.splice(+btn.getAttribute("data-drop"), 1);
+        saveFriends(list);
+        location.reload();
+      });
+    });
+
+    el(".form__note", friendForm).textContent =
+      "Saved in this browser, so she stays on this computer. Use Copy for config.js to keep her for good.";
+    friendForm.hidden = false;
+    var first = el("input", friendForm);
+    if (first) first.focus();
   }
 
   /* ---------- putting a photograph in from this computer ----------
@@ -1210,6 +1360,12 @@
 
   function boot() {
     spreads = all(".spread");
+
+    /* anyone added on this computer joins the list before the chapter is
+       built, so she gets a page like everyone else */
+    var extra = addedFriends();
+    if (extra.length) S.besties = (S.besties || []).concat(extra);
+
     buildGallery();
     buildBesties();
     chrome();
