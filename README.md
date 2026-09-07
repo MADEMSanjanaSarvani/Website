@@ -49,12 +49,15 @@ Each friend gets a page of her own, and the chapter grows to fit: the magazine
 copies its template spread as many times as `besties` in `config.js` needs.
 Five friends make a twelve-page issue, seven make fourteen. Pages come in
 facing pairs, so an odd number of friends leaves one page over — it becomes
-**The Pact**, the terms of the friendship, signed and stamped. Its clauses
-live in `pact` in `config.js`; add or remove them and the page re-lays itself.
+**Twenty-Two Years**: the life collage given the whole page, uncropped, with a
+note underneath. Both live in `pact` in `config.js`.
 
 ### The Archive
 
-The photograph album, with a line under every picture. The chapter is as long
+The photograph album, with a line under every picture. Each page is framed
+like an album leaf — a ruled border with photo-corner brackets — and carries
+its own plate numbers, so a sheet of photographs reads as a page rather than a
+dump. The chapter is as long
 as the album: add or remove entries in `gallery.photos` and the magazine makes
 as many spreads as they need, sharing them out evenly so no page holds three
 while its neighbour holds six. Each photograph keeps its own proportions, so

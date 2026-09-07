@@ -692,32 +692,20 @@
     var index = parseInt(leaf && leaf.getAttribute("data-bestie"), 10);
     var kicker = leaf && el(".kicker", leaf);
 
-    /* The page past the last friend closes the chapter. Not a list of names —
-       every one of them already has a page — but the terms they all signed. */
+    /* The page past the last friend closes the chapter: the whole life in one
+       picture, given the whole page, with a note underneath. */
     if (index === list.length) {
       var pact = S.pact || {};
       if (kicker) kicker.textContent = pact.kicker || "Filed";
-      host.className = "reveal";
+      host.className = "reveal lifepage";
       host.innerHTML =
-        '<h2 class="hed hed--sm">' + esc(pact.title || "The Pact") + "</h2>" +
-        (pact.dek ? '<p class="dek">' + esc(pact.dek) + "</p>" : "") +
+        '<h2 class="hed hed--sm">' + esc(pact.title || "Twenty-Two Years") + "</h2>" +
 
         (pact.photo
-          ? '<figure class="pact__photo">' +
-            plate(pact.photo, pact.photo, "") +
-            (pact.photoCaption
-              ? "<figcaption>" + esc(pact.photoCaption) + "</figcaption>" : "") +
-            "</figure>"
+          ? '<figure class="lifepage__photo">' + plate(pact.photo, pact.photo, "") + "</figure>"
           : "") +
 
-        '<ol class="pact">' +
-        (pact.clauses || []).map(function (c) {
-          return "<li>" + esc(c) + "</li>";
-        }).join("") +
-        "</ol>" +
-
-        '<p class="pact__sign">' + esc(pact.signature || "") + "</p>" +
-        '<p class="pact__seal">' + esc(pact.seal || "") + "</p>";
+        (pact.note ? '<p class="lifepage__note">' + esc(pact.note) + "</p>" : "");
       return;
     }
 
@@ -781,6 +769,10 @@
 
     var sizes = galleryPages(list.length);
     var wanted = sizes.length / 2;
+
+    /* Copy the template before anything is written into it: cloning it later
+       would carry the first page's plate numbers onto every other page. */
+    var blank = template.cloneNode(true);
     var previous = template;
     var lastLeaf = null;
     var from = 0;
@@ -789,7 +781,7 @@
       var sp = template;
 
       if (i > 0) {
-        sp = template.cloneNode(true);
+        sp = blank.cloneNode(true);
         sp.id = "gallery-" + (i + 1);
         sp.setAttribute("data-hide-toc", "");   // one contents line for the chapter
         sp.removeAttribute("data-blurb");
@@ -807,6 +799,19 @@
 
         host.setAttribute("data-from", from);
         host.setAttribute("data-to", from + count);
+
+        /* Album pages: give each one its own line, so a page is a page of the
+           album and not an unlabelled sheet of photographs. */
+        leaf.classList.add("leaf--album");
+
+        if (!el("[data-gallery-head]", leaf)) {
+          var line = document.createElement("p");
+          line.className = "kicker reveal";
+          line.textContent = "The Archive \u00b7 Plates " +
+            pad(from + 1) + "\u2013" + pad(from + count);
+          host.parentNode.insertBefore(line, host);
+        }
+
         from += count;
         lastLeaf = leaf;
       });

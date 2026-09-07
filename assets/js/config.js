@@ -301,28 +301,16 @@ const SITE = {
 
   /* ---------- The closing page of Chapter Three ----------
      Used when the number of friends is odd and one page is left over.
-     Change any clause; add or remove them and the page re-lays itself. */
+     The whole page is the picture, with a note underneath. */
   pact: {
     kicker: "Filed \u00b7 Chapter 03",
-    title: "The Pact",
-    dek: "Entered into without discussion, and binding on everyone who signed.",
-
-    // the whole twenty-two years across the top of the page
+    title: "Twenty-Two Years",
     photo: "assets/img/life.jpg",
-    photoCaption: "Twenty-two years, all at once.",
-    clauses: [
-      "Replies may take three days. No one is to bring it up.",
-      "Voice notes may run past nine minutes without objection or apology.",
-      "Anything confessed after midnight is sealed, and may not be produced " +
-        "as evidence in a later argument.",
-      "Plans may be cancelled twice. On the third attempt somebody has to " +
-        "actually leave the house.",
-      "Distance, jobs, time zones and marriage are hereby declared irrelevant.",
-      "This agreement carries no expiry date and cannot be terminated, " +
-        "including by moving cities without telling anyone."
-    ],
-    seal: "Certified \u00b7 Board of Besties",
-    signature: "Signed, unanimously, by everyone who has ever rung her at 1 AM."
+    note:
+      "The little girl with big dreams, the school mornings, the hostel " +
+      "years, the late nights and deep talks, the first salary, the girl " +
+      "who did it \u2014 every version of her, all on one page. Twenty-two " +
+      "years of becoming exactly who she is."
   },
 
   /* ---------- Chapter Three · Family ---------- */
