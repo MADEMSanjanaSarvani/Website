@@ -623,14 +623,17 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
   aspect-ratio: auto;          /* the polaroid owns the shape */
   max-height: none;            /* the stage already bounds it */
   object-fit: cover;
+  object-position: center 18%;
 }
 
 /* the name plate laid over the foot of the cover photograph */
+/* The plate rides at the foot of the photograph, so it has to stay shallow:
+   set any taller and it covers the face it is captioning. */
 .cover__plate {
   position: absolute;
-  inset: auto 12px 46px;
+  inset: auto 10px 12px;
   z-index: 4;
-  padding: 12px 14px;
+  padding: 8px 11px;
   background: linear-gradient(to top, rgba(26, 22, 43, 0.94) 35%, rgba(26, 22, 43, 0.6));
   color: #fff;
   text-align: left;
@@ -639,7 +642,7 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 .cover__plate small {
   display: block;
   font-family: var(--label);
-  font-size: 0.55rem;
+  font-size: 0.48rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -648,16 +651,17 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 
 .cover__plate b {
   display: block;
-  margin: 3px 0 2px;
+  margin: 2px 0 1px;
   font-family: var(--display);
-  font-size: 1.05rem;
+  font-size: 0.86rem;
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.14;
 }
 
 .cover__plate i {
   font-family: var(--display);
-  font-size: 0.8rem;
+  font-size: 0.66rem;
+  line-height: 1.25;
   color: rgba(255, 255, 255, 0.82);
 }
 

@@ -373,8 +373,14 @@ const SITE = {
        size: share of the page's width (0.18 = 18%)
        tilt: degrees                                                        */
   stickers: [
-    // { src: "assets/img/sticker-1.png", on: "lore", side: "right",
-    //   at: "bottom-right", size: 0.2, tilt: -7 },
+    { src: "assets/img/sticker-birthday.png", on: "family", side: "right",
+      at: "top-left", size: 0.12, tilt: -8 },
+    { src: "assets/img/sticker-graduate.png", on: "lore",   side: "left",
+      at: "bottom-right", size: 0.17, tilt: 4 },
+    { src: "assets/img/sticker-bouquet.png",  on: "family", side: "left",
+      at: "bottom-right", size: 0.17, tilt: -6 },
+    { src: "assets/img/sticker-bow.png",      on: "family", side: "right",
+      at: "top-right", size: 0.22, tilt: 5 }
   ],
 
   /* ---------- The song on the cover ---------- */
