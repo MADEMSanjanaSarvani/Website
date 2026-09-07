@@ -150,6 +150,25 @@ A page is a `.leaf` inside a `<section class="spread">`. Copy a spread, change
 what is inside, and it joins the magazine. `data-section` + `data-blurb` +
 `data-ch` put it in the contents; `data-hide-toc` keeps it out.
 
+## If a change does not show up
+
+The stylesheet and scripts are loaded with a `?v=` tag on the end:
+
+```html
+<link rel="stylesheet" href="assets/css/magazine.css?v=12">
+<script src="assets/js/config.js?v=12"></script>
+<script src="assets/js/magazine.js?v=12"></script>
+```
+
+A browser caches by URL, so while that number stays the same it can keep
+serving the copy it already has, however many times the file has changed
+underneath. **Raise all three numbers whenever the CSS or JS changes**, and
+refresh with **Ctrl+F5**. To check which version you are actually running:
+
+```powershell
+git log --oneline -1
+```
+
 ## Publishing it
 
 Static site, so anything works. Quickest is GitHub Pages:
