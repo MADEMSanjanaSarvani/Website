@@ -106,6 +106,33 @@ it fills space without pushing the writing about.
 is missing simply does not appear, so it is safe to list one before adding the
 file. PNGs with transparent backgrounds look best.
 
+## A design for each page
+
+`pageStyles` in `config.js` gives a spread a look of its own:
+
+```js
+pageStyles: {
+  gallery: "scrapbook"
+}
+```
+
+The ids are `cover`, `lore`, `gallery`, `besties`, `family`. A generated spread
+(`gallery-3`, `besties-2`) follows the one it was copied from, so a chapter
+stays of a piece. Leave a spread out and it keeps the magazine's own
+cream-and-pink look.
+
+Three themes so far:
+
+| Theme | What it looks like |
+| --- | --- |
+| `scrapbook` | photographs taped onto black card, handwritten captions |
+| `beige` | a collage on tan paper, black frames, sweeping white arcs |
+| `card` | a keepsake album, maroon mounts on warm ruled paper |
+
+Each theme is one self-contained block in `magazine.css` under **Page
+designs** — adding another is one block there and one line here. Nothing else
+in the magazine is touched by any of them.
+
 ## Putting stickers where you want them
 
 Press **Photos**, then **+ Sticker**, and choose the file. It lands on the

@@ -77,6 +77,22 @@ const SITE = {
     ]
   },
 
+  /* ---------- A design for each page ----------
+     Give a spread a look of its own by naming a theme against its id. A
+     generated spread (gallery-3, besties-2) follows the one it was copied
+     from, so a chapter stays of a piece. Leave a spread out and it keeps the
+     magazine's own cream-and-pink look.
+
+     Themes available so far:
+       "scrapbook"  photographs taped onto black card, handwritten captions
+       "beige"      a collage on tan paper, black frames, sweeping white arcs
+       "card"       a keepsake album, maroon mounts on warm ruled paper
+
+     The ids are: cover, lore, gallery, besties, family.                    */
+  pageStyles: {
+    gallery: "scrapbook"
+  },
+
   /* ---------- Chapter Two · The Archive ----------
      A gallery spread. Add or remove filenames and the grid re-lays itself;
      four to a page reads best. Any file in assets/img/ can go here. */

@@ -1483,6 +1483,45 @@
     "mid-right":    { top: "44%", right: "2%" }
   };
 
+  /* ---------- page designs ----------
+
+     A spread can be given a look of its own. `pageStyles` maps a spread's id
+     to a theme; a generated spread (gallery-3, besties-2) takes the same look
+     as the one it was copied from, so a chapter stays of a piece. */
+
+  function dressThemes() {
+    var styles = S.pageStyles || {};
+
+    all(".spread").forEach(function (sp) {
+      var id = sp.id || "";
+      var base = id.replace(/-\d+$/, "");          // gallery-3 -> gallery
+      var theme = styles[id] || styles[base];
+      if (!theme) return;
+
+      sp.setAttribute("data-theme", theme);
+      all(".leaf", sp).forEach(function (leaf) {
+        leaf.classList.add("theme--" + theme);
+      });
+    });
+  }
+
+  /* Butterflies belong to the page, not the page body, so they decorate
+     without being measured. This runs after the pages are dressed — at the
+     time the chapter is built the leaves have no .page to hang them on. */
+  function dressAlbumPages() {
+    all(".leaf--album .page, .leaf[class*='theme--'] .page").forEach(function (page) {
+      if (el(".album-mark", page)) return;
+      [["a", "\u2661"], ["b", "\u2661"], ["c", "\u2726"], ["d", "\u2727"]]
+        .forEach(function (pair) {
+          var mark = document.createElement("span");
+          mark.className = "album-mark album-mark--" + pair[0];
+          mark.setAttribute("aria-hidden", "true");
+          mark.textContent = pair[1];
+          page.appendChild(mark);
+        });
+    });
+  }
+
   function placeStickers() {
     (S.stickers || []).forEach(function (st) {
       var sp = document.getElementById(st.on);
@@ -1645,6 +1684,8 @@
       guardPhotos();
       shapePhotos();
       paginate();
+      dressThemes();
+      dressAlbumPages();
       placeStickers();
       drawMyStickers();
       refit();
