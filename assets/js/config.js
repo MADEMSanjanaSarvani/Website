@@ -98,6 +98,7 @@ const SITE = {
       { src: "assets/img/gallery-32.jpg", caption: "Every colour suits her." },
       { src: "assets/img/gallery-26.jpg", caption: "Six yards and all that grace." },
       { src: "assets/img/about.jpg", caption: "Caught being soft." },
+      { src: "assets/img/gallery-10.jpg", caption: "Saree days on our street." },
       { src: "assets/img/gallery-11.jpg", caption: "One more, just in case." },
       { src: "assets/img/gallery-13.jpg", caption: "Butterflies and best friends." },
       { src: "assets/img/gallery-14.jpg", caption: "Drawn, because a photo wasn’t enough." },
