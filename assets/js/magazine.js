@@ -1511,6 +1511,8 @@
   function dressAlbumPages() {
     all(".leaf--album .page, .leaf[class*='theme--'] .page").forEach(function (page) {
       if (el(".album-mark", page)) return;
+
+      /* the doodles every theme gets */
       [["a", "\u2661"], ["b", "\u2661"], ["c", "\u2726"], ["d", "\u2727"]]
         .forEach(function (pair) {
           var mark = document.createElement("span");
@@ -1519,6 +1521,39 @@
           mark.textContent = pair[1];
           page.appendChild(mark);
         });
+
+      /* and the furniture a scrapbook page is made of: torn paper under the
+         photographs, a note pinned at the edge, a clip, a daisy, loose tape */
+      var leaf = page.closest(".leaf");
+      if (!leaf || !leaf.classList.contains("theme--scrapbook")) return;
+
+      var deco = document.createElement("div");
+      deco.className = "sb";
+      deco.setAttribute("aria-hidden", "true");
+      deco.innerHTML =
+        '<div class="sb__torn sb__torn--one"><p class="sb__print">' +
+          esc(S.scrapbookPrint || "memories are made of little moments. the quiet " +
+              "mornings, late nights, beautiful smiles and the people who make " +
+              "every ordinary day special.") +
+        "</p></div>" +
+
+        '<div class="sb__torn sb__torn--two"></div>' +
+
+        '<div class="sb__tape sb__tape--one"></div>' +
+        '<div class="sb__tape sb__tape--two"></div>' +
+
+        '<div class="sb__note"><p>' +
+          esc(S.scrapbookNote || "good things\ntake time") +
+          '<span class="sb__note-heart">\u2661</span></p></div>' +
+
+        '<div class="sb__clip"></div>' +
+
+        '<div class="sb__daisy">' +
+          new Array(9).join('<i class="sb__petal"></i>') +
+          '<span class="sb__daisy-eye"></span>' +
+        "</div>";
+
+      page.appendChild(deco);
     });
   }
 

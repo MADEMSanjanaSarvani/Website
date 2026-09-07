@@ -1007,7 +1007,7 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
   display: block;
   width: auto;
   max-width: 100%;
-  height: calc(var(--page-h) * 0.4);
+  height: calc(var(--page-h) * 0.44);
   max-height: none;
   object-fit: cover;
   object-position: center 22%;
@@ -1051,79 +1051,244 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 .album-mark--d { bottom: 26%; right: 4%;  font-size: clamp(16px, 2.4vh, 26px); opacity: .8; }
 
 
-/* ================= 1. scrapbook — photographs on black card ================= */
+/* ========= 1. scrapbook — the same warm paper as the rest of the book ========
+   A scrapbook laid on the magazine's own stock, so the chapter belongs to the
+   issue: kraft and cream and hot pink, handwriting for the captions. */
 
 .theme--scrapbook {
-  --sb-card: #e7d9c5;
-  --sb-tape: #cdbda5;
+  --sb-card: #ffffff;      /* the mount under a photograph */
+  --sb-tape: #e8d9bd;      /* washi */
+  --sb-kraft: #e7d8c2;     /* torn paper */
+  --sb-note: #fdf3dd;      /* the note pad */
+
   background:
-    radial-gradient(circle at 20% 15%, rgba(255,255,255,.06), transparent 22%),
-    radial-gradient(circle at 76% 62%, rgba(255,255,255,.05), transparent 26%),
-    #101010;
-  color: #f0e6d7;
+    radial-gradient(circle at 20% 15%, #fffdf8 0%, transparent 34%),
+    radial-gradient(circle at 78% 76%, #fff8ef 0%, transparent 32%),
+    var(--paper);
 }
 
+/* the faint grain of pressed paper */
 .theme--scrapbook .page::before {
   content: ""; position: absolute; inset: 0; opacity: .5; pointer-events: none;
-  background-image: repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,.045) 4px);
+  background-image: repeating-linear-gradient(0deg, transparent 0 3px, rgba(120,95,70,.05) 4px);
 }
 
+/* a torn, hand-drawn edge to finish the page */
 .theme--scrapbook .page::after {
   content: ""; position: absolute; inset: 14px 16px; pointer-events: none;
-  border: 1.5px dashed rgba(240,230,215,.3);
+  border: 1.5px dashed rgba(90, 70, 55, .28);
   border-radius: 36px 12px 32px 14px;
 }
 
-.theme--scrapbook .runninghead { color: rgba(240,230,215,.72); border-bottom-color: rgba(240,230,215,.18); }
-.theme--scrapbook .folio { color: rgba(240,230,215,.6); border-top-color: rgba(240,230,215,.18); }
-.theme--scrapbook .folio__no { color: var(--sb-card); }
-.theme--scrapbook .kicker { color: var(--sb-tape); }
-.theme--scrapbook .kicker::after { background: rgba(240,230,215,.28); }
-.theme--scrapbook .byline { color: rgba(240,230,215,.6); }
+.theme--scrapbook .kicker { color: var(--pink-deep); }
 
 .theme--scrapbook .hed {
-  font-family: "Caveat", cursive;
+  font-family: "Caveat", "Great Vibes", var(--display), cursive;
   font-weight: 600;
-  font-size: clamp(2.4rem, 4.6vw, 3.4rem);
-  color: var(--sb-card);
+  font-size: clamp(2.6rem, 5vw, 3.6rem);
+  color: var(--ink);
 }
 
 .theme--scrapbook .dek {
   font-family: "Patrick Hand", cursive;
-  font-size: 1.02rem;
-  color: rgba(240,230,215,.82);
+  font-size: 1.05rem;
+  color: var(--ink-soft);
 }
 
 .theme--scrapbook .shot {
   background: var(--sb-card);
   padding: 11px 11px 10px;
-  box-shadow: 0 8px 16px rgba(0,0,0,.45);
+  box-shadow: 0 6px 14px rgba(90, 70, 55, .22);
 }
 
 /* a strip of washi tape over the top of every one */
 .theme--scrapbook .shot::before {
   content: ""; position: absolute; top: -9px; left: 50%;
   width: 58%; height: 19px; margin-left: -29%;
-  transform: rotate(-3deg); opacity: .92;
-  box-shadow: 0 1px 2px rgba(0,0,0,.35);
+  transform: rotate(-3deg); opacity: .95;
+  box-shadow: 0 1px 2px rgba(90,70,55,.22);
   background:
-    radial-gradient(circle, rgba(80,60,40,.16) 1px, transparent 1px) 0 0/5px 5px,
-    repeating-linear-gradient(90deg, rgba(255,255,255,.12) 0 4px, transparent 4px 8px),
+    radial-gradient(circle, rgba(120,95,70,.16) 1px, transparent 1px) 0 0/5px 5px,
+    repeating-linear-gradient(90deg, rgba(255,255,255,.45) 0 4px, transparent 4px 8px),
     var(--sb-tape);
 }
 
 .theme--scrapbook .shot:nth-child(even)::before { transform: rotate(4deg); }
 
 .theme--scrapbook .shot figcaption {
-  font-family: "Caveat", cursive;
+  font-family: "Caveat", "Patrick Hand", var(--display), cursive;
   font-style: normal;
-  font-size: 1.05rem;
+  font-size: 1.08rem;
   line-height: 1.15;
-  color: #191919;
+  color: var(--ink);
   max-width: 18ch;
 }
 
-.theme--scrapbook .album-mark { font-family: "Caveat", cursive; color: rgba(240,230,215,.85); }
+.theme--scrapbook .album-mark { font-family: "Caveat", cursive; color: var(--pink-soft); }
+
+/* --- the furniture of a scrapbook page --- */
+
+/* the photographs sit above whatever is laid down first */
+.leaf--album .page__inner { position: relative; z-index: 2; }
+
+.sb { position: absolute; inset: 0; pointer-events: none; }
+
+/* torn kraft paper, laid down before the photographs */
+.sb__torn {
+  position: absolute;
+  z-index: 1;
+  background: var(--sb-kraft, #e7d8c2);
+  opacity: .95;
+}
+
+.sb__torn--one {
+  width: 34%; height: 19%;
+  left: -8%; bottom: 3%;
+  transform: rotate(-3deg);
+  clip-path: polygon(0 8%, 5% 5%, 12% 8%, 20% 4%, 30% 7%, 42% 4%, 54% 8%,
+    66% 4%, 78% 7%, 90% 3%, 100% 8%, 96% 92%, 85% 89%, 75% 94%, 63% 90%,
+    51% 95%, 40% 90%, 28% 94%, 16% 90%, 5% 94%);
+}
+
+.sb__torn--two {
+  width: 27%; height: 15%;
+  right: -7%; top: 2%;
+  transform: rotate(3deg);
+  opacity: .55;
+  clip-path: polygon(0 5%, 12% 8%, 23% 3%, 34% 7%, 45% 4%, 58% 8%, 70% 3%,
+    82% 7%, 100% 4%, 97% 95%, 85% 91%, 72% 96%, 60% 92%, 45% 96%, 30% 92%,
+    17% 97%, 3% 91%);
+}
+
+/* the small print on the torn page */
+.sb__print {
+  position: absolute;
+  left: 14%; top: 20%;
+  width: 68%;
+  margin: 0;
+  transform: rotate(-3deg);
+  font-family: Georgia, serif;
+  font-size: clamp(6px, 1.1vh, 10px);
+  line-height: 1.45;
+  color: #6b5646;
+  opacity: .8;
+}
+
+/* loose strips of tape, not on anything in particular */
+.sb__tape {
+  position: absolute;
+  z-index: 4;
+  width: 15%; height: 3.4%;
+  opacity: .85;
+  box-shadow: 0 1px 2px rgba(0,0,0,.25);
+  background:
+    radial-gradient(circle, rgba(120,95,70,.15) 1px, transparent 1px) 0 0/5px 5px,
+    repeating-linear-gradient(90deg, rgba(255,255,255,.45) 0 4px, transparent 4px 8px),
+    var(--sb-tape, #e8d9bd);
+}
+
+.sb__tape--one { left: 1.5%; top: 44%; transform: rotate(-74deg); }
+.sb__tape--two { right: 1.5%; top: 30%; transform: rotate(76deg); }
+
+/* a note torn from a pad, holes down its edge */
+.sb__note {
+  position: absolute;
+  z-index: 7;
+  right: 4%; bottom: 4%;
+  width: 13%;
+  padding: 8% 3% 4%;
+  transform: rotate(4deg);
+  box-shadow: 0 5px 10px rgba(90,70,55,.22);
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 13px, rgba(120,95,70,.16) 14px),
+    var(--sb-note, #fdf3dd);
+  clip-path: polygon(3% 0, 95% 3%, 97% 18%, 94% 35%, 98% 50%, 95% 70%,
+    99% 85%, 94% 100%, 5% 97%, 2% 85%, 5% 70%, 2% 55%, 5% 40%, 2% 20%);
+}
+
+.sb__note p {
+  margin: 0;
+  font-family: "Caveat", "Patrick Hand", cursive;
+  font-size: clamp(11px, 2vh, 21px);
+  line-height: 1.15;
+  text-align: center;
+  color: #191919;
+  white-space: pre-line;
+}
+
+.sb__note-heart { display: block; margin-top: 3px; font-size: 1.15em; }
+
+/* the punched holes */
+.sb__note::before {
+  content: "";
+  position: absolute;
+  left: -3%; top: 12%;
+  width: 8%; aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: 0 190% var(--paper), 0 380% var(--paper), 0 570% var(--paper),
+              inset 0 1px 2px rgba(90,70,55,.28);
+}
+
+/* a paper clip over the top edge */
+.sb__clip {
+  position: absolute;
+  z-index: 8;
+  right: 3%; top: 1.5%;
+  width: 3.2%; height: 9%;
+  border: 3px solid #c3a882;
+  border-bottom: none;
+  border-radius: 40% 40% 0 0;
+  transform: rotate(5deg);
+}
+
+.sb__clip::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 14%;
+  width: 68%; height: 78%;
+  border: 2px solid #806b4f;
+  border-bottom: none;
+  border-radius: 40% 40% 0 0;
+}
+
+/* a daisy, dropped in a corner */
+.sb__daisy {
+  position: absolute;
+  z-index: 6;
+  left: 3%; bottom: 5%;
+  width: 7.5%; aspect-ratio: 1;
+}
+
+.sb__petal {
+  position: absolute;
+  left: 34%; top: 18%;
+  width: 32%; height: 46%;
+  border-radius: 50%;
+  background: #fffaf0;
+  box-shadow: 0 1px 2px rgba(90,70,55,.16);
+  transform-origin: 50% 100%;
+}
+
+.sb__petal:nth-child(1) { transform: rotate(0deg)   translateY(-58%); }
+.sb__petal:nth-child(2) { transform: rotate(45deg)  translateY(-58%); }
+.sb__petal:nth-child(3) { transform: rotate(90deg)  translateY(-58%); }
+.sb__petal:nth-child(4) { transform: rotate(135deg) translateY(-58%); }
+.sb__petal:nth-child(5) { transform: rotate(180deg) translateY(-58%); }
+.sb__petal:nth-child(6) { transform: rotate(225deg) translateY(-58%); }
+.sb__petal:nth-child(7) { transform: rotate(270deg) translateY(-58%); }
+.sb__petal:nth-child(8) { transform: rotate(315deg) translateY(-58%); }
+
+.sb__daisy-eye {
+  position: absolute;
+  left: 34%; top: 34%;
+  width: 32%; aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, #b27a17, #d39b35 55%, #9a6411);
+}
+
+/* only the scrapbook has furniture */
+.theme--beige .sb, .theme--card .sb { display: none; }
 
 
 /* ============ 2. beige — a collage on tan paper, black frames ============ */
