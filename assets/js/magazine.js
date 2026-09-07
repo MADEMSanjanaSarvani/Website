@@ -1255,6 +1255,49 @@
     });
   }
 
+  /* ---------- stickers ----------
+
+     A sticker is pasted onto a page rather than laid out with it: it goes
+     inside the page body, so it is carried by the same scaling as everything
+     else, and it is pinned to a corner so it never pushes the writing about.
+     A sticker whose file is missing removes itself rather than leaving a
+     labelled hole where a decoration should be. */
+
+  var CORNERS = {
+    "top-left":     { top: "4%",  left: "3%" },
+    "top-right":    { top: "4%",  right: "3%" },
+    "bottom-left":  { bottom: "4%", left: "3%" },
+    "bottom-right": { bottom: "4%", right: "3%" },
+    "mid-left":     { top: "44%", left: "2%" },
+    "mid-right":    { top: "44%", right: "2%" }
+  };
+
+  function placeStickers() {
+    (S.stickers || []).forEach(function (st) {
+      var sp = document.getElementById(st.on);
+      if (!sp) return;
+
+      var leaves = all(".leaf", sp);
+      var leaf = st.side === "right" ? leaves[1] : leaves[0];
+      var inner = leaf && el(".page__inner", leaf);
+      if (!inner) return;
+
+      var img = document.createElement("img");
+      img.className = "sticker--float sticker-img";
+      img.src = st.src;
+      img.alt = "";
+      img.addEventListener("error", function () { img.remove(); });
+
+      var spot = CORNERS[st.at] || CORNERS["bottom-right"];
+      Object.keys(spot).forEach(function (k) { img.style[k] = spot[k]; });
+
+      img.style.width = (st.size || 0.18) * 100 + "%";
+      img.style.transform = "rotate(" + (st.tilt == null ? -6 : st.tilt) + "deg)";
+
+      inner.appendChild(img);
+    });
+  }
+
   /* ---------- a missing photograph falls back to its labelled slot ---------- */
 
   function guardPhotos(root) {
@@ -1391,6 +1434,7 @@
       guardPhotos();
       shapePhotos();
       paginate();
+      placeStickers();
       numberPages();
       syncChrome();
       watchWindow();

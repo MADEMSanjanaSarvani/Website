@@ -459,6 +459,19 @@ body {
   box-shadow: var(--lift-2);
 }
 
+/* a sticker pasted onto a page: no card, no border, just the cut-out */
+.sticker-img {
+  height: auto;
+  max-width: 40%;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  box-shadow: 0 6px 16px rgba(26, 22, 43, 0.16);
+  pointer-events: none;
+  user-select: none;
+}
+
 /* the ink-outlined chip */
 .tag {
   display: inline-block;

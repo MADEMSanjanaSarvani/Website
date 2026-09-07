@@ -87,6 +87,22 @@ the bar at the bottom hands back a correctly named copy — save it, drop it int
 When the magazine is finished, delete the `<button class="photobtn" …>` line in
 `index.html` and the button is gone.
 
+## Stickers
+
+`stickers` in `config.js` pastes a cut-out onto a page. It goes *inside* the
+page body, so it scales with everything else, and it is pinned to a corner, so
+it fills space without pushing the writing about.
+
+```js
+{ src: "assets/img/sticker-1.png", on: "lore", side: "right",
+  at: "bottom-right", size: 0.2, tilt: -7 }
+```
+
+`on` is the spread's id (`cover`, `lore`, `gallery`, `besties`, `family`),
+`size` is a share of the page width, `tilt` is in degrees. A sticker whose file
+is missing simply does not appear, so it is safe to list one before adding the
+file. PNGs with transparent backgrounds look best.
+
 ## Adding a friend from the page
 
 The last page of the friends chapter has **+ Add a friend**. Fill in her name,

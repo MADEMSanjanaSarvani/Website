@@ -358,6 +358,21 @@ const SITE = {
     tease: "One last thing before you close it."
   },
 
+  /* ---------- Stickers ----------
+     Pasted onto a page, not laid out with it, so they fill space without
+     pushing the writing about. A sticker whose file is missing simply does
+     not appear, so it is safe to list one before adding the file.
+
+       on:   the spread's id  — cover, lore, gallery, besties, family
+       side: "left" or "right"
+       at:   top-left, top-right, bottom-left, bottom-right, mid-left, mid-right
+       size: share of the page's width (0.18 = 18%)
+       tilt: degrees                                                        */
+  stickers: [
+    // { src: "assets/img/sticker-1.png", on: "lore", side: "right",
+    //   at: "bottom-right", size: 0.2, tilt: -7 },
+  ],
+
   /* ---------- The song on the cover ---------- */
   song: {
     title: "Our song",
