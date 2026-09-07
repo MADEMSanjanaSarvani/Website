@@ -49,7 +49,8 @@ Each friend gets a page of her own, and the chapter grows to fit: the magazine
 copies its template spread as many times as `besties` in `config.js` needs.
 Five friends make a twelve-page issue, seven make fourteen. Pages come in
 facing pairs, so an odd number of friends leaves one page over — it becomes
-the chapter's closing roll call rather than a blank.
+**The Pact**, the terms of the friendship, signed and stamped. Its clauses
+live in `pact` in `config.js`; add or remove them and the page re-lays itself.
 
 ### The Archive
 

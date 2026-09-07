@@ -690,32 +690,24 @@
     var index = parseInt(leaf && leaf.getAttribute("data-bestie"), 10);
     var kicker = leaf && el(".kicker", leaf);
 
-    /* The page past the last friend closes the chapter: a roll call of
-       everyone in it, so the spare half of the spread is a page in its own
-       right rather than a stray quotation on an empty sheet. */
+    /* The page past the last friend closes the chapter. Not a list of names —
+       every one of them already has a page — but the terms they all signed. */
     if (index === list.length) {
-      if (kicker) kicker.textContent = "Filed \u00b7 Chapter 02";
+      var pact = S.pact || {};
+      if (kicker) kicker.textContent = pact.kicker || "Filed";
       host.className = "reveal";
       host.innerHTML =
-        '<h2 class="hed hed--sm">' + esc(S.bestiesRollTitle || "The Board of Besties") + "</h2>" +
+        '<h2 class="hed hed--sm">' + esc(pact.title || "The Pact") + "</h2>" +
+        (pact.dek ? '<p class="dek">' + esc(pact.dek) + "</p>" : "") +
 
-        '<ol class="rollcall">' +
-        list.map(function (b, n) {
-          return "<li><span class=\"rollcall__no\">" + pad(n + 1) + "</span>" +
-                 '<span class="rollcall__name">' + esc(b.name) + "</span>" +
-                 '<span class="rollcall__full">' + esc(b.full || "") + "</span></li>";
+        '<ol class="pact">' +
+        (pact.clauses || []).map(function (c) {
+          return "<li>" + esc(c) + "</li>";
         }).join("") +
         "</ol>" +
 
-        '<div class="quotebox" style="margin-top:18px">' +
-        "<p>" + esc(S.bestiesClosing ||
-          "Between them they have covered every era, every haircut and every " +
-          "questionable decision. No notes.") + "</p>" +
-        "<cite>&mdash; " + esc(S.bestiesClosingBy || "Filed by the Board of Besties") +
-        "</cite></div>" +
-
-        '<p class="byline" style="margin-top:16px">' +
-        esc("Chapter 02 \u00b7 " + list.length + " entries \u00b7 all verified") + "</p>";
+        '<p class="pact__sign">' + esc(pact.signature || "") + "</p>" +
+        '<p class="pact__seal">' + esc(pact.seal || "") + "</p>";
       return;
     }
 

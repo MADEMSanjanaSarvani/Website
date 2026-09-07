@@ -298,12 +298,27 @@ const SITE = {
     }
   ],
 
-  // the chapter's closing page, used when the number of friends is odd
-  bestiesRollTitle: "The Board of Besties",
-  bestiesClosing:
-    "Between them they have covered every era, every haircut and every " +
-    "questionable decision. No notes.",
-  bestiesClosingBy: "Filed by the Board of Besties",
+  /* ---------- The closing page of Chapter Three ----------
+     Used when the number of friends is odd and one page is left over.
+     Change any clause; add or remove them and the page re-lays itself. */
+  pact: {
+    kicker: "Filed \u00b7 Chapter 03",
+    title: "The Pact",
+    dek: "Entered into without discussion, and binding on everyone who signed.",
+    clauses: [
+      "Replies may take three days. No one is to bring it up.",
+      "Voice notes may run past nine minutes without objection or apology.",
+      "Anything confessed after midnight is sealed, and may not be produced " +
+        "as evidence in a later argument.",
+      "Plans may be cancelled twice. On the third attempt somebody has to " +
+        "actually leave the house.",
+      "Distance, jobs, time zones and marriage are hereby declared irrelevant.",
+      "This agreement carries no expiry date and cannot be terminated, " +
+        "including by moving cities without telling anyone."
+    ],
+    seal: "Certified \u00b7 Board of Besties",
+    signature: "Signed, unanimously, by everyone who has ever rung her at 1 AM."
+  },
 
   /* ---------- Chapter Three · Family ---------- */
   familyTitle: "Pillars of Strength",
