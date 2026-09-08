@@ -204,11 +204,34 @@ const SITE = {
       name: "Bhavya",
       full: "Bhavya Patel",
       photo: "assets/img/bhavya.jpg",
-      caption: "Partner in every bad decision.",
-      quote: "We do not talk about what happened last year.",
+      caption: "The first friend college gave me.",
+      quote: "Some friends feel like home antaru ga \u2014 adhi nuvvey.",
       letter:
-        "You are dramatic and I would not change a thing.\n\nHappy birthday to " +
-        "the loudest, funniest, most impossible person I know."
+        "Hoi raveen \u2764\ufe0f... firstly wish you a very happy birthday. Na life lo nenu okaru " +
+        "chala bagundali anukuney vallalo nuvvu kachithamga oka dhanivii\ud83d\ude07 Nuvvu nee " +
+        "life lo eppudu success ayina first claps kotti santhosam ga feel ayyedhi " +
+        "neney\ud83d\ude18\u2728\ufe0flove you sooo much... and thanks making me feel warmth \u2764\ufe0f  one of the " +
+        "reasons nee valley na clg life meaningfull ga marindhiii\ud83d\ude18 you and sanju are my " +
+        "jaaan jigiriess\ud83d\ude18 and you guys gave gift that is sreehitha\u2764\ufe0f a pure soul and " +
+        "two more akshaya and priyaa\u2764\ufe0f such a sweet frnds.. chaaaaala pedda thanks " +
+        "naaku kudaa manchi friends unnaru ani dhairiyam ga cheppukoniki meeru unnaru " +
+        "naaaku chaalu... inka nuvvu naaku eppudu chala speacial nuvvey clg lo first " +
+        "frnd \u2764\ufe0f and till now the bessstesttest frnd\ud83e\udd70sorry nenu kachithamga ninnu hurt " +
+        "chesa starting lo but ala ayipoindhii adhi \ud83e\udd72 and i promise that i will never " +
+        "gonna leave you in rest of my reamaining years left... Nuvvu chala success " +
+        "avvali nee life lo neeku kavalsinavi anni neeku dhakkali manchi husband " +
+        "raavali manchiga chuskovalii ninnu \ud83e\udd70  inkaa neetho unta chala navvutha chaala " +
+        "share cheskovachu asalu eppudu frnd anipinchala frnd kanna chala ekkuva ippudu " +
+        "mee family anteyna ma intlovallaki kuda chala ekkuva \u2764\ufe0f\ud83d\ude0c thanks antha manchi " +
+        "uncle ni ichav ... na life lo eppatiki neeku runapadi unta raa.. asalu enthooo " +
+        "chesav naakosam nenu andhariki cheidamey gaani naaku evari em chesi nenu adhi " +
+        "feel ayyindhi ledhu ra life lo first tym meeru naaku antha chesthuntey meeru " +
+        "chaalu eee life ki anipichindhiii nizam ganey nuvvu sanju leka pothey nenu " +
+        "emaipoyedhanno thaluchukunteyney bayamvesthundhi\ud83e\udd72 in all situation chaaala " +
+        "thanks meeru na life loki vachinandhuku\ud83e\udd70\ud83e\udd70\ud83e\udd70 eppudu naaku meeru kaavali eey " +
+        "situation ayina elanti situation ayina matladadam matiku manodhu\ud83e\udd79\u2764\ufe0f Some " +
+        "friends feel like home antaru ga adhi nuvvey\u2764\ufe0f\ud83d\ude18 once again wish you a many " +
+        "more happy returns of the day\u2764\ufe0f\ud83d\ude18 love you bye take care\u2764\ufe0f"
     },
     {
       name: "Akshaya",
