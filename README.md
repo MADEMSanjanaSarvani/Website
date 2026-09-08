@@ -54,10 +54,11 @@ note underneath. Both live in `pact` in `config.js`.
 
 ### The Archive
 
-The photograph album, with a line under every picture. Each page is framed
-like an album leaf — a ruled border with photo-corner brackets — and carries
-its own plate numbers, so a sheet of photographs reads as a page rather than a
-dump. The chapter is as long
+The photograph album. Three plates to a page, in tall cells that fill the
+sheet — the grid's height is set in the page's own terms, so a photograph is
+as big as the page allows rather than as big as its own proportions happen to
+make it. Captions ride on the foot of each picture so they cost it no height.
+Each page carries its own plate numbers. The chapter is as long
 as the album: add or remove entries in `gallery.photos` and the magazine makes
 as many spreads as they need, sharing them out evenly so no page holds three
 while its neighbour holds six. Each photograph keeps its own proportions, so

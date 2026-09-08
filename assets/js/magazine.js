@@ -750,7 +750,7 @@
   function galleryPages(n) {
     if (!n) return [];
 
-    var pages = Math.max(2, Math.ceil(n / 6));
+    var pages = Math.max(2, Math.ceil(n / 3));   /* three plates to a page */
     if (pages % 2) pages++;
 
     var sizes = [];
