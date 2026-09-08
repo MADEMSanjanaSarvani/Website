@@ -1645,6 +1645,24 @@
     sizeNode(best, m.c * height + m.d, height, gutter, stretch);
 
     host.appendChild(root);
+    quietSmallPlates(shots);
+  }
+
+  /* A caption is written across the foot of its photograph, which is fine on
+     a plate the size of a hand and hopeless on the little ones stood beside
+     it — there the writing covers the picture it is describing. The small
+     plates keep their caption for a reader who hovers over them, and give
+     the photograph back to everyone else. */
+  function quietSmallPlates(shots) {
+    var areas = shots.map(function (s) {
+      var r = s.getBoundingClientRect();
+      return r.width * r.height;
+    });
+    var biggest = Math.max.apply(null, areas);
+
+    shots.forEach(function (s, i) {
+      s.classList.toggle("shot--quiet", biggest > 0 && areas[i] < biggest * 0.42);
+    });
   }
 
   function arrangeAll() {
@@ -1713,7 +1731,7 @@
       if (!leaf || !leaf.classList.contains("theme--scrapbook")) return;
 
       var deco = document.createElement("div");
-      deco.className = "sb";
+      deco.className = "sb" + (el(".shots", page) ? " sb--spare" : "");
       deco.setAttribute("aria-hidden", "true");
       deco.innerHTML =
         '<div class="sb__torn sb__torn--one"><p class="sb__print">' +
@@ -1763,6 +1781,17 @@
 
       img.style.width = (st.size || 0.18) * 100 + "%";
       img.style.transform = "rotate(" + (st.tilt == null ? -6 : st.tilt) + "deg)";
+
+      /* Keep the writing out from under it. A page with something pinned to
+         its foot gives up a band there, and the page scaler takes the writing
+         in to suit — so the sticker sits on paper rather than on a sentence.
+         The band is only given up once the picture is actually there: a page
+         waiting on a sticker that has not been added yet, or one whose sticker
+         has been deleted, keeps its room. */
+      img.addEventListener("load", function () {
+        page.classList.add(/top/.test(st.at || "") ? "pinned--top" : "pinned--foot");
+        soonRefit();
+      });
 
       page.appendChild(img);
     });

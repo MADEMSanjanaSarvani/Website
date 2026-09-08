@@ -396,27 +396,36 @@ const SITE = {
        size: share of the page's width (0.18 = 18%)
        tilt: degrees                                                        */
   stickers: [
-    { src: "assets/img/sticker-graduate.png", on: "lore",      side: "left",
-      at: "bottom-right", size: 0.17, tilt: 4 },
+    /* One to a page, chosen for the page it sits on rather than for the corner
+       it fills, and given a clear band at the foot of the page to sit in. A
+       sticker whose picture is not in assets/img takes itself off the page, so
+       adding one is a matter of dropping the file in, and removing one a
+       matter of deleting it. */
 
-    /* one on each friend's page, in the corner her letter leaves empty */
-    { src: "assets/img/sticker-tulips.png",   on: "besties",   side: "left",
-      at: "bottom-right", size: 0.26, tilt: -6 },
-    { src: "assets/img/sticker-bow.png",      on: "besties",   side: "right",
-      at: "bottom-right", size: 0.28, tilt: 5 },
-    { src: "assets/img/sticker-friends.png",  on: "besties-2", side: "left",
-      at: "bottom-right", size: 0.30, tilt: -4 },
-    { src: "assets/img/sticker-bouquet.png",  on: "besties-2", side: "right",
-      at: "bottom-right", size: 0.24, tilt: 6 },
-    { src: "assets/img/sticker-birthday.png", on: "besties-3", side: "left",
-      at: "bottom-right", size: 0.15, tilt: -7 },
+    { src: "assets/img/sticker-graduate.png",   on: "lore",      side: "left",
+      at: "bottom-right", size: 0.15, tilt: 4 },
+    { src: "assets/img/sticker-girlboss.png",   on: "lore",      side: "right",
+      at: "bottom-right", size: 0.17, tilt: -5 },
 
-    { src: "assets/img/sticker-bouquet.png",  on: "family",    side: "left",
-      at: "bottom-right", size: 0.17, tilt: -6 },
-    { src: "assets/img/sticker-bow.png",      on: "family",    side: "right",
-      at: "top-right", size: 0.22, tilt: 5 },
-    { src: "assets/img/sticker-birthday.png", on: "family",    side: "right",
-      at: "top-left", size: 0.12, tilt: -8 }
+    { src: "assets/img/sticker-friends.png",    on: "besties",   side: "left",
+      at: "bottom-right", size: 0.28, tilt: -4 },
+    { src: "assets/img/sticker-bow.png",        on: "besties",   side: "right",
+      at: "bottom-right", size: 0.24, tilt: 5 },
+
+    { src: "assets/img/sticker-tulips.png",     on: "besties-2", side: "left",
+      at: "bottom-right", size: 0.24, tilt: -6 },
+    { src: "assets/img/sticker-forever.png",    on: "besties-2", side: "right",
+      at: "bottom-right", size: 0.22, tilt: 6 },
+
+    { src: "assets/img/sticker-headphones.png", on: "besties-3", side: "left",
+      at: "bottom-right", size: 0.18, tilt: -7 },
+
+    /* the eye that keeps the bad luck off her, on the page for the people who
+       raised her, and the wish on the page the magazine closes with */
+    { src: "assets/img/sticker-evileye.png",    on: "family",    side: "left",
+      at: "bottom-right", size: 0.16, tilt: -6 },
+    { src: "assets/img/sticker-wish.png",       on: "family",    side: "right",
+      at: "bottom-right", size: 0.20, tilt: 5 }
   ],
 
   /* ---------- The song on the cover ---------- */

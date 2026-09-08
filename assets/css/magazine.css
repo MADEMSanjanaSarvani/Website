@@ -1064,6 +1064,22 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 .leaf--album .shot { border-radius: 1px; }
 .leaf--album-open .shots { height: calc(var(--page-h) * 0.56); }
 
+/* room kept clear for whatever is pinned to the page */
+.pinned--foot .page__inner { padding-bottom: calc(var(--page-h) * 0.2); }
+.pinned--top  .page__inner { padding-top: calc(var(--page-h) * 0.16); }
+
+/* the writing on a small plate covers the photograph, so it waits for a
+   reader who hovers over it instead */
+.shot--quiet figcaption { opacity: 0; transition: opacity .2s ease; }
+.shot--quiet:hover figcaption { opacity: 1; }
+
+/* a page whose photographs reach its edges has no room for a pinned note or
+   a daisy: half-hidden behind a plate, they only look dropped there */
+.sb--spare .sb__note,
+.sb--spare .sb__daisy { display: none; }
+.leaf--album .album-mark--c,
+.leaf--album .album-mark--d { display: none; }
+
 .leaf--album .hed { line-height: 1; }
 
 .album-mark {
