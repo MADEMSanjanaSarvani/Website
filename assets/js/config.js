@@ -214,11 +214,30 @@ const SITE = {
       name: "Akshaya",
       full: "Akshaya Nair",
       photo: "assets/img/akshaya.jpg",
-      caption: "Same bench, every year.",
-      quote: "Twelve years and you still steal my fries.",
+      caption: "Conversations that never found their topic.",
+      quote: "Ela kuda manushulu untara?",
       letter:
-        "Same bench, same fries, same terrible jokes.\n\nI don't remember life " +
-        "before you and I don't plan on finding out what it's like after."
+        "Huhuuu heeheee Raveeen  \ud83d\ude01\u2764\ufe0f" + "\n" +
+        "" + "\n" +
+        "Some people just come into your life and somehow become a very special part of it. Nuvvu kuda alanti person na life looo....Mana random conversations start ayyi, hours hours continue ayyevi \ud83d\ude02. Topic enti ani start chesamo kuda marchipoye vallam. Even exam time lo kuda mana discussions ki oka separate importance undedi \ud83d\ude02. And I genuinely love the way you call me Akshh \u2764\ufe0f." + "\n" +
+        "" + "\n" +
+        "Last year 2025 ni birthday shopping ki vellina day kuda chala special. Shopping kanna ekkuva memories create cheskunnam \ud83d\ude02. And yes, you looked really cute in those jeans, Raveen\ud83d\udd25\ud83e\udef6\ud83c\udffc" + "\n" +
+        "" + "\n" +
+        "Somewhere between all these conversations, jokes and memories, we became so close without even realising it. Nenu normally andaritho easy ga kalavanu, but nuvvu nannu mee andarilo ala kalipesav that I started feeling like I was one among you guys. Family la anipincharu meeru antha \u2764\ufe0f" + "\n" +
+        "" + "\n" +
+        "And honestly, sometimes I still wonder, Ela kuda manushulu untara?  The love and care you gave  me in all the situations  is something I'll always be grateful for..." + "\n" +
+        "" + "\n" +
+        "You know how special you are to all of us. \u2764\ufe0f" + "\n" +
+        "" + "\n" +
+        "I just want to see you happy, successful and in a really good position in life. And yes, one day IAS Raveen / CEO Raveena ni  chudali  \ud83d\ude01" + "\n" +
+        "" + "\n" +
+        "Inka chala unnayi cheppadaniki\u2026 kani ala mention cheyali teliyataledhu . But you are truly a heartful,calm, charming person \ud83d\ude0a\ud83d\ude02edo comdey ga antuna le pedha serious ga tesukoku \ud83d\ude02,sar lee kani ekkada na heart chala miss avuthundi manam spend chesina time and aa comments ,navulu ani \ud83e\udd72\ud83e\udd27 emotional." + "\n" +
+        "" + "\n" +
+        "Many many moreeeee Happy returns of the dayhyy Raveennnn \u2764\ufe0f\u2764\ufe0f\u2764\ufe0f\u2764\ufe0f\u2764\ufe0f\u2764\ufe0f\u2764\ufe0f\u2764\ufe0f\u2764\ufe0f\u2764\ufe0f\u2764\ufe0f" + "\n" +
+        "" + "\n" +
+        "So happy to have you in my life. Keep being the same crazy, caring and beautiful person you are\ud83e\udec2\u2764\ufe0f\ud83c\udf89\ud83d\udc83\ud83c\udffc" + "\n" +
+        "" + "\n" +
+        "Aksh\ud83e\udef6\ud83c\udffc"
     },
     {
       name: "Sanjana",
@@ -377,14 +396,27 @@ const SITE = {
        size: share of the page's width (0.18 = 18%)
        tilt: degrees                                                        */
   stickers: [
-    { src: "assets/img/sticker-birthday.png", on: "family", side: "right",
-      at: "top-left", size: 0.12, tilt: -8 },
-    { src: "assets/img/sticker-graduate.png", on: "lore",   side: "left",
+    { src: "assets/img/sticker-graduate.png", on: "lore",      side: "left",
       at: "bottom-right", size: 0.17, tilt: 4 },
-    { src: "assets/img/sticker-bouquet.png",  on: "family", side: "left",
+
+    /* one on each friend's page, in the corner her letter leaves empty */
+    { src: "assets/img/sticker-tulips.png",   on: "besties",   side: "left",
+      at: "bottom-right", size: 0.26, tilt: -6 },
+    { src: "assets/img/sticker-bow.png",      on: "besties",   side: "right",
+      at: "bottom-right", size: 0.28, tilt: 5 },
+    { src: "assets/img/sticker-friends.png",  on: "besties-2", side: "left",
+      at: "bottom-right", size: 0.30, tilt: -4 },
+    { src: "assets/img/sticker-bouquet.png",  on: "besties-2", side: "right",
+      at: "bottom-right", size: 0.24, tilt: 6 },
+    { src: "assets/img/sticker-birthday.png", on: "besties-3", side: "left",
+      at: "bottom-right", size: 0.15, tilt: -7 },
+
+    { src: "assets/img/sticker-bouquet.png",  on: "family",    side: "left",
       at: "bottom-right", size: 0.17, tilt: -6 },
-    { src: "assets/img/sticker-bow.png",      on: "family", side: "right",
-      at: "top-right", size: 0.22, tilt: 5 }
+    { src: "assets/img/sticker-bow.png",      on: "family",    side: "right",
+      at: "top-right", size: 0.22, tilt: 5 },
+    { src: "assets/img/sticker-birthday.png", on: "family",    side: "right",
+      at: "top-left", size: 0.12, tilt: -8 }
   ],
 
   /* ---------- The song on the cover ---------- */

@@ -371,7 +371,7 @@ body {
 .polaroid {
   position: relative;
   margin: 0;
-  padding: 10px 10px 30px;
+  padding: 10px 10px 14px;
   background: var(--paper-2);
   border-radius: 3px;
   box-shadow: var(--lift-2);
@@ -400,9 +400,11 @@ body {
 .polaroid__img--square { aspect-ratio: 1 / 1; }
 .polaroid__img--tall { aspect-ratio: 3 / 4; }
 
+/* In flow, not pinned to the foot of the frame: a caption that runs to two
+   lines then lengthens the white chin below the photograph instead of
+   climbing back over her face. */
 .polaroid figcaption {
-  position: absolute;
-  inset: auto 12px 10px;
+  margin: 9px 2px 0;
   font-family: var(--display);
   font-style: italic;
   font-size: 0.8rem;
@@ -982,49 +984,65 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
    photographs are as big as the page allows rather than as big as their own
    proportions happen to make them. */
 .shots {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(8px, 1.2vw, 15px);
-  height: calc(var(--page-h) * 0.84);
-  /* room for the tilt, which reaches past the cell it is in */
-  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--page-h) * 0.86);
+  /* room for the tilt, which reaches past the frame it is in */
+  padding: 4px 8px;
   margin: 10px 0 0;
+  --gutter: clamp(7px, 1.1vw, 14px);
 }
+
+/* the arrangement the page settled on: nested rows and columns, filled out
+   by the browser so the photographs reach both edges */
+.collage { max-width: 100%; max-height: 100%; }
+
+.cnode {
+  display: flex;
+  gap: var(--gutter);
+  min-width: 0;
+  min-height: 0;
+}
+
+.cnode--row { flex-direction: row; }
+.cnode--col { flex-direction: column; }
 
 .shot {
   position: relative;
-  display: flex;
-  flex-direction: column;
+  display: block;
+  min-width: 0;
   min-height: 0;
   margin: 0;
-  padding: 9px 9px 9px;
+  padding: 7px;
   background: var(--paper-2);
   border-radius: 2px;
   box-shadow: var(--lift-1);
-  transform: rotate(calc(var(--tilt, -1.5deg) * 0.55));
+  /* barely a tilt: these sit shoulder to shoulder now */
+  transform: rotate(calc(var(--tilt, -1.5deg) * 0.14));
   transition: transform .35s cubic-bezier(.34,1.56,.64,1);
 }
 
-.shot:hover { transform: rotate(0deg) scale(1.03); z-index: 3; }
+.shot:hover { transform: rotate(0deg) scale(1.02); z-index: 3; }
 
+/* Each frame already carries close to its photograph's own proportions, so
+   `cover` has next to nothing left to cut — and what little it does take, it
+   takes from below the chin rather than off the top of a head. */
 .shot .polaroid__img {
   display: block;
-  flex: 1 1 auto;
-  min-height: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
   max-height: none;
   aspect-ratio: auto;
   object-fit: cover;
-  object-position: center 24%;
+  object-position: center 32%;
 }
 
-/* on the photograph's foot, so a caption costs the picture no height */
 .shot figcaption {
   position: absolute;
-  left: 9px;
-  right: 9px;
-  bottom: 9px;
+  left: 7px;
+  right: 7px;
+  bottom: 7px;
   padding: 5px 7px;
   background: rgba(255, 252, 246, .9);
   font-family: var(--display);
@@ -1044,6 +1062,7 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 /* --- shared by every theme --- */
 .leaf--album .page__inner { padding: 28px 32px 14px; }
 .leaf--album .shot { border-radius: 1px; }
+.leaf--album-open .shots { height: calc(var(--page-h) * 0.56); }
 
 .leaf--album .hed { line-height: 1; }
 
@@ -1106,7 +1125,7 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 
 .theme--scrapbook .shot {
   background: var(--sb-card);
-  padding: 9px 9px 9px;
+  padding: 7px;
   box-shadow: 0 6px 14px rgba(90, 70, 55, .22);
 }
 

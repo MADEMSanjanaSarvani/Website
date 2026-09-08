@@ -251,10 +251,17 @@
     var inner = el(".page__inner", page);
     if (!inner) return 1;
 
-    var target = page.clientHeight * 0.985;   // a hair of air above the folio
+    /* The room is the page's content box, not the page: its padding holds the
+       running head and the fold, and writing scaled to fill that too is
+       writing the page then has to cut off. */
+    var box = getComputedStyle(page);
+    var room = page.clientHeight -
+      parseFloat(box.paddingTop) - parseFloat(box.paddingBottom);
+
+    var target = room * 0.995;                // a hair of air above the folio
     if (target <= 0) return 1;
 
-    var ceiling = Math.min(MAX_FIT, Math.max(MIN_FIT, page.clientHeight / DESIGN_PAGE_H));
+    var ceiling = Math.min(MAX_FIT, Math.max(MIN_FIT, room / DESIGN_PAGE_H));
 
     function fits(f) {
       setFit(inner, f);
@@ -750,7 +757,10 @@
   function galleryPages(n) {
     if (!n) return [];
 
-    var pages = Math.max(2, Math.ceil(n / 3));   /* three plates to a page */
+    /* Three or four plates to a page — never two, which leaves a page looking
+       half-used. Of the page counts that allow it, take the one that fills
+       best, and round up to a facing pair. */
+    var pages = Math.max(2, Math.ceil(n / 4));
     if (pages % 2) pages++;
 
     var sizes = [];
@@ -799,10 +809,17 @@
 
         host.setAttribute("data-from", from);
         host.setAttribute("data-to", from + count);
+        host.setAttribute("data-page", i * 2 + side);
 
         /* Album pages: give each one its own line, so a page is a page of the
            album and not an unlabelled sheet of photographs. */
         leaf.classList.add("leaf--album");
+
+        /* The page the chapter opens on is already carrying a title and a
+           standfirst, so it gets a shallower band of photographs — otherwise
+           it drives the whole spread down to fit, and the page facing it ends
+           up half empty for a neighbour's sake. */
+        if (el("[data-gallery-head]", leaf)) leaf.classList.add("leaf--album-open");
 
         if (!el("[data-gallery-head]", leaf)) {
           var line = document.createElement("p");
@@ -834,7 +851,7 @@
     var span = slice(list, host);
 
     host.innerHTML = span
-      .map(function (entry, k) {
+      .map(function (entry) {
         var ph = entry.item;
         return (
           '<figure class="shot" style="--tilt:' + TILTS[entry.i % TILTS.length] + 'deg">' +
@@ -845,7 +862,13 @@
       })
       .join("");
 
-    shapePhotos(host);
+    /* the page cannot be arranged until it knows the shape of its
+       photographs; each one that lands rearranges the page it is on */
+    all("img", host).forEach(function (img) {
+      if (img.complete) return;
+      img.addEventListener("load", function () { arrangeShots(host); soonRefit(); }, { once: true });
+    });
+    arrangeShots(host);
   };
 
   /* FAMILY -------------------------------------------------------------- */
@@ -1454,16 +1477,178 @@
     var card = img.closest(".bestie");
     if (card) card.classList.toggle("bestie--wide", ratio > 1.1);
 
-    var shot = img.closest(".shot");
-    if (shot) shot.classList.toggle("shot--wide", ratio > 1.1);
   }
 
   function shapePhotos(root) {
-    all(".bestie .polaroid__img, .shot .polaroid__img", root || document).forEach(function (img) {
+    all(".bestie .polaroid__img", root || document).forEach(function (img) {
       if (!img.tagName || img.tagName !== "IMG") return;
       if (img.complete) shapePhoto(img);
       else img.addEventListener("load", function () { shapePhoto(img); }, { once: true });
     });
+  }
+
+  /* ---------- The Archive: a page arranges itself round its photographs ----
+
+     The photographs come in every shape a phone can hold, and one fixed grid
+     has to cut one shape to fit another — on a group photograph, what it cuts
+     is a face. So no grid. Each page tries a handful of arrangements instead
+     — three in a row, one standing tall beside two stacked, a band across the
+     top — works out the shape each one would make, and keeps whichever comes
+     out closest to the shape of the page. The photographs keep their own
+     proportions, the page still fills to its edges, and no two pages are laid
+     out quite alike. */
+
+  function shotAspect(shot) {
+    var img = el("img", shot);
+    var a = img && img.naturalWidth ? img.naturalWidth / img.naturalHeight : 0.75;
+    return Math.max(0.45, Math.min(2.4, a));
+  }
+
+  /* the shape a whole arrangement makes: side by side the widths add up,
+     stacked it is the heights that do */
+  function nodeAspect(n) {
+    if (n.shot) return n.a;
+    var s = 0, i;
+    if (n.dir === "row") {
+      for (i = 0; i < n.kids.length; i++) s += nodeAspect(n.kids[i]);
+      return s;
+    }
+    for (i = 0; i < n.kids.length; i++) s += 1 / nodeAspect(n.kids[i]);
+    return 1 / s;
+  }
+
+  function rowOf(kids) { return { dir: "row", kids: kids }; }
+  function colOf(kids) { return { dir: "col", kids: kids }; }
+
+  /* every way of laying out this many plates that keeps them in order, so the
+     plate numbers still read left to right and down the page */
+  function arrangements(L) {
+    var n = L.length;
+    if (n < 2) return [L[0]];
+    if (n === 2) return [rowOf(L), colOf(L)];
+    if (n === 3) return [
+      rowOf([L[0], colOf([L[1], L[2]])]),
+      rowOf([colOf([L[0], L[1]]), L[2]]),
+      colOf([L[0], rowOf([L[1], L[2]])]),
+      colOf([rowOf([L[0], L[1]]), L[2]]),
+      rowOf(L),
+      colOf(L)
+    ];
+    var half = Math.ceil(n / 2);
+    var last = L.length - 1;
+    return [
+      rowOf([L[0], colOf(L.slice(1))]),                          /* one tall, then the rest */
+      rowOf([colOf(L.slice(0, last)), L[last]]),                 /* and the same, mirrored */
+      colOf([L[0], rowOf(L.slice(1))]),                          /* one across the top */
+      colOf([rowOf(L.slice(0, last)), L[last]]),                 /* one across the foot */
+      colOf([rowOf(L.slice(0, half)), rowOf(L.slice(half))]),    /* two by two */
+      rowOf([colOf(L.slice(0, half)), colOf(L.slice(half))]),    /* two columns */
+      rowOf(L),
+      colOf(L)
+    ];
+  }
+
+  function buildNode(n) {
+    if (n.shot) { n.dom = n.shot; return n.shot; }
+
+    var box = document.createElement("div");
+    box.className = "cnode cnode--" + n.dir;
+    n.kids.forEach(function (kid) { box.appendChild(buildNode(kid)); });
+    n.dom = box;
+    return box;
+  }
+
+  /* What a piece of the arrangement measures. Its width grows with its height
+     in a straight line: c is the shape of the photographs inside it, d is
+     everything that keeps the same size whatever the page does — the white
+     border round each plate, the gutters between them. Leaving those out of
+     the sums is exactly what makes a photograph come out narrower than it
+     really is, so they are carried through rather than hoped away. */
+  var PLATE_PAD = 7;
+
+  function measure(n, gutter, stretch) {
+    if (n.shot) {
+      var a = n.a * stretch;
+      return { c: a, d: 2 * PLATE_PAD * (1 - a) };
+    }
+
+    var kids = n.kids.map(function (k) { return measure(k, gutter, stretch); });
+    var gaps = gutter * (kids.length - 1);
+    var i, c = 0, d = 0;
+
+    if (n.dir === "row") {                    /* side by side: widths add up */
+      for (i = 0; i < kids.length; i++) { c += kids[i].c; d += kids[i].d; }
+      return { c: c, d: d + gaps };
+    }
+
+    for (i = 0; i < kids.length; i++) {       /* stacked: heights add up */
+      c += 1 / kids[i].c;
+      d += kids[i].d / kids[i].c;
+    }
+    var width = 1 / c;
+    return { c: width, d: width * (d - gaps) };
+  }
+
+  function sizeNode(n, w, h, gutter, stretch) {
+    n.dom.style.flex = "0 0 auto";
+    n.dom.style.width = w.toFixed(2) + "px";
+    n.dom.style.height = h.toFixed(2) + "px";
+    if (n.shot) return;
+
+    n.kids.forEach(function (kid) {
+      var m = measure(kid, gutter, stretch);
+      if (n.dir === "row") sizeNode(kid, m.c * h + m.d, h, gutter, stretch);
+      else sizeNode(kid, w, (w - m.d) / m.c, gutter, stretch);
+    });
+  }
+
+  function arrangeShots(host) {
+    var shots = all(".shot", host);
+    if (!shots.length) return;
+
+    var style = getComputedStyle(host);
+    var gutter = parseFloat(style.getPropertyValue("--gutter")) || 10;
+    var w = host.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+    var h = host.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+    if (!(w > 0) || !(h > 0)) return;
+
+    var ratio = w / h;
+    var leaves = shots.map(function (s) { return { shot: s, a: shotAspect(s) }; });
+    var candidates = arrangements(leaves);
+
+    /* Several arrangements usually suit a page nearly as well as the best
+       one. They are all kept, and which of them a page takes depends on where
+       the page falls in the album — so the album is not the same picture in
+       the same place forty times over. */
+    var scored = candidates.map(function (c) {
+      return { tree: c, off: Math.abs(Math.log(nodeAspect(c) / ratio)) };
+    }).sort(function (a, b) { return a.off - b.off; });
+
+    var good = scored.filter(function (c) { return c.off <= scored[0].off + 0.05; });
+    var best = good[(+host.getAttribute("data-page") || 0) % good.length].tree;
+
+    var root = buildNode(best);
+    if (root.parentNode) root.parentNode.removeChild(root);
+    host.innerHTML = "";
+    root.classList.add("collage");
+
+    /* No arrangement matches the page exactly. The photographs are leaned on
+       a little to close the gap — but only a little: past a tenth of their
+       own shape the frames start cutting into faces, so the rest of the
+       difference is left as margin and the collage sits centred in it. */
+    var plain = measure(best, gutter, 1);
+    var natural = (plain.c * h + plain.d) / h;
+    var stretch = Math.min(1.12, Math.max(1 / 1.12, ratio / natural));
+
+    var m = measure(best, gutter, stretch);
+    var height = Math.min(h, (w - m.d) / m.c);
+    sizeNode(best, m.c * height + m.d, height, gutter, stretch);
+
+    host.appendChild(root);
+  }
+
+  function arrangeAll() {
+    all("[data-render='gallery']").forEach(arrangeShots);
   }
 
   /* ---------- stickers ----------
@@ -1644,11 +1829,24 @@
   /* The window can change shape after the book is built — a resize, a rotate,
      a zoom. Re-fitting is safe to repeat: each spread is measured again from
      full size, so it grows back as well as shrinks. */
+  var refitSoon;
+
+  function soonRefit() {
+    clearTimeout(refitSoon);
+    refitSoon = setTimeout(refit, 60);
+  }
+
+  /* Arranging a page of photographs changes how much room the page needs;
+     scaling the page changes how much room the arrangement has. One pass
+     settles most of it and the second settles the rest. */
   function refit() {
-    all(".spread").forEach(function (sp) {
-      var pages = all(".page", sp);
-      if (pages.length) fitSpread(pages);
-    });
+    for (var pass = 0; pass < 2; pass++) {
+      arrangeAll();
+      all(".spread").forEach(function (sp) {
+        var pages = all(".page", sp);
+        if (pages.length) fitSpread(pages);
+      });
+    }
   }
 
   function watchWindow() {
