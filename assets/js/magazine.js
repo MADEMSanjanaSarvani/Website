@@ -871,6 +871,34 @@
     arrangeShots(host);
   };
 
+  /* THE SEND-OFF -------------------------------------------------------- */
+
+  /* A collage of everyone, kept whole — it is the picture the last page is
+     for, and cropping it would cut somebody out of it. */
+  render.sendoffPhoto = function (host) {
+    var g = S.sendoff || {};
+    if (!g.photo) { host.remove(); return; }
+
+    host.className = "reveal sendoff__plate";
+    host.innerHTML =
+      '<figure class="sendoff__photo">' +
+      plate(g.photo, g.photo, "") +
+      (g.caption ? "<figcaption>" + esc(g.caption) + "</figcaption>" : "") +
+      "</figure>";
+  };
+
+  render.sendoffNote = function (host) {
+    var g = S.sendoff || {};
+    var lines = g.note || [];
+
+    host.innerHTML =
+      lines.map(function (line) {
+        return "<p>" + esc(line) + "</p>";
+      }).join("") +
+      (g.signoff ? '<p class="sendoff__sign">' + esc(g.signoff) + "</p>" : "") +
+      (g.strap ? '<p class="sendoff__strap">' + esc(g.strap) + "</p>" : "");
+  };
+
   /* FAMILY -------------------------------------------------------------- */
   render.family = function (host) {
     var list = S.family || [];
@@ -1858,6 +1886,30 @@
   /* The window can change shape after the book is built — a resize, a rotate,
      a zoom. Re-fitting is safe to repeat: each spread is measured again from
      full size, so it grows back as well as shrinks. */
+  /* A page whose whole job is one photograph should give the photograph
+     everything it has. Facing pages are scaled together, so a page of writing
+     opposite can leave the picture standing in the middle of an empty sheet:
+     the plate takes back whatever room the page has left at that scale. */
+  function fillTallPlates() {
+    all(".sendoff__plate").forEach(function (host) {
+      var page = host.closest(".page");
+      var inner = page && el(".page__inner", page);
+      if (!inner) return;
+
+      var box = getComputedStyle(page);
+      var room = page.clientHeight -
+        parseFloat(box.paddingTop) - parseFloat(box.paddingBottom);
+
+      var shown = getComputedStyle(inner).transform.match(/matrix\(([\d.]+)/);
+      var scale = shown ? parseFloat(shown[1]) : 1;
+      if (!(scale > 0) || !(room > 0)) return;
+
+      var rest = inner.scrollHeight - host.offsetHeight;
+      var want = room / scale - rest;
+      if (want > 60) host.style.height = want.toFixed(1) + "px";
+    });
+  }
+
   var refitSoon;
 
   function soonRefit() {
@@ -1871,6 +1923,7 @@
   function refit() {
     for (var pass = 0; pass < 2; pass++) {
       arrangeAll();
+      fillTallPlates();
       all(".spread").forEach(function (sp) {
         var pages = all(".page", sp);
         if (pages.length) fitSpread(pages);

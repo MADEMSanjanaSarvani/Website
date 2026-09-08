@@ -360,6 +360,41 @@ const SITE = {
   /* ---------- The closing page of Chapter Three ----------
      Used when the number of friends is odd and one page is left over.
      The whole page is the picture, with a note underneath. */
+  /* The page the magazine closes on: everyone's picture, and what they all
+     wanted to say. */
+  sendoff: {
+    kicker: "From all of us",
+    title: "Chapters to Cherish",
+    photo: "assets/img/college-life.jpg",
+    caption: "Six friends. Hundreds of memories. One unforgettable journey.",
+    strap: "College life \u00b7 chapters to cherish, always",
+    note: [
+      "We all remember you on your special day, but that doesn\u2019t mean we " +
+      "love you only on your special day. We will always love and cherish you, " +
+      "every single day. \u2764\ufe0f",
+
+      "You have left your footprints in each of our lives, and you are special " +
+      "to every one of us in one way or another. No matter how far apart we " +
+      "are, the bond and memories we share will always remain close to our " +
+      "hearts.",
+
+      "As we are all apart, we just wanted to make your day a little more " +
+      "special with whatever we could do. This picture is a little reminder of " +
+      "all the naughty things, crazy moments, endless laughter, and beautiful " +
+      "memories we have shared together. \ud83e\udd79\u2764\ufe0f",
+
+      "We may not be together today, but every memory brings us back to those " +
+      "days when we were all together.",
+
+      "Wishing you a very, very Happy Birthday! \ud83c\udf82\u2764\ufe0f",
+
+      "May your life always be filled with happiness, love, laughter, and " +
+      "countless beautiful memories. You will always be special to all of us. " +
+      "\u2728"
+    ],
+    signoff: "Always yours, all of us."
+  },
+
   pact: {
     kicker: "Filed \u00b7 Chapter 03",
     title: "Twenty-Two Years",
