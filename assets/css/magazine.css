@@ -502,6 +502,15 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 
 .savebtn:active { box-shadow: 0 1px 0 #216B50; }
 
+/* forgets them again, and the committed pictures come back */
+.undobtn {
+  top: 170px;
+  background: #6a6480;
+  box-shadow: 0 3px 0 #4c4760;
+}
+
+.undobtn:active { box-shadow: 0 1px 0 #4c4760; }
+
 /* the ink-outlined chip */
 .tag {
   display: inline-block;

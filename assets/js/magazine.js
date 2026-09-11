@@ -1505,6 +1505,44 @@
     });
     btn.parentNode.insertBefore(saveAll, addSticker.nextSibling);
 
+    /* Putting a photograph back is as ordinary a thing to want as replacing
+       one, and until now there was no way to do it: the replacement lived in
+       this browser and quietly won over whatever is in assets/img. */
+    var undoAll = document.createElement("button");
+    undoAll.className = "photobtn undobtn";
+    undoAll.type = "button";
+    undoAll.hidden = true;
+    undoAll.addEventListener("click", function () {
+      var mine = myPhotos();
+      if (!mine.length) {
+        say("Nothing to put back \u2014 every picture on the page is the one in " +
+            "assets/img already.");
+        return;
+      }
+
+      var names = mine.map(function (f) { return f.name; }).join(", ");
+      var sure = window.confirm(
+        "Put the original pictures back?\n\n" +
+        "This browser is holding " + mine.length + " photograph" +
+        (mine.length === 1 ? "" : "s") + " of yours:\n\n" + names + "\n\n" +
+        "They are kept here and nowhere else, so this forgets them. Save them " +
+        "first if you want to keep any.");
+
+      if (!sure) return;
+
+      var keys = [];
+      for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        if (key && key.indexOf(PHOTO_STORE) === 0) keys.push(key);
+      }
+      keys.forEach(function (key) {
+        try { localStorage.removeItem(key); } catch (e) {}
+      });
+
+      location.reload();
+    });
+    btn.parentNode.insertBefore(undoAll, saveAll.nextSibling);
+
     btn.addEventListener("click", function () {
       var on = document.body.classList.toggle("is-picking");
       btn.textContent = on ? "Done" : "Photos";
@@ -1513,6 +1551,10 @@
       var mine = myPhotos();
       saveAll.hidden = !on || !mine.length;
       saveAll.textContent = "Save my " + mine.length + " photo" +
+        (mine.length === 1 ? "" : "s");
+
+      undoAll.hidden = !on || !mine.length;
+      undoAll.textContent = "Put back " + mine.length + " original" +
         (mine.length === 1 ? "" : "s");
 
       if (on) {
