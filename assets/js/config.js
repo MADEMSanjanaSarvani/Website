@@ -493,9 +493,6 @@ const SITE = {
 
     { src: "assets/img/sticker-friends.png",    on: "besties",   side: "left",
       at: "bottom-right", size: 0.28, tilt: -4 },
-    { src: "assets/img/sticker-bow.png",        on: "besties",   side: "right",
-      at: "bottom-right", size: 0.24, tilt: 5 },
-
     { src: "assets/img/sticker-tulips.png",     on: "besties-2", side: "left",
       at: "bottom-right", size: 0.24, tilt: -6 },
     { src: "assets/img/sticker-forever.png",    on: "besties-2", side: "right",
