@@ -493,6 +493,15 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 
 .stickerbtn:active { box-shadow: 0 1px 0 #c9403d; }
 
+/* hands back the photographs this browser is holding, as files */
+.savebtn {
+  top: 129px;
+  background: #2f8f6b;
+  box-shadow: 0 3px 0 #216B50;
+}
+
+.savebtn:active { box-shadow: 0 1px 0 #216B50; }
+
 /* the ink-outlined chip */
 .tag {
   display: inline-block;

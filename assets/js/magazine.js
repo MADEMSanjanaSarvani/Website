@@ -1405,6 +1405,54 @@
     reader.readAsDataURL(file);
   }
 
+  /* A photograph chosen through the Photos panel is kept in this browser and
+     nowhere else — open the magazine anywhere else and the frame is empty
+     again. This hands them all back as files, named the way the magazine asks
+     for them, so they can be dropped into assets/img and committed for good. */
+  function myPhotos() {
+    var out = [];
+
+    for (var i = 0; i < localStorage.length; i++) {
+      var key = localStorage.key(i);
+      if (!key || key.indexOf(PHOTO_STORE) !== 0) continue;
+
+      var slot = key.slice(PHOTO_STORE.length);
+      var name = (slot.split("/").pop() || "photo.jpg").split("?")[0];
+      var data = "";
+
+      try { data = localStorage.getItem(key) || ""; } catch (e) { data = ""; }
+      if (data) out.push({ name: name, data: data });
+    }
+
+    return out;
+  }
+
+  function savePhotos(list, say) {
+    var i = 0;
+
+    /* one at a time: a browser asked for a dozen files at once decides it is
+       being attacked and drops all but the first */
+    (function next() {
+      if (i >= list.length) {
+        say("Saved " + list.length + " photograph" + (list.length === 1 ? "" : "s") +
+            " to your downloads. Move them into assets/img, then commit, and " +
+            "they are in the magazine for good.");
+        return;
+      }
+
+      var file = list[i++];
+      var link = document.createElement("a");
+      link.href = file.data;
+      link.download = file.name;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      say("Saving " + file.name + " (" + i + " of " + list.length + ")\u2026");
+      setTimeout(next, 450);
+    })();
+  }
+
   function photoPicker() {
     var btn = el("[data-photobtn]");
     if (!btn) return;
@@ -1442,12 +1490,38 @@
     });
     btn.parentNode.insertBefore(addSticker, btn.nextSibling);
 
+    var saveAll = document.createElement("button");
+    saveAll.className = "photobtn savebtn";
+    saveAll.type = "button";
+    saveAll.hidden = true;
+    saveAll.addEventListener("click", function () {
+      var mine = myPhotos();
+      if (!mine.length) {
+        say("No photographs of yours are being kept in this browser \u2014 " +
+            "everything on the page is already in assets/img.");
+        return;
+      }
+      savePhotos(mine, say);
+    });
+    btn.parentNode.insertBefore(saveAll, addSticker.nextSibling);
+
     btn.addEventListener("click", function () {
       var on = document.body.classList.toggle("is-picking");
       btn.textContent = on ? "Done" : "Photos";
       addSticker.hidden = !on;
-      if (on) say("Click a photograph to replace it, or add a sticker and drag it where you like.");
-      else note.hidden = true;
+
+      var mine = myPhotos();
+      saveAll.hidden = !on || !mine.length;
+      saveAll.textContent = "Save my " + mine.length + " photo" +
+        (mine.length === 1 ? "" : "s");
+
+      if (on) {
+        say(mine.length
+          ? "Click a photograph to replace it, or add a sticker. " + mine.length +
+            " photograph" + (mine.length === 1 ? " is" : "s are") +
+            " kept in this browser only \u2014 save them to keep them."
+          : "Click a photograph to replace it, or add a sticker and drag it where you like.");
+      } else note.hidden = true;
     });
 
     document.addEventListener("click", function (e) {
