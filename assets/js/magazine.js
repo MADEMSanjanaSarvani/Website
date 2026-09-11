@@ -1543,6 +1543,16 @@
     });
     btn.parentNode.insertBefore(undoAll, saveAll.nextSibling);
 
+    /* Where each button sits is set here rather than left to the stylesheet.
+       A browser holding an old copy of the stylesheet would stack all four in
+       the same spot, and the one on top would hide the one that saves your
+       photographs — which is the one you need before you press anything
+       else. */
+    [btn, addSticker, saveAll, undoAll].forEach(function (b, i) {
+      b.style.top = (52 + i * 38) + "px";
+      b.style.right = "18px";
+    });
+
     btn.addEventListener("click", function () {
       var on = document.body.classList.toggle("is-picking");
       btn.textContent = on ? "Done" : "Photos";
