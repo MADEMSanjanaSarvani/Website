@@ -1470,7 +1470,17 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 }
 
 /* ---------- 15. Family ---------- */
-.letter-card .polaroid__img { max-height: calc(var(--page-h) * 0.26); }
+/* A height cap on a photograph sized from the page's WIDTH squashes it into a
+   letterbox and crops the rest away — on a portrait photograph of two people,
+   most of both of them. These take their height from the page and their width
+   from the photograph, so nothing is cut. */
+.letter-card .polaroid__img {
+  width: auto;
+  height: calc(var(--page-h) * 0.27);
+  max-width: none;
+  max-height: none;
+  aspect-ratio: auto;
+}
 
 .letter-card {
   position: relative;
@@ -2157,5 +2167,52 @@ body.is-picking .slot {
   font-size: .56rem;
   letter-spacing: .18em;
   text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ---------- 18. The family album ----------
+   Two photographs under the letters. Sized by height, not by the width of the
+   page, so scaling the page can actually shrink them — and so a picture taken
+   sideways sits beside one taken upright without either being cropped. */
+
+.famstrip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(10px, 1.4vw, 18px);
+  margin: 14px 0 0;
+}
+
+.famshot {
+  margin: 0;
+  padding: 7px 7px 5px;
+  background: var(--paper-2);
+  border-radius: 3px;
+  box-shadow: var(--lift-1);
+  transform: rotate(calc(var(--tilt, -1.5deg) * 0.5));
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+
+.famshot:hover { transform: rotate(0deg) scale(1.02); z-index: 3; }
+
+.famshot .polaroid__img {
+  display: block;
+  width: auto;
+  height: calc(var(--page-h) * 0.26);
+  max-width: 100%;
+  max-height: none;
+  aspect-ratio: auto;
+  object-fit: cover;
+}
+
+.famshot figcaption {
+  padding: 5px 2px 0;
+  max-width: 22ch;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: .68rem;
+  line-height: 1.25;
+  text-align: center;
   color: var(--ink-soft);
 }

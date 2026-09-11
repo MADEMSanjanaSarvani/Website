@@ -360,6 +360,13 @@ const SITE = {
   /* ---------- The closing page of Chapter Three ----------
      Used when the number of friends is odd and one page is left over.
      The whole page is the picture, with a note underneath. */
+  /* The two of them with her, under the letters they wrote. */
+  familyAlbum: [
+    { src: "assets/img/family-riverside.jpg", caption: "The three of us, by the water." },
+    { src: "assets/img/nana-laughing.jpg",    caption: "His laugh, and hers, the same one." },
+    { src: "assets/img/family-home.jpg",      caption: "Home, and everyone in it." }
+  ],
+
   /* The page the magazine closes on: everyone's picture, and what they all
      wanted to say. */
   sendoff: {

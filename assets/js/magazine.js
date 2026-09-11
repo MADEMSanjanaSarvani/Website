@@ -871,6 +871,26 @@
     arrangeShots(host);
   };
 
+  /* The family album: the two of them with her. Both pictures are given the
+     same height and keep their own width, so a photograph taken sideways and
+     one taken upright sit together without either being cut. */
+  render.familyAlbum = function (host) {
+    var list = S.familyAlbum || [];
+    if (!list.length) { host.remove(); return; }
+
+    host.className = "reveal famstrip";
+    host.innerHTML = list
+      .map(function (ph, i) {
+        return (
+          '<figure class="famshot" style="--tilt:' + TILTS[i % TILTS.length] + 'deg">' +
+          plate(ph.src, ph.src, "") +
+          (ph.caption ? "<figcaption>" + esc(ph.caption) + "</figcaption>" : "") +
+          "</figure>"
+        );
+      })
+      .join("");
+  };
+
   /* THE SEND-OFF -------------------------------------------------------- */
 
   /* A collage of everyone, kept whole — it is the picture the last page is
@@ -908,7 +928,7 @@
         return (
           '<article class="letter-card">' +
           '<figure class="polaroid" style="--tilt:' + TILTS[i % TILTS.length] +
-          'deg;float:right;width:34%;margin:0 0 10px 14px">' +
+          'deg;float:right;margin:0 0 10px 14px">' +
           plate(f.photo, f.photo, "polaroid__img--square") +
           "</figure>" +
           '<p class="letter-card__to">' + esc(f.name) + "</p>" +
@@ -919,6 +939,8 @@
         );
       })
       .join("");
+
+    shapePhotos(host);
   };
 
   /* ---------- the letter modal ---------- */
@@ -1508,7 +1530,8 @@
   }
 
   function shapePhotos(root) {
-    all(".bestie .polaroid__img", root || document).forEach(function (img) {
+    all(".bestie .polaroid__img, .letter-card .polaroid__img",
+        root || document).forEach(function (img) {
       if (!img.tagName || img.tagName !== "IMG") return;
       if (img.complete) shapePhoto(img);
       else img.addEventListener("load", function () { shapePhoto(img); }, { once: true });
