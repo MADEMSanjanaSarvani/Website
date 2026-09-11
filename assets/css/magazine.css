@@ -2216,3 +2216,182 @@ body.is-picking .slot {
   text-align: center;
   color: var(--ink-soft);
 }
+
+/* ========= keepsake — the family spread =========
+   Not printed: kept. Handwriting round the photographs, tape holding them
+   down, a few paper notes and charms on the last page. Everything here is
+   drawn rather than loaded, and all of it hangs off the page rather than the
+   page body, so it decorates without being measured. */
+
+.theme--keepsake {
+  --keep-tape: rgba(246, 195, 216, .72);
+  --keep-kraft: #f2e4cf;
+  --keep-blush: #ffe0ec;
+  --keep-hand: "Caveat", "Patrick Hand", cursive;
+}
+
+.leaf--left.theme--keepsake { background: #fffaf5; }
+
+.leaf--right.theme--keepsake,
+.leaf--right.theme--keepsake .leaf--finale {
+  background: radial-gradient(118% 92% at 50% 4%, #ffe6f1 0%, #ffeff6 46%, #fff8fb 100%);
+}
+
+.theme--keepsake .page__inner { position: relative; z-index: 2; }
+
+.keep {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.keep > div { position: absolute; }
+.keep svg { display: block; width: 100%; height: auto; }
+
+/* ---- the letters ---- */
+
+.theme--keepsake .letter-card {
+  border-radius: 16px;
+  box-shadow: 0 12px 26px rgba(140, 96, 118, .10);
+}
+
+.theme--keepsake .letter-card .polaroid,
+.theme--keepsake .famshot {
+  background: #fff;
+  border-radius: 4px;
+}
+
+/* a dashed hand-cut edge inside every frame */
+.theme--keepsake .letter-card .polaroid__img,
+.theme--keepsake .famshot .polaroid__img {
+  outline: 1.4px dashed #c3aee0;
+  outline-offset: 3px;
+}
+
+/* tape holding each one down */
+.theme--keepsake .letter-card .polaroid::before,
+.theme--keepsake .famshot::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 56%;
+  height: 20px;
+  margin-left: -28%;
+  transform: rotate(-4deg);
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.5) 0 5px, transparent 5px 10px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.5) 0 5px, transparent 5px 10px),
+    var(--keep-tape);
+  box-shadow: 0 1px 2px rgba(140, 96, 118, .18);
+}
+
+.theme--keepsake .famshot:nth-child(even)::before {
+  transform: rotate(5deg);
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.35) 0 6px, transparent 6px 12px),
+    var(--keep-kraft);
+}
+
+.theme--keepsake .letter-card:nth-of-type(2) .polaroid::before {
+  transform: rotate(4deg);
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.35) 0 6px, transparent 6px 12px),
+    var(--keep-kraft);
+}
+
+/* the heart beside a name, and the note pinned under the photograph */
+.keep-tick { color: var(--pink); font-size: .95rem; }
+
+/* the note sits in the card's own foot, so the card below cannot paint over
+   the end of it */
+.theme--keepsake .letter-card { padding-bottom: 34px; }
+
+.keep-pin {
+  position: absolute;
+  right: 12px;
+  bottom: 6px;
+  width: 32%;
+  z-index: 3;
+  font-family: var(--keep-hand);
+  font-size: 1.05rem;
+  line-height: 1.05;
+  text-align: center;
+  color: #6b5a66;
+  transform: rotate(-7deg);
+}
+
+/* the album strip, written on by hand */
+.theme--keepsake .famstrip {
+  justify-content: flex-end;
+  padding-left: 19%;
+  margin-top: 22px;
+}
+
+.theme--keepsake .famshot figcaption {
+  font-family: var(--keep-hand);
+  font-style: normal;
+  font-size: 1rem;
+  color: #6b5a66;
+}
+
+/* ---- what is pinned to the pages ---- */
+
+.keep-badge { text-align: center; }
+.keep-badge b {
+  position: absolute;
+  inset: 26% 14% auto;
+  font-family: var(--keep-hand);
+  font-weight: 400;
+  font-size: .95rem;
+  line-height: 1.05;
+  color: #a33a68;
+}
+
+.keep-note {
+  font-family: var(--keep-hand);
+  font-size: 1.06rem;
+  line-height: 1.12;
+  color: #5d4c58;
+}
+
+.keep-note--card,
+.keep-note--blush {
+  padding: 12px 12px 14px;
+  border-radius: 3px;
+  box-shadow: 0 7px 15px rgba(140, 96, 118, .16);
+}
+
+.keep-note--card { background: var(--keep-kraft); }
+.keep-note--blush { background: var(--keep-blush); }
+
+.keep-heart {
+  display: block;
+  margin-top: 3px;
+  color: #d97fa8;
+  font-size: .85rem;
+}
+
+.keep-spark { color: #f3c96a; line-height: 1; }
+
+/* a little stack of books, each spine with a wish on it */
+.keep-books b {
+  display: block;
+  margin: 0 0 4px auto;
+  padding: 5px 8px;
+  border-radius: 3px;
+  background: #ffe2ed;
+  box-shadow: 0 3px 7px rgba(140, 96, 118, .16);
+  font-family: var(--label);
+  font-weight: 700;
+  font-size: .5rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #9c4470;
+}
+
+.keep-books b:nth-child(2) { background: #ffeef4; }
+.keep-books b:nth-child(3) { background: #ffe2ed; }
+.keep-books b:nth-child(4) { background: #fff4f8; }

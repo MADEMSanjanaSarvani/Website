@@ -923,18 +923,24 @@
   render.family = function (host) {
     var list = S.family || [];
 
+    var k = S.keepsake || {};
+    var pinned = [k.ammaNote, k.nanaNote];
+
     host.innerHTML = list
       .map(function (f, i) {
+        var note = handwritten(pinned[i]);
         return (
           '<article class="letter-card">' +
           '<figure class="polaroid" style="--tilt:' + TILTS[i % TILTS.length] +
           'deg;float:right;margin:0 0 10px 14px">' +
           plate(f.photo, f.photo, "polaroid__img--square") +
           "</figure>" +
-          '<p class="letter-card__to">' + esc(f.name) + "</p>" +
+          '<p class="letter-card__to">' + esc(f.name) +
+          ' <span class="keep-tick">\u2661</span></p>' +
           '<p class="letter-card__from">' + esc(f.from || "") + "</p>" +
           "<p>" + esc(fill(f.letter || "")) + "</p>" +
           '<div style="clear:both"></div>' +
+          (note ? '<span class="keep-pin">' + note + "</span>" : "") +
           "</article>"
         );
       })
@@ -1720,6 +1726,160 @@
     all("[data-render='gallery']").forEach(arrangeShots);
   }
 
+  /* ---------- the keepsake pages ----------
+
+     The family spread is dressed like something kept rather than printed:
+     handwriting round the photographs, tape holding them down, a few paper
+     notes and charms scattered over the last page. All of it is drawn — no
+     picture files — and all of it hangs off the page rather than the page
+     body, so it decorates without being measured or scaled out of place. */
+
+  function handwritten(text) {
+    return text ? esc(text).replace(/\n/g, "<br>") : "";
+  }
+
+  function keepPiece(cls, style, tilt, inner) {
+    return '<div class="' + cls + '" style="' + style +
+      ";transform:rotate(" + tilt + 'deg)">' + inner + "</div>";
+  }
+
+  function keepNote(text, kind, style, tilt) {
+    return keepPiece("keep-note keep-note--" + kind, style, tilt,
+      handwritten(text) + '<span class="keep-heart">\u2661</span>');
+  }
+
+  /* a sprig of something growing, a heart, a spark */
+  var KEEP_SPRIG =
+    '<svg viewBox="0 0 60 120" fill="none">' +
+    '<path d="M30 118 C30 80 28 44 24 8" stroke="#9bb08a" stroke-width="2.4" stroke-linecap="round"/>' +
+    '<g fill="#e9c9d8">' +
+    '<ellipse cx="17" cy="30" rx="7" ry="4.6" transform="rotate(-28 17 30)"/>' +
+    '<ellipse cx="40" cy="44" rx="7" ry="4.6" transform="rotate(24 40 44)"/>' +
+    '<ellipse cx="16" cy="58" rx="6.4" ry="4.2" transform="rotate(-24 16 58)"/>' +
+    '<ellipse cx="41" cy="74" rx="6.4" ry="4.2" transform="rotate(22 41 74)"/>' +
+    '<ellipse cx="18" cy="88" rx="5.8" ry="3.8" transform="rotate(-20 18 88)"/>' +
+    "</g>" +
+    '<g fill="#b9cda7">' +
+    '<ellipse cx="27" cy="16" rx="5" ry="3.4" transform="rotate(-34 27 16)"/>' +
+    '<ellipse cx="34" cy="26" rx="5" ry="3.4" transform="rotate(30 34 26)"/>' +
+    "</g></svg>";
+
+  var KEEP_CAMERA =
+    '<svg viewBox="0 0 120 108" fill="none">' +
+    '<rect x="4" y="16" width="112" height="88" rx="16" fill="#ffd3e4"/>' +
+    '<rect x="4" y="16" width="112" height="22" rx="11" fill="#ffbcd7"/>' +
+    '<rect x="20" y="44" width="80" height="48" rx="10" fill="#fff1f7"/>' +
+    '<circle cx="60" cy="68" r="21" fill="#f7a8c8"/>' +
+    '<circle cx="60" cy="68" r="13" fill="#8e6c86"/>' +
+    '<circle cx="60" cy="68" r="6" fill="#f6e7ef"/>' +
+    '<circle cx="55" cy="63" r="2.6" fill="#fff"/>' +
+    '<rect x="84" y="22" width="18" height="10" rx="4" fill="#fff1f7"/>' +
+    '<circle cx="28" cy="27" r="5" fill="#ff7fb4"/>' +
+    '<rect x="10" y="6" width="26" height="12" rx="6" fill="#ffbcd7"/>' +
+    "</svg>";
+
+  var KEEP_TULIPS =
+    '<svg viewBox="0 0 120 150" fill="none">' +
+    '<g stroke="#8fa87d" stroke-width="3" stroke-linecap="round">' +
+    '<path d="M60 140 C58 110 52 78 44 48"/>' +
+    '<path d="M60 140 C62 112 64 82 64 52"/>' +
+    '<path d="M60 140 C66 112 76 84 86 56"/>' +
+    "</g>" +
+    '<g fill="#a8bf95">' +
+    '<ellipse cx="38" cy="96" rx="15" ry="7" transform="rotate(-26 38 96)"/>' +
+    '<ellipse cx="84" cy="104" rx="15" ry="7" transform="rotate(24 84 104)"/>' +
+    "</g>" +
+    '<g fill="#f6a9c6">' +
+    '<path d="M44 48 c-11 0 -16 -9 -15 -19 c0 -9 6 -15 15 -15 c9 0 15 6 15 15 c1 10 -4 19 -15 19 Z"/>' +
+    '<path d="M64 52 c-11 0 -16 -9 -15 -19 c0 -9 6 -16 15 -16 c9 0 15 7 15 16 c1 10 -4 19 -15 19 Z" fill="#f9bed5"/>' +
+    '<path d="M86 56 c-11 0 -16 -9 -15 -19 c0 -9 6 -15 15 -15 c9 0 15 6 15 15 c1 10 -4 19 -15 19 Z"/>' +
+    "</g>" +
+    '<path d="M40 120 h40" stroke="#f08bb4" stroke-width="5" stroke-linecap="round"/>' +
+    "</svg>";
+
+  var KEEP_BOW =
+    '<svg viewBox="0 0 120 84" fill="none">' +
+    '<path d="M58 40 C44 18 10 14 12 36 C14 56 44 52 58 40 Z" fill="#f9c3d8"/>' +
+    '<path d="M62 40 C76 18 110 14 108 36 C106 56 76 52 62 40 Z" fill="#f9c3d8"/>' +
+    '<path d="M56 44 C48 60 40 70 30 78" stroke="#f6b1cd" stroke-width="9" stroke-linecap="round"/>' +
+    '<path d="M64 44 C72 60 80 70 90 78" stroke="#f6b1cd" stroke-width="9" stroke-linecap="round"/>' +
+    '<ellipse cx="60" cy="40" rx="9" ry="8" fill="#f2a3c4"/>' +
+    "</svg>";
+
+  function keepHeart(style, tilt, fill) {
+    return keepPiece("keep-charm", style, tilt,
+      '<svg viewBox="0 0 32 30" fill="none"><path d="M16 28 C4 19 1 12 3 7 C5 2 12 1 16 7 C20 1 27 2 29 7 C31 12 28 19 16 28 Z" fill="' +
+      fill + '" stroke="#fff" stroke-width="2"/></svg>');
+  }
+
+  function keepSpark(style, tilt) {
+    return keepPiece("keep-spark", style, tilt, "\u2726");
+  }
+
+  /* the page of letters */
+  function keepsakeLetters(k) {
+    return (
+      keepPiece("keep-badge", "left:3%;bottom:5%;width:15%", -8,
+        '<svg viewBox="0 0 32 30" fill="none"><path d="M16 28 C4 19 1 12 3 7 C5 2 12 1 16 7 C20 1 27 2 29 7 C31 12 28 19 16 28 Z" fill="#ffd4e4"/></svg>' +
+        "<b>" + handwritten(k.badge) + "</b>") +
+
+      keepPiece("keep-sprig", "left:2.5%;bottom:24%;width:7%", -6, KEEP_SPRIG) +
+      keepHeart("right:7%;top:6%;width:4.5%", 12, "#ffb3d1") +
+      keepSpark("left:46%;bottom:7%;font-size:1.1rem", 0) +
+      keepSpark("right:4%;top:44%;font-size:.9rem", 0)
+    );
+  }
+
+  /* the page the magazine is closed on */
+  function keepsakeFinale(k) {
+    var notes = k.notes || [];
+
+    return (
+      keepNote(notes[0], "card",  "left:3.5%;top:8%;width:20%", -5) +
+      keepNote(notes[1], "hand",  "left:4%;top:56%;width:21%", -3) +
+      keepNote(notes[2], "blush", "left:4.5%;bottom:9%;width:17%", 3) +
+
+      keepNote(notes[3], "hand",  "right:4%;top:13%;width:21%", 4) +
+      keepNote(notes[4], "hand",  "right:3.5%;top:56%;width:21%", -3) +
+      keepNote(notes[5], "card",  "right:19%;bottom:7%;width:15%", 5) +
+
+      keepPiece("keep-books", "right:3%;top:29%;width:24%", 2,
+        (k.books || []).map(function (line, i) {
+          return '<b style="width:' + (100 - i * 5) + '%">' + esc(line) + "</b>";
+        }).join("")) +
+
+      keepPiece("keep-cam", "left:4%;top:32%;width:20%", -6, KEEP_CAMERA) +
+      keepPiece("keep-tulips", "right:2%;bottom:3%;width:17%", 4, KEEP_TULIPS) +
+      keepPiece("keep-bow", "right:5%;top:1%;width:10%", -8, KEEP_BOW) +
+
+      keepHeart("left:20%;top:26%;width:5%", -10, "#ff9ec4") +
+      keepHeart("right:24%;top:24%;width:4.5%", 14, "#ffb3d1") +
+      keepHeart("left:12%;bottom:28%;width:4%", 8, "#ffc2d9") +
+      keepSpark("left:24%;top:14%;font-size:1.15rem", 0) +
+      keepSpark("right:26%;top:12%;font-size:.95rem", 0) +
+      keepSpark("left:8%;bottom:24%;font-size:.85rem", 0) +
+      keepSpark("right:12%;bottom:22%;font-size:1.05rem", 0)
+    );
+  }
+
+  function dressKeepsake() {
+    var k = S.keepsake || {};
+
+    all(".theme--keepsake").forEach(function (leaf) {
+      var page = el(".page", leaf);
+      if (!page || el(".keep", page)) return;
+
+      var box = document.createElement("div");
+      box.className = "keep";
+      box.setAttribute("aria-hidden", "true");
+      box.innerHTML = leaf.classList.contains("leaf--right")
+        ? keepsakeFinale(k)
+        : keepsakeLetters(k);
+
+      page.appendChild(box);
+    });
+  }
+
   /* ---------- stickers ----------
 
      A sticker is pasted onto a page rather than laid out with it: it goes
@@ -1763,7 +1923,7 @@
      without being measured. This runs after the pages are dressed — at the
      time the chapter is built the leaves have no .page to hang them on. */
   function dressAlbumPages() {
-    all(".leaf--album .page, .leaf[class*='theme--'] .page").forEach(function (page) {
+    all(".leaf--album .page, .theme--scrapbook .page").forEach(function (page) {
       if (el(".album-mark", page)) return;
 
       /* the doodles every theme gets */
@@ -2024,6 +2184,7 @@
       paginate();
       dressThemes();
       dressAlbumPages();
+      dressKeepsake();
       placeStickers();
       drawMyStickers();
       refit();

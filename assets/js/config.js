@@ -90,7 +90,8 @@ const SITE = {
 
      The ids are: cover, lore, gallery, besties, family.                    */
   pageStyles: {
-    gallery: "scrapbook"
+    gallery: "scrapbook",
+    family: "keepsake"
   },
 
   /* ---------- Chapter Two · The Archive ----------
@@ -360,11 +361,29 @@ const SITE = {
   /* ---------- The closing page of Chapter Three ----------
      Used when the number of friends is odd and one page is left over.
      The whole page is the picture, with a note underneath. */
+  /* Everything handwritten on the family spread: the notes pinned round the
+     photographs, the badge, and the ones scattered over the last page. Change
+     the words here and the pages change with them. */
+  keepsake: {
+    ammaNote: "home always\nfeels like you",
+    nanaNote: "my first\nfriend",
+    badge: "Family\nfirst always",
+    notes: [
+      "same girl\u2026\nbigger dreams",
+      "collect moments\nnot things",
+      "you are\nenough",
+      "good things\ntake time",
+      "proud of how\nfar you\u2019ve come",
+      "happier\nhere"
+    ],
+    books: ["More faith", "More self love", "More good days", "More of you"]
+  },
+
   /* The two of them with her, under the letters they wrote. */
   familyAlbum: [
-    { src: "assets/img/family-riverside.jpg", caption: "The three of us, by the water." },
-    { src: "assets/img/nana-laughing.jpg",    caption: "His laugh, and hers, the same one." },
-    { src: "assets/img/family-home.jpg",      caption: "Home, and everyone in it." }
+    { src: "assets/img/family-riverside.jpg", caption: "my safe place \u2661" },
+    { src: "assets/img/nana-laughing.jpg",    caption: "endless love \u2661" },
+    { src: "assets/img/family-home.jpg",      caption: "my everything \u2661" }
   ],
 
   /* The page the magazine closes on: everyone's picture, and what they all
@@ -487,10 +506,10 @@ const SITE = {
 
     /* the eye that keeps the bad luck off her, on the page for the people who
        raised her, and the wish on the page the magazine closes with */
-    { src: "assets/img/sticker-evileye.png",    on: "family",    side: "left",
-      at: "bottom-right", size: 0.16, tilt: -6 },
-    { src: "assets/img/sticker-wish.png",       on: "family",    side: "right",
-      at: "bottom-right", size: 0.20, tilt: 5 }
+    { src: "assets/img/sticker-wish.png",       on: "cover",     side: "right",
+      at: "bottom-right", size: 0.17, tilt: 5 },
+    { src: "assets/img/sticker-evileye.png",    on: "sendoff",   side: "right",
+      at: "bottom-right", size: 0.17, tilt: -6 }
   ],
 
   /* ---------- The song on the cover ---------- */
