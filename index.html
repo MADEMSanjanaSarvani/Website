@@ -13,7 +13,16 @@
      and by nobody searching for her name. -->
 <meta name="robots" content="noindex, noarchive">
 
-<link rel="stylesheet" href="assets/css/magazine.css?v=48">
+<!-- The stylesheet and the scripts are asked for by name and a number that
+     changes every time the page is opened. Hand-written numbers here drifted
+     out of step more than once, and a browser answering with an old copy of
+     the code from its own cupboard is indistinguishable, from the outside,
+     from the code being broken. Nothing to keep in step now. -->
+<script>
+  document.write('<link rel="stylesheet" href="assets/css/magazine.css?v=' +
+                 Date.now() + '">');
+</script>
+<noscript><link rel="stylesheet" href="assets/css/magazine.css"></noscript>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
 </head>
 <body>
@@ -252,7 +261,12 @@
 <button class="corner" type="button" data-corner aria-label="Turn the page"></button>
 <div class="progress" data-progress aria-hidden="true"></div>
 
-<script src="assets/js/config.js?v=48"></script>
-<script src="assets/js/magazine.js?v=48"></script>
+<script>
+  (function () {
+    var now = Date.now();
+    document.write('<script src="assets/js/config.js?v=' + now + '"><\/script>');
+    document.write('<script src="assets/js/magazine.js?v=' + now + '"><\/script>');
+  })();
+</script>
 </body>
 </html>

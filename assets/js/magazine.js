@@ -1388,6 +1388,23 @@
       var saved = savedPhoto(key);
       if (saved) img.src = saved;
     });
+
+    /* An empty frame is a div rather than an img, and a photograph put into
+       one has been coming back to nothing on the next visit: it was stored,
+       and then nothing ever looked for it here. */
+    all(".slot", root || document).forEach(function (slot) {
+      var span = el("span", slot);
+      var key = slot.getAttribute("data-hint") ||
+                (span && span.textContent.trim()) || "";
+      var saved = key && savedPhoto(key);
+      if (!saved) return;
+
+      var img = document.createElement("img");
+      img.className = slot.className.replace(/\s*\bslot\b/, "");
+      img.setAttribute("data-hint", key);
+      img.src = saved;
+      slot.parentNode.replaceChild(img, slot);
+    });
   }
 
   /* Scaled down before it is stored: a phone photograph as a data URL is
@@ -2186,9 +2203,19 @@
   function guardPhotos(root) {
     all("img[data-hint]", root || document).forEach(function (img) {
       function fallback() {
+        var hint = img.getAttribute("data-hint");
+
+        /* A photograph put in from this computer beats a missing file: the
+           frame is only empty because assets/img has nothing in it yet. */
+        var mine = savedPhoto(hint);
+        if (mine) { img.src = mine; return; }
+
         var slot = document.createElement("div");
         slot.className = img.className + " slot";
-        slot.innerHTML = "<span>" + esc(img.getAttribute("data-hint")) + "</span>";
+        /* the placeholder keeps the name of what belongs here, so a
+           photograph chosen for it later can be put back on the next visit */
+        slot.setAttribute("data-hint", hint);
+        slot.innerHTML = "<span>" + esc(hint) + "</span>";
         if (img.parentNode) img.parentNode.replaceChild(slot, img);
       }
 
@@ -2353,6 +2380,7 @@
     whenReady(function () {
       applySavedPhotos();
       guardPhotos();
+      applySavedPhotos();      /* fills any frame the guard has just emptied */
       shapePhotos();
       paginate();
       dressThemes();
