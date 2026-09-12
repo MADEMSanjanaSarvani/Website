@@ -1370,7 +1370,13 @@
      back a correctly named copy to drop into assets/img. */
 
   var PHOTO_STORE = "raveen:photo:";
-  var MAX_EDGE = 1600;
+  /* A browser will keep about five megabytes for a page, all told. A
+     photograph from a phone, stored as text the way this has to be, is most
+     of a megabyte at 1600px — so six of them fill the drawer and the seventh
+     is quietly dropped. 1200px is still more than any frame in the magazine
+     can show, and fits four times as many. */
+  var MAX_EDGE = 1200;
+  var TIGHT_EDGE = 900;
 
   function savedPhoto(src) {
     try { return localStorage.getItem(PHOTO_STORE + src); } catch (e) { return null; }
@@ -1386,17 +1392,17 @@
 
   /* Scaled down before it is stored: a phone photograph as a data URL is
      several megabytes, and the browser's store holds about five in total. */
-  function shrink(file, done) {
+  function shrink(file, done, edge, quality) {
     var reader = new FileReader();
     reader.onload = function () {
       var img = new Image();
       img.onload = function () {
-        var scale = Math.min(1, MAX_EDGE / Math.max(img.width, img.height));
+        var scale = Math.min(1, (edge || MAX_EDGE) / Math.max(img.width, img.height));
         var c = document.createElement("canvas");
         c.width = Math.round(img.width * scale);
         c.height = Math.round(img.height * scale);
         c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
-        done(c.toDataURL("image/jpeg", 0.86));
+        done(c.toDataURL("image/jpeg", quality || 0.82));
       };
       img.onerror = function () { done(null); };
       img.src = reader.result;
@@ -1425,6 +1431,19 @@
     }
 
     return out;
+  }
+
+  /* roughly what the browser is holding, in megabytes */
+  function photoStoreSize() {
+    var bytes = 0;
+
+    for (var i = 0; i < localStorage.length; i++) {
+      var key = localStorage.key(i);
+      if (!key || key.indexOf(PHOTO_STORE) !== 0) continue;
+      try { bytes += (localStorage.getItem(key) || "").length; } catch (e) {}
+    }
+
+    return bytes / 1048576;
   }
 
   function savePhotos(list, say) {
@@ -1621,11 +1640,39 @@
         img.src = url;
         img.setAttribute("data-hint", slot);
 
-        try {
-          localStorage.setItem(PHOTO_STORE + slot, url);
-        } catch (err) {
-          say("Shown, but too large for this browser to remember. It will go when you refresh.");
+        /* The drawer is small and it fills up. Rather than say so and drop
+           the photograph, try again smaller — and if even that will not fit,
+           say plainly that the drawer is full and how to empty it, because a
+           photograph shown but not kept is one that disappears on the next
+           refresh without anybody being told why. */
+        function keep(data, second) {
+          try {
+            localStorage.setItem(PHOTO_STORE + slot, data);
+            return true;
+          } catch (err) {
+            if (!second) {
+              shrink(file, function (smaller) {
+                if (smaller && keep(smaller, true)) {
+                  img.src = smaller;
+                  say("Kept, at a smaller size \u2014 this browser is nearly full (" +
+                      myPhotos().length + " photographs, about " +
+                      photoStoreSize().toFixed(1) + " MB of about 5 MB).");
+                }
+              }, TIGHT_EDGE, 0.72);
+              return false;
+            }
+
+            say("This browser\u2019s store is full \u2014 it is holding " +
+                myPhotos().length + " photographs, about " +
+                photoStoreSize().toFixed(1) + " MB. Save them with the green " +
+                "button, then put the originals back with the purple one, and " +
+                "there will be room again. This one is shown but will go when " +
+                "you refresh.");
+            return false;
+          }
         }
+
+        keep(url);
 
         shapePhotos(img.closest(".spread") || document);
         refit();
