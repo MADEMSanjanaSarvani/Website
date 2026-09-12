@@ -1,0 +1,19 @@
+# The magazine is plain HTML: nothing to build, the site is this folder.
+[build]
+  publish = "."
+  command = ""
+
+# A private thing on a public address — reachable by anyone holding the link,
+# findable by nobody searching her name. Matches the noindex on the page
+# itself, since a header is the part a crawler is obliged to respect.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, noarchive"
+
+# Photographs never change once committed; the code is asked for with a fresh
+# number every time the page opens, so neither needs a long memory here.
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
