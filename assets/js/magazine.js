@@ -1709,13 +1709,15 @@
     var n = L.length;
     if (n < 2) return [L[0]];
     if (n === 2) return [rowOf(L), colOf(L)];
+    /* Every arrangement here gives one photograph the lead. A plain line of
+       three or four across the page is not among them: it is the one shape
+       that makes every picture small, and it wins whenever the page is short
+       and wide, which is exactly when the pictures can least afford it. */
     if (n === 3) return [
       rowOf([L[0], colOf([L[1], L[2]])]),
       rowOf([colOf([L[0], L[1]]), L[2]]),
       colOf([L[0], rowOf([L[1], L[2]])]),
-      colOf([rowOf([L[0], L[1]]), L[2]]),
-      rowOf(L),
-      colOf(L)
+      colOf([rowOf([L[0], L[1]]), L[2]])
     ];
     var half = Math.ceil(n / 2);
     var last = L.length - 1;
@@ -1725,9 +1727,7 @@
       colOf([L[0], rowOf(L.slice(1))]),                          /* one across the top */
       colOf([rowOf(L.slice(0, last)), L[last]]),                 /* one across the foot */
       colOf([rowOf(L.slice(0, half)), rowOf(L.slice(half))]),    /* two by two */
-      rowOf([colOf(L.slice(0, half)), colOf(L.slice(half))]),    /* two columns */
-      rowOf(L),
-      colOf(L)
+      rowOf([colOf(L.slice(0, half)), colOf(L.slice(half))])     /* two columns */
     ];
   }
 
@@ -2200,7 +2200,7 @@
      opposite can leave the picture standing in the middle of an empty sheet:
      the plate takes back whatever room the page has left at that scale. */
   function fillTallPlates() {
-    all(".sendoff__plate").forEach(function (host) {
+    all(".sendoff__plate, .leaf--album [data-render='gallery']").forEach(function (host) {
       var page = host.closest(".page");
       var inner = page && el(".page__inner", page);
       if (!inner) return;
