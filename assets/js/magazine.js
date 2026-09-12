@@ -1463,30 +1463,114 @@
     return bytes / 1048576;
   }
 
+  /* ---------- handing the photographs back as one file ----------
+
+     Sixteen files asked for in a row is, to a browser, indistinguishable from
+     a page trying to bury someone in downloads: it blocks all but the first
+     and the rest are lost without a word. One file raises no such question,
+     so the photographs are packed into a zip here and handed over whole.
+
+     No compression — a JPEG is already compressed, and "stored" entries mean
+     the whole archive is a few headers and the pictures themselves. */
+
+  var CRC_TABLE = (function () {
+    var table = [], c, n, k;
+    for (n = 0; n < 256; n++) {
+      c = n;
+      for (k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+      table[n] = c >>> 0;
+    }
+    return table;
+  })();
+
+  function crc32(bytes) {
+    var c = 0xFFFFFFFF;
+    for (var i = 0; i < bytes.length; i++) {
+      c = CRC_TABLE[(c ^ bytes[i]) & 0xFF] ^ (c >>> 8);
+    }
+    return (c ^ 0xFFFFFFFF) >>> 0;
+  }
+
+  function dataUrlBytes(url) {
+    var raw = atob(String(url).split(",")[1] || "");
+    var out = new Uint8Array(raw.length);
+    for (var i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i);
+    return out;
+  }
+
+  function zipOf(files) {
+    var parts = [], central = [], offset = 0;
+
+    function u16(n) { return [n & 255, (n >> 8) & 255]; }
+    function u32(n) { return [n & 255, (n >> 8) & 255, (n >> 16) & 255, (n >> 24) & 255]; }
+    function nameBytes(name) {
+      var out = [];
+      for (var i = 0; i < name.length; i++) out.push(name.charCodeAt(i) & 255);
+      return out;
+    }
+
+    files.forEach(function (file) {
+      var body = dataUrlBytes(file.data);
+      var name = nameBytes(file.name);
+      var sum = crc32(body);
+
+      var head = [].concat(
+        u32(0x04034b50), u16(20), u16(0), u16(0), u16(0), u16(0),
+        u32(sum), u32(body.length), u32(body.length),
+        u16(name.length), u16(0), name
+      );
+
+      parts.push(new Uint8Array(head), body);
+
+      central.push([].concat(
+        u32(0x02014b50), u16(20), u16(20), u16(0), u16(0), u16(0), u16(0),
+        u32(sum), u32(body.length), u32(body.length),
+        u16(name.length), u16(0), u16(0), u16(0), u16(0), u32(0), u32(offset), name
+      ));
+
+      offset += head.length + body.length;
+    });
+
+    var dir = [];
+    central.forEach(function (entry) { dir = dir.concat(entry); });
+
+    var end = [].concat(
+      u32(0x06054b50), u16(0), u16(0),
+      u16(files.length), u16(files.length),
+      u32(dir.length), u32(offset), u16(0)
+    );
+
+    parts.push(new Uint8Array(dir), new Uint8Array(end));
+    return new Blob(parts, { type: "application/zip" });
+  }
+
   function savePhotos(list, say) {
-    var i = 0;
+    var url;
 
-    /* one at a time: a browser asked for a dozen files at once decides it is
-       being attacked and drops all but the first */
-    (function next() {
-      if (i >= list.length) {
-        say("Saved " + list.length + " photograph" + (list.length === 1 ? "" : "s") +
-            " to your downloads. Move them into assets/img, then commit, and " +
-            "they are in the magazine for good.");
-        return;
-      }
+    try {
+      url = URL.createObjectURL(zipOf(list));
+    } catch (e) {
+      url = null;
+    }
 
-      var file = list[i++];
-      var link = document.createElement("a");
-      link.href = file.data;
-      link.download = file.name;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
+    if (!url) {
+      say("These could not be packed up here. Ask for them one at a time by " +
+          "clicking a photograph and using the link in the note.");
+      return;
+    }
 
-      say("Saving " + file.name + " (" + i + " of " + list.length + ")\u2026");
-      setTimeout(next, 450);
-    })();
+    var link = document.createElement("a");
+    link.href = url;
+    link.download = "raveen-photos.zip";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 30000);
+
+    say("All " + list.length + " photograph" + (list.length === 1 ? "" : "s") +
+        " are in raveen-photos.zip in your downloads. Unzip it straight into " +
+        "assets/img \u2014 the names are already right \u2014 then commit, and " +
+        "they are in the magazine for good.");
   }
 
   function photoPicker() {
