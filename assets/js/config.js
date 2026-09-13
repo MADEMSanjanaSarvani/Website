@@ -497,8 +497,8 @@ const SITE = {
       at: "bottom-right", size: 0.26, tilt: 5 },
     { src: "assets/img/sticker-tulips.png",     on: "besties-2", side: "left",
       at: "bottom-right", size: 0.24, tilt: -6 },
-    { src: "assets/img/sticker-forever.png",    on: "besties-2", side: "right",
-      at: "bottom-right", size: 0.22, tilt: 6 },
+    { src: "assets/img/sticker-evileye.png",    on: "besties-2", side: "right",
+      at: "bottom-right", size: 0.24, tilt: 6 },
 
     { src: "assets/img/sticker-headphones.png", on: "besties-3", side: "left",
       at: "bottom-right", size: 0.18, tilt: -7 },
@@ -507,8 +507,8 @@ const SITE = {
        raised her, and the wish on the page the magazine closes with */
     { src: "assets/img/sticker-wish.png",       on: "cover",     side: "right",
       at: "bottom-right", size: 0.17, tilt: 5 },
-    { src: "assets/img/sticker-evileye.png",    on: "sendoff",   side: "right",
-      at: "bottom-right", size: 0.17, tilt: -6 }
+    { src: "assets/img/sticker-forever.png",    on: "sendoff",   side: "right",
+      at: "bottom-right", size: 0.20, tilt: -6 }
   ],
 
   /* ---------- The song on the cover ---------- */
