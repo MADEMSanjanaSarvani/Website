@@ -1082,9 +1082,9 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 .leaf--album .shot { border-radius: 1px; }
 .leaf--album-open .shots { height: calc(var(--page-h) * 0.56); }
 
-/* room kept clear for whatever is pinned to the page */
-.pinned--foot .page__inner { padding-bottom: calc(var(--page-h) * 0.2); }
-.pinned--top  .page__inner { padding-top: calc(var(--page-h) * 0.16); }
+/* The room kept clear for whatever is pinned to a page is measured from the
+   thing itself, in script — a fixed share of the page was too little for a
+   framed picture and too much for a small cut-out. */
 
 /* the writing on a small plate covers the photograph, so it waits for a
    reader who hovers over it instead */
@@ -2413,3 +2413,34 @@ body.is-picking .slot {
 .keep-books b:nth-child(2) { background: #ffeef4; }
 .keep-books b:nth-child(3) { background: #ffe2ed; }
 .keep-books b:nth-child(4) { background: #fff4f8; }
+
+/* a picture pinned up rather than a sticker pasted on */
+.sticker-frame {
+  margin: 0;
+  padding: 7px 7px 9px;
+  background: #fffdf8;
+  border-radius: 3px;
+  box-shadow: 0 12px 24px rgba(120, 90, 110, .20);
+}
+
+.sticker-frame::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 44%;
+  height: 18px;
+  margin-left: -22%;
+  transform: rotate(-3deg);
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.5) 0 5px, transparent 5px 10px),
+    rgba(246, 195, 216, .7);
+  box-shadow: 0 1px 2px rgba(140, 96, 118, .18);
+}
+
+.sticker-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+}

@@ -2259,13 +2259,25 @@
       img.className = "sticker--float sticker-img";
       img.src = st.src;
       img.alt = "";
-      img.addEventListener("error", function () { img.remove(); });
+
+      /* A die-cut sticker is pasted straight onto the page. A picture with
+         edges of its own wants a frame and a strip of tape, or it reads as
+         something dropped on the page rather than put there. */
+      var piece = img;
+      if (st.frame) {
+        piece = document.createElement("figure");
+        piece.className = "sticker--float sticker-frame";
+        img.className = "";
+        piece.appendChild(img);
+      }
+
+      img.addEventListener("error", function () { piece.remove(); });
 
       var spot = CORNERS[st.at] || CORNERS["bottom-right"];
-      Object.keys(spot).forEach(function (k) { img.style[k] = spot[k]; });
+      Object.keys(spot).forEach(function (k) { piece.style[k] = spot[k]; });
 
-      img.style.width = (st.size || 0.18) * 100 + "%";
-      img.style.transform = "rotate(" + (st.tilt == null ? -6 : st.tilt) + "deg)";
+      piece.style.width = (st.size || 0.18) * 100 + "%";
+      piece.style.transform = "rotate(" + (st.tilt == null ? -6 : st.tilt) + "deg)";
 
       /* Keep the writing out from under it. A page with something pinned to
          its foot gives up a band there, and the page scaler takes the writing
@@ -2274,11 +2286,44 @@
          waiting on a sticker that has not been added yet, or one whose sticker
          has been deleted, keeps its room. */
       img.addEventListener("load", function () {
-        page.classList.add(/top/.test(st.at || "") ? "pinned--top" : "pinned--foot");
+        piece.setAttribute("data-pinned", /top/.test(st.at || "") ? "top" : "foot");
+        reserveForPinned();
         soonRefit();
       });
 
-      page.appendChild(img);
+      page.appendChild(piece);
+    });
+  }
+
+  /* The room a page keeps clear for whatever is pinned to it was a fixed
+     share of the page, which is fine for a small cut-out and useless for a
+     framed picture: the writing ran straight underneath it. The page now
+     gives up exactly as much as the thing pinned to it actually takes.
+
+     Stickers sit on the page rather than inside the scaled page body, so the
+     room they need has to be divided by the scale to be asked for in the
+     body's own units. */
+  function reserveForPinned() {
+    all(".page").forEach(function (page) {
+      var inner = el(".page__inner", page);
+      if (!inner) return;
+
+      var pinned = all("[data-pinned]", page);
+      if (!pinned.length) return;
+
+      var shown = getComputedStyle(inner).transform.match(/matrix\(([\d.]+)/);
+      var scale = shown ? parseFloat(shown[1]) : 1;
+      if (!(scale > 0)) scale = 1;
+
+      var foot = 0, top = 0;
+      pinned.forEach(function (piece) {
+        var room = (piece.offsetHeight + 26) / scale;
+        if (piece.getAttribute("data-pinned") === "top") top = Math.max(top, room);
+        else foot = Math.max(foot, room);
+      });
+
+      if (foot) inner.style.paddingBottom = foot.toFixed(1) + "px";
+      if (top) inner.style.paddingTop = top.toFixed(1) + "px";
     });
   }
 
@@ -2388,8 +2433,9 @@
      scaling the page changes how much room the arrangement has. One pass
      settles most of it and the second settles the rest. */
   function refit() {
-    for (var pass = 0; pass < 2; pass++) {
+    for (var pass = 0; pass < 3; pass++) {
       arrangeAll();
+      reserveForPinned();
       fillTallPlates();
       all(".spread").forEach(function (sp) {
         var pages = all(".page", sp);

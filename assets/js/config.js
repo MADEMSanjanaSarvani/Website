@@ -507,8 +507,9 @@ const SITE = {
        raised her, and the wish on the page the magazine closes with */
     { src: "assets/img/sticker-wish.png",       on: "cover",     side: "right",
       at: "bottom-right", size: 0.17, tilt: 5 },
-    { src: "assets/img/sticker-forever.png",    on: "sendoff",   side: "right",
-      at: "bottom-right", size: 0.20, tilt: -6 }
+    /* a picture rather than a cut-out, so it is pinned up in a little frame */
+    { src: "assets/img/sticker-bears.png",      on: "sendoff",   side: "right",
+      at: "bottom-right", size: 0.34, tilt: -3, frame: true }
   ],
 
   /* ---------- The song on the cover ---------- */
