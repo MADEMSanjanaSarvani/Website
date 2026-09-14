@@ -220,7 +220,7 @@
      on any screen. The bounds are wide because a browser window is not a
      sheet of paper: a maximized laptop window with tabs, an address bar and a
      favourites bar leaves far less height than its screen size suggests. */
-  var MIN_FIT = 0.42;
+  var MIN_FIT = 0.34;   /* the smallest the writing may go before a page has to clip instead — a very short window would rather have small writing than a page with its foot cut off */
   var MAX_FIT = 2.3;
 
   /* The page height the design is drawn for. Enlargement is tied to the sheet,
@@ -916,7 +916,14 @@
         return "<p>" + esc(line) + "</p>";
       }).join("") +
       (g.signoff ? '<p class="sendoff__sign">' + esc(g.signoff) + "</p>" : "") +
-      (g.strap ? '<p class="sendoff__strap">' + esc(g.strap) + "</p>" : "");
+      (g.strap ? '<p class="sendoff__strap">' + esc(g.strap) + "</p>" : "") +
+
+      /* The bears belong to the letter rather than beside it. Pinned to the
+         page they had to be given room of their own, and on a short window
+         there was none to give and they came off the page altogether. Set in
+         the letter they are scaled with it, and a page that has to shrink
+         shrinks all of it together. */
+      '<figure class="sendoff__card" aria-hidden="true">' + DRAWN.bears + "</figure>";
   };
 
   /* FAMILY -------------------------------------------------------------- */
@@ -2397,6 +2404,7 @@
       var spot = CORNERS[st.at] || CORNERS["bottom-right"];
       Object.keys(spot).forEach(function (k) { piece.style[k] = spot[k]; });
 
+      piece.setAttribute("data-size", st.size || 0.18);
       piece.style.width = (st.size || 0.18) * 100 + "%";
       piece.style.transform = "rotate(" + (st.tilt == null ? -6 : st.tilt) + "deg)";
 
@@ -2435,19 +2443,53 @@
       var pinned = all("[data-pinned]", page);
       if (!pinned.length) return;
 
+      var box = getComputedStyle(page);
+      var room = page.clientHeight -
+        parseFloat(box.paddingTop) - parseFloat(box.paddingBottom);
+
       var shown = getComputedStyle(inner).transform.match(/matrix\(([\d.]+)/);
       var scale = shown ? parseFloat(shown[1]) : 1;
       if (!(scale > 0)) scale = 1;
+      if (!(room > 0)) return;
 
+      /* The page keeps room for what is pinned to it and the writing is
+         scaled to what is left. There is a limit to that: past a third of the
+         page the writing has been squeezed too far, and on a window short
+         enough that it cannot be squeezed any further, the writing went off
+         the foot of the page instead. So the reserve is capped — and capped
+         harder once the writing is already as small as it is allowed to get,
+         because at that point there is nothing left to give. */
+      if (page.hasAttribute("data-nopin")) {
+        pinned.forEach(function (piece) { piece.style.display = "none"; });
+        inner.style.paddingBottom = "";
+        inner.style.paddingTop = "";
+        return;
+      }
+
+      var ceiling = room * 0.34;
       var foot = 0, top = 0;
+
       pinned.forEach(function (piece) {
-        var room = (piece.offsetHeight + 26) / scale;
-        if (piece.getAttribute("data-pinned") === "top") top = Math.max(top, room);
-        else foot = Math.max(foot, room);
+        var natural = parseFloat(piece.getAttribute("data-size")) || 0.18;
+        piece.style.display = "";
+        piece.style.width = (natural * 100).toFixed(2) + "%";
+
+        var tall = piece.offsetHeight;
+
+        if (tall > ceiling && tall > 0) {
+          if (ceiling < 44) { piece.style.display = "none"; return; }
+          piece.style.width =
+            (natural * 100 * (ceiling / tall)).toFixed(2) + "%";
+          tall = piece.offsetHeight;
+        }
+
+        var reserve = (tall + 22) / scale;
+        if (piece.getAttribute("data-pinned") === "top") top = Math.max(top, reserve);
+        else foot = Math.max(foot, reserve);
       });
 
-      if (foot) inner.style.paddingBottom = foot.toFixed(1) + "px";
-      if (top) inner.style.paddingTop = top.toFixed(1) + "px";
+      inner.style.paddingBottom = foot ? foot.toFixed(1) + "px" : "";
+      inner.style.paddingTop = top ? top.toFixed(1) + "px" : "";
     });
   }
 
@@ -2584,16 +2626,49 @@
   /* Arranging a page of photographs changes how much room the page needs;
      scaling the page changes how much room the arrangement has. One pass
      settles most of it and the second settles the rest. */
+  function fitEverything() {
+    all(".spread").forEach(function (sp) {
+      var pages = all(".page", sp);
+      if (pages.length) fitSpread(pages);
+    });
+  }
+
   function refit() {
+    /* a fresh look at every page: a window that grew may have room again */
+    all("[data-nopin]").forEach(function (page) { page.removeAttribute("data-nopin"); });
+
     for (var pass = 0; pass < 3; pass++) {
       arrangeAll();
       reserveForPinned();
       fillTallPlates();
       fillMetrics();
-      all(".spread").forEach(function (sp) {
-        var pages = all(".page", sp);
-        if (pages.length) fitSpread(pages);
-      });
+      fitEverything();
+    }
+
+    /* Now that everything has settled, ask whether any page is still squeezed
+       to the smallest writing it is allowed — that is a window too short to
+       hold the page and a decoration both, and the decoration is the part
+       that goes. Judged here rather than mid-settle, where a page can look
+       cramped for a moment and recover. */
+    var dropped = false;
+
+    all("[data-pinned]").forEach(function (piece) {
+      var page = piece.closest(".page");
+      var inner = page && el(".page__inner", page);
+      if (!inner || page.hasAttribute("data-nopin")) return;
+
+      var shown = getComputedStyle(inner).transform.match(/matrix\(([\d.]+)/);
+      var scale = shown ? parseFloat(shown[1]) : 1;
+      if (scale > MIN_FIT + 0.005) return;
+
+      page.setAttribute("data-nopin", "1");
+      dropped = true;
+    });
+
+    if (dropped) {
+      reserveForPinned();
+      fillMetrics();
+      fitEverything();
     }
   }
 

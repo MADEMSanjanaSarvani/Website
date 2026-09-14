@@ -2440,7 +2440,8 @@ body.is-picking .slot {
   box-shadow: 0 1px 2px rgba(140, 96, 118, .18);
 }
 
-.sticker-frame img {
+.sticker-frame img,
+.sticker-frame svg {
   display: block;
   width: 100%;
   height: auto;
@@ -2456,3 +2457,33 @@ body.is-picking .slot {
 }
 
 .sticker-drawn svg { display: block; width: 100%; height: auto; }
+
+/* the bears, pinned up at the end of the letter from everyone */
+.sendoff__card {
+  position: relative;
+  width: 58%;
+  max-width: 260px;
+  margin: 22px auto 0;
+  padding: 7px 7px 9px;
+  background: #fffdf8;
+  border-radius: 3px;
+  box-shadow: 0 12px 24px rgba(120, 90, 110, .20);
+  transform: rotate(-2deg);
+}
+
+.sendoff__card::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 44%;
+  height: 18px;
+  margin-left: -22%;
+  transform: rotate(-3deg);
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.5) 0 5px, transparent 5px 10px),
+    rgba(246, 195, 216, .7);
+  box-shadow: 0 1px 2px rgba(140, 96, 118, .18);
+}
+
+.sendoff__card svg { display: block; width: 100%; height: auto; border-radius: 2px; }

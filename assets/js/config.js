@@ -506,10 +506,7 @@ const SITE = {
     /* the eye that keeps the bad luck off her, on the page for the people who
        raised her, and the wish on the page the magazine closes with */
     { draw: "wish",                             on: "cover",     side: "right",
-      at: "bottom-right", size: 0.17, tilt: 5 },
-    /* a picture rather than a cut-out, so it is pinned up in a little frame */
-    { draw: "bears",                            on: "sendoff",   side: "right",
-      at: "bottom-right", size: 0.40, tilt: -3, frame: true }
+      at: "bottom-right", size: 0.17, tilt: 5 }
   ],
 
   /* ---------- The song on the cover ---------- */
