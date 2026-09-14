@@ -2124,19 +2124,22 @@ body.is-picking .slot {
    read comfortably. */
 .sendoff__plate {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
+  align-items: stretch;
+  justify-content: center;
 }
 
 /* the frame hugs the picture rather than the page, so there is no white
    margin standing in for a photograph that isn't that shape */
+/* The frame hugs the picture rather than the caption underneath it: sized by
+   the caption, the picture sat letterboxed inside a box wider than itself,
+   with the empty frame showing down both sides. */
 .sendoff__photo {
   display: inline-flex;
   flex-direction: column;
+  align-items: center;
   max-width: 100%;
-  max-height: calc(var(--page-h) * 0.78);
-  margin: 10px 0 0;
+  max-height: 100%;
+  margin: 6px 0 0;
   padding: 8px 8px 6px;
   background: var(--paper-2);
   border-radius: 3px;
@@ -2147,18 +2150,25 @@ body.is-picking .slot {
 /* its own proportions, uncropped: six people in one frame, and a crop takes
    one of them out of it */
 .sendoff__photo .polaroid__img {
-  flex: 0 1 auto;
+  flex: 1 1 auto;
   min-height: 0;
   width: auto;
   height: auto;
   max-width: 100%;
-  max-height: 100%;
+  max-height: none;
   aspect-ratio: auto;
   object-fit: contain;
+  background: none;
 }
 
+/* The caption is not allowed to decide how wide the frame is — it is a long
+   line, and it was holding the mount open far wider than the picture inside
+   it. Zero width with a full-width floor: it takes the width the photograph
+   settles on, and wraps within it. */
 .sendoff__photo figcaption {
   flex: 0 0 auto;
+  width: 0;
+  min-width: 100%;
   padding: 7px 4px 2px;
   font-family: var(--display);
   font-style: italic;

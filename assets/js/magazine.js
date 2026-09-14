@@ -909,13 +909,7 @@
       '<figure class="sendoff__photo">' +
       plate(g.photo, g.photo, "") +
       (g.caption ? "<figcaption>" + esc(g.caption) + "</figcaption>" : "") +
-      "</figure>" +
-
-      /* The bears sit under the picture rather than under the letter. On the
-         letter's page they were taking a quarter of it, and the letter is
-         long: everything on that page had to be set smaller to make room for
-         them. This page has room going spare. */
-      '<figure class="sendoff__card" aria-hidden="true">' + DRAWN.bears + "</figure>";
+      "</figure>";
   };
 
   render.sendoffNote = function (host) {
@@ -2626,8 +2620,22 @@
     });
   }
 
+  /* Before a page of photographs can be told how much room it has, the page
+     facing it has to say what scale the spread will be set at — and it cannot
+     say that while this page is still filling itself to whatever scale it was
+     at a moment ago. So the picture is stood down to nothing for the first
+     look, the scale is settled by the writing, and only then does the picture
+     take the room. Left to fill itself from its own last answer it simply
+     kept whatever scale it started with, which is how a whole spread ended up
+     set a third smaller than it needed to be. */
+  function standDownTallPlates() {
+    all(".sendoff__plate, .leaf--album [data-render='gallery']").forEach(function (host) {
+      host.style.height = "40px";
+    });
+  }
+
   function fillTallPlates() {
-    all(".leaf--album [data-render='gallery']").forEach(function (host) {
+    all(".sendoff__plate, .leaf--album [data-render='gallery']").forEach(function (host) {
       var page = host.closest(".page");
       var inner = page && el(".page__inner", page);
       if (!inner) return;
@@ -2643,6 +2651,26 @@
       var rest = inner.scrollHeight - host.offsetHeight;
       var want = room / scale - rest;
       if (want > 60) host.style.height = want.toFixed(1) + "px";
+
+      /* A frame left to work out its own width takes the photograph's natural
+         width — a phone photograph is a couple of thousand pixels across — and
+         so opens to the whole column, leaving the picture adrift in the middle
+         of a white mount. Given the room the page has, the height and the
+         width are both arithmetic. */
+      var photo = el(".sendoff__photo", host);
+      var shot = photo && el("img", photo);
+      if (!shot || !shot.naturalWidth) return;
+
+      var cap = el("figcaption", photo);
+      var tall = want - (cap ? cap.offsetHeight : 0) - 26;
+      if (!(tall > 40)) return;
+
+      var wide = tall * (shot.naturalWidth / shot.naturalHeight);
+      var most = host.clientWidth - 24;
+      if (wide > most) { tall = tall * (most / wide); wide = most; }
+
+      shot.style.height = tall.toFixed(1) + "px";
+      shot.style.width = wide.toFixed(1) + "px";
     });
   }
 
@@ -2676,7 +2704,7 @@
     for (var pass = 0; pass < 3; pass++) {
       arrangeAll();
       reserveForPinned();
-      fillTallPlates();
+      if (pass === 0) standDownTallPlates(); else fillTallPlates();
       fitEverything();
     }
 
