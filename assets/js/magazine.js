@@ -1858,7 +1858,7 @@
 
   /* every way of laying out this many plates that keeps them in order, so the
      plate numbers still read left to right and down the page */
-  function arrangements(L) {
+  function arrangements(L, ratio) {
     var n = L.length;
     if (n < 2) return [L[0]];
     if (n === 2) return [rowOf(L), colOf(L)];
@@ -1874,14 +1874,26 @@
     ];
     var half = Math.ceil(n / 2);
     var last = L.length - 1;
-    return [
+
+    /* Three across with a pair stacked among them. Only offered when the band
+       really is wide and shallow — the page a chapter opens on, where the
+       heading has taken the top third. On an ordinary page these would win on
+       the arithmetic and lose on the eye, giving three small plates where one
+       large one belongs. */
+    var wide = ratio > 1.45 ? [
+      rowOf([L[0], L[1], colOf(L.slice(2))]),
+      rowOf([colOf(L.slice(0, 2)), L[2], L[3]]),
+      rowOf([L[0], colOf(L.slice(1, 3)), L[3]])
+    ] : [];
+
+    return wide.concat([
       rowOf([L[0], colOf(L.slice(1))]),                          /* one tall, then the rest */
       rowOf([colOf(L.slice(0, last)), L[last]]),                 /* and the same, mirrored */
       colOf([L[0], rowOf(L.slice(1))]),                          /* one across the top */
       colOf([rowOf(L.slice(0, last)), L[last]]),                 /* one across the foot */
       colOf([rowOf(L.slice(0, half)), rowOf(L.slice(half))]),    /* two by two */
       rowOf([colOf(L.slice(0, half)), colOf(L.slice(half))])     /* two columns */
-    ];
+    ]);
   }
 
   function buildNode(n) {
@@ -1950,7 +1962,7 @@
 
     var ratio = w / h;
     var leaves = shots.map(function (s) { return { shot: s, a: shotAspect(s) }; });
-    var candidates = arrangements(leaves);
+    var candidates = arrangements(leaves, ratio);
 
     /* Several arrangements usually suit a page nearly as well as the best
        one. They are all kept, and which of them a page takes depends on where
@@ -1960,7 +1972,11 @@
       return { tree: c, off: Math.abs(Math.log(nodeAspect(c) / ratio)) };
     }).sort(function (a, b) { return a.off - b.off; });
 
-    var good = scored.filter(function (c) { return c.off <= scored[0].off + 0.05; });
+    /* Only arrangements that suit the page as well as the best one — mirrors
+       of each other, in practice. A wider tolerance let a page take a shape
+       that fitted noticeably worse for the sake of variety, and the plates
+       came out smaller for it. */
+    var good = scored.filter(function (c) { return c.off <= scored[0].off + 0.01; });
     var best = good[(+host.getAttribute("data-page") || 0) % good.length].tree;
 
     var root = buildNode(best);
@@ -1974,7 +1990,7 @@
        difference is left as margin and the collage sits centred in it. */
     var plain = measure(best, gutter, 1);
     var natural = (plain.c * h + plain.d) / h;
-    var stretch = Math.min(1.12, Math.max(1 / 1.12, ratio / natural));
+    var stretch = Math.min(1.16, Math.max(1 / 1.16, ratio / natural));
 
     var m = measure(best, gutter, stretch);
     var height = Math.min(h, (w - m.d) / m.c);
@@ -2661,8 +2677,13 @@
       var shot = photo && el("img", photo);
       if (!shot || !shot.naturalWidth) return;
 
+      /* a line laid over the foot of the picture costs it no height */
       var cap = el("figcaption", photo);
-      var tall = want - (cap ? cap.offsetHeight : 0) - 26;
+      var inFlow = cap && getComputedStyle(cap).position !== "absolute";
+      var frame = photo.classList.contains("sendoff__photo") &&
+                  parseFloat(getComputedStyle(photo).paddingTop) * 2;
+
+      var tall = want - (inFlow ? cap.offsetHeight : 0) - (frame || 0) - 4;
       if (!(tall > 40)) return;
 
       var wide = tall * (shot.naturalWidth / shot.naturalHeight);

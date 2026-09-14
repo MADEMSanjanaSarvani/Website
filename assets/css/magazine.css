@@ -1063,11 +1063,11 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
   left: 7px;
   right: 7px;
   bottom: 7px;
-  padding: 5px 7px;
+  padding: 4px 6px;
   background: rgba(255, 252, 246, .9);
   font-family: var(--display);
   font-style: italic;
-  font-size: .68rem;
+  font-size: .6rem;
   line-height: 1.2;
   text-align: center;
   color: var(--ink);
@@ -1082,7 +1082,13 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 /* --- shared by every theme --- */
 .leaf--album .page__inner { padding: 28px 32px 14px; }
 .leaf--album .shot { border-radius: 1px; }
-.leaf--album-open .shots { height: calc(var(--page-h) * 0.56); }
+/* the photographs take whatever the heading leaves, rather than a fixed
+   share of the page — the heading is short and the pictures are the point */
+.leaf--album-open .shots { height: calc(var(--page-h) * 0.62); }
+
+.leaf--album .hed { font-size: clamp(1.2rem, 2.3vw, 1.6rem); margin-bottom: 4px; }
+.leaf--album .dek { font-size: .68rem; line-height: 1.4; max-width: 52ch; margin: 4px 0 0; }
+.leaf--album .kicker { font-size: .46rem; }
 
 /* The room kept clear for whatever is pinned to a page is measured from the
    thing itself, in script — a fixed share of the page was too little for a
@@ -1182,7 +1188,7 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 .theme--scrapbook .shot figcaption {
   font-family: "Caveat", "Patrick Hand", var(--display), cursive;
   font-style: normal;
-  font-size: .92rem;
+  font-size: .8rem;
   line-height: 1.1;
   color: var(--ink);
 }
@@ -2518,4 +2524,40 @@ body.is-picking .slot {
   max-height: none;
   aspect-ratio: auto;
   object-fit: contain;
+}
+
+/* ---------- the closing photograph, given the whole page ----------
+   No heading, no mount, no margin: the picture runs from one edge of the
+   page to the other, as tall as the page is. Its own line sits over the foot
+   of it rather than under the frame, so nothing but the photograph takes any
+   room at all. */
+
+.leaf--bleed .page { padding: 0; }
+.leaf--bleed .page__inner { padding: 0; }
+
+.leaf--bleed .sendoff__plate {
+  align-items: center;
+  margin: 0;
+}
+
+.leaf--bleed .sendoff__photo {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  transform: none;
+}
+
+.leaf--bleed .sendoff__photo figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  min-width: 0;
+  padding: 10px 14px 12px;
+  background: linear-gradient(to top, rgba(28, 22, 32, .62), rgba(28, 22, 32, 0));
+  font-size: .82rem;
+  color: #fff8fb;
 }
