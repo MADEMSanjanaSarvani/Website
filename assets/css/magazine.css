@@ -816,11 +816,11 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 }
 
 /* ---------- 12. The lore ---------- */
-.lore-entry { margin-bottom: 14px; }
+.lore-entry { margin-bottom: 18px; }
 
 .lore-entry dt {
   font-family: var(--label);
-  font-size: 0.58rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -828,9 +828,9 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 }
 
 .lore-entry dd {
-  margin: 3px 0 0;
-  font-size: 0.9rem;
-  line-height: 1.55;
+  margin: 5px 0 0;
+  font-size: 1.24rem;
+  line-height: 1.6;
   color: var(--ink-soft);
 }
 
@@ -915,7 +915,7 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
    A photograph that loads replaces this with its own proportions. */
 .bestie > .polaroid .polaroid__img {
   aspect-ratio: 2 / 3;
-  max-height: calc(var(--page-h) * 0.9);
+  max-height: calc(var(--page-h) * 1.05);
 }
 
 /* a landscape photograph takes the full measure, the writing below it */
@@ -956,7 +956,7 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 .bestie__name {
   margin: 2px 0 8px;
   font-family: var(--display);
-  font-size: clamp(1.3rem, 2.3vw, 1.8rem);
+  font-size: clamp(1.6rem, 2.8vw, 2.2rem);
   font-weight: 800;
   line-height: 1;
   letter-spacing: 0.01em;
@@ -964,10 +964,10 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 }
 
 .bestie__quote {
-  margin: 8px 0 10px;
+  margin: 10px 0 12px;
   font-family: var(--display);
   font-style: italic;
-  font-size: 0.95rem;
+  font-size: 1.16rem;
   line-height: 1.45;
   color: var(--ink-soft);
 }
@@ -2118,10 +2118,15 @@ body.is-picking .slot {
    The last spread: everyone in one picture on the left, and what they all
    wanted to say facing it. */
 
+/* The collage takes a fixed share of the page rather than whatever is left
+   over. Left to claim the remainder it settled the whole spread at a scale
+   of its own choosing, and the letter facing it was set in type too small to
+   read comfortably. */
 .sendoff__plate {
   display: flex;
-  justify-content: center;
-  height: calc(var(--page-h) * 0.88);
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 /* the frame hugs the picture rather than the page, so there is no white
@@ -2130,7 +2135,7 @@ body.is-picking .slot {
   display: inline-flex;
   flex-direction: column;
   max-width: 100%;
-  max-height: 100%;
+  max-height: calc(var(--page-h) * 0.78);
   margin: 10px 0 0;
   padding: 8px 8px 6px;
   background: var(--paper-2);
@@ -2164,10 +2169,10 @@ body.is-picking .slot {
 }
 
 .sendoff__note p {
-  margin: 0 0 10px;
-  max-width: 42ch;
-  font-size: .95rem;
-  line-height: 1.62;
+  margin: 0 0 12px;
+  max-width: 64ch;
+  font-size: 1.12rem;
+  line-height: 1.6;
   color: var(--ink);
 }
 
@@ -2182,7 +2187,7 @@ body.is-picking .slot {
   margin-top: 16px !important;
   padding-top: 12px;
   border-top: 1px solid var(--rule);
-  max-width: 42ch;
+  max-width: 64ch;
   font-family: var(--label);
   font-size: .56rem;
   letter-spacing: .18em;
@@ -2461,9 +2466,9 @@ body.is-picking .slot {
 /* the bears, pinned up at the end of the letter from everyone */
 .sendoff__card {
   position: relative;
-  width: 58%;
-  max-width: 260px;
-  margin: 22px auto 0;
+  width: 46%;
+  max-width: 230px;
+  margin: 20px auto 0;
   padding: 7px 7px 9px;
   background: #fffdf8;
   border-radius: 3px;
@@ -2487,3 +2492,20 @@ body.is-picking .slot {
 }
 
 .sendoff__card svg { display: block; width: 100%; height: auto; border-radius: 2px; }
+
+/* The biography photograph: six people in one frame, so it is never cropped.
+   Height comes from the page and width from the photograph — the other way
+   round, a full-width frame would have cut a third off the top and bottom. */
+.polaroid--free {
+  width: fit-content;
+  max-width: 100%;
+}
+
+.polaroid__img--free {
+  width: auto;
+  height: calc(var(--page-h) * 0.62);
+  max-width: 100%;
+  max-height: none;
+  aspect-ratio: auto;
+  object-fit: contain;
+}

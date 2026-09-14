@@ -228,7 +228,12 @@
      up narrows the measure, which shrinks the photograph, which frees height,
      which invites more scaling — left alone it runs to the ceiling and sets a
      small page in enormous type. */
-  var DESIGN_PAGE_H = 450;
+  /* The height a page was drawn at. It sets how far the writing may be scaled
+     up: a page with room to spare grows its type until it reaches this much
+     of the page. Drawn at 450 the pages came out small on a laptop, with the
+     photographs and the writing sitting in a lot of white space — 360 lets
+     everything grow by about a quarter before the page fills. */
+  var DESIGN_PAGE_H = 360;
 
   function setFit(inner, f) {
     if (f === 1) {
@@ -904,7 +909,13 @@
       '<figure class="sendoff__photo">' +
       plate(g.photo, g.photo, "") +
       (g.caption ? "<figcaption>" + esc(g.caption) + "</figcaption>" : "") +
-      "</figure>";
+      "</figure>" +
+
+      /* The bears sit under the picture rather than under the letter. On the
+         letter's page they were taking a quarter of it, and the letter is
+         long: everything on that page had to be set smaller to make room for
+         them. This page has room going spare. */
+      '<figure class="sendoff__card" aria-hidden="true">' + DRAWN.bears + "</figure>";
   };
 
   render.sendoffNote = function (host) {
@@ -916,14 +927,7 @@
         return "<p>" + esc(line) + "</p>";
       }).join("") +
       (g.signoff ? '<p class="sendoff__sign">' + esc(g.signoff) + "</p>" : "") +
-      (g.strap ? '<p class="sendoff__strap">' + esc(g.strap) + "</p>" : "") +
-
-      /* The bears belong to the letter rather than beside it. Pinned to the
-         page they had to be given room of their own, and on a short window
-         there was none to give and they came off the page altogether. Set in
-         the letter they are scaled with it, and a page that has to shrink
-         shrinks all of it together. */
-      '<figure class="sendoff__card" aria-hidden="true">' + DRAWN.bears + "</figure>";
+      (g.strap ? '<p class="sendoff__strap">' + esc(g.strap) + "</p>" : "");
   };
 
   /* FAMILY -------------------------------------------------------------- */
@@ -2466,7 +2470,10 @@
         return;
       }
 
-      var ceiling = room * 0.34;
+      /* A sticker may not take more than a fifth of the page. Past that the
+         writing is scaled down to make way for a decoration, which is the
+         wrong way round: the page is for the writing and the photographs. */
+      var ceiling = room * 0.2;
       var foot = 0, top = 0;
 
       pinned.forEach(function (piece) {
@@ -2483,7 +2490,30 @@
           tall = piece.offsetHeight;
         }
 
-        var reserve = (tall + 22) / scale;
+        /* Only the part that would actually be written over is kept clear.
+           A sticker in a corner the writing never reaches costs the page
+           nothing — measured from what is drawn rather than from the box the
+           writing sits in, which on a friend's page is mostly empty down
+           there and was holding a fifth of the page hostage. */
+        var mine = piece.getBoundingClientRect();
+        var lowest = 0, highest = 1e9;
+
+        all(".page__inner p, .page__inner h2, .page__inner dd, .polaroid, .shot," +
+            " .bestie__cta, .metric, .certified, .letter-card, .famshot," +
+            " .sendoff__card, .tag, .toc, .stats", page).forEach(function (e) {
+          var r = e.getBoundingClientRect();
+          if (!r.height || r.right <= mine.left || r.left >= mine.right) return;
+          lowest = Math.max(lowest, r.bottom);
+          highest = Math.min(highest, r.top);
+        });
+
+        var overlap = piece.getAttribute("data-pinned") === "top"
+          ? mine.bottom - highest
+          : lowest - mine.top;
+
+        if (overlap <= 0) return;
+
+        var reserve = (overlap + 16) / scale;
         if (piece.getAttribute("data-pinned") === "top") top = Math.max(top, reserve);
         else foot = Math.max(foot, reserve);
       });
@@ -2597,7 +2627,7 @@
   }
 
   function fillTallPlates() {
-    all(".sendoff__plate, .leaf--album [data-render='gallery']").forEach(function (host) {
+    all(".leaf--album [data-render='gallery']").forEach(function (host) {
       var page = host.closest(".page");
       var inner = page && el(".page__inner", page);
       if (!inner) return;
@@ -2637,13 +2667,25 @@
     /* a fresh look at every page: a window that grew may have room again */
     all("[data-nopin]").forEach(function (page) { page.removeAttribute("data-nopin"); });
 
+    /* and the card's rows go back to their own height before anything is
+       measured, or the page is scaled to fit air left over from last time */
+    all(".metrics").forEach(function (host) {
+      host.style.setProperty("--metric-air", "0px");
+    });
+
     for (var pass = 0; pass < 3; pass++) {
       arrangeAll();
       reserveForPinned();
       fillTallPlates();
-      fillMetrics();
       fitEverything();
     }
+
+    /* The card's rows are spread out only once the page has been scaled, not
+       before: padding put in first counts as content, and the page is then
+       scaled down to fit the very air that was meant to fill it — which held
+       the whole spread, the biography included, a quarter smaller than it
+       needed to be. */
+    fillMetrics();
 
     /* Now that everything has settled, ask whether any page is still squeezed
        to the smallest writing it is allowed — that is a window too short to
@@ -2667,8 +2709,8 @@
 
     if (dropped) {
       reserveForPinned();
-      fillMetrics();
       fitEverything();
+      fillMetrics();
     }
   }
 

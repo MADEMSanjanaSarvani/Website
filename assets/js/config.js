@@ -486,22 +486,20 @@ const SITE = {
        adding one is a matter of dropping the file in, and removing one a
        matter of deleting it. */
 
-    { src: "assets/img/sticker-graduate.png",   on: "lore",      side: "left",
-      at: "bottom-right", size: 0.15, tilt: 4 },
     { draw: "girlboss",                         on: "lore",      side: "right",
-      at: "bottom-right", size: 0.17, tilt: -5 },
+      at: "bottom-right", size: 0.15, tilt: -5 },
 
     { src: "assets/img/sticker-friends.png",    on: "besties",   side: "left",
-      at: "bottom-right", size: 0.28, tilt: -4 },
+      at: "bottom-right", size: 0.19, tilt: -4 },
     { draw: "cats",                             on: "besties",   side: "right",
-      at: "bottom-right", size: 0.26, tilt: 5 },
+      at: "bottom-right", size: 0.18, tilt: 5 },
     { src: "assets/img/sticker-tulips.png",     on: "besties-2", side: "left",
-      at: "bottom-right", size: 0.24, tilt: -6 },
+      at: "bottom-right", size: 0.18, tilt: -6 },
     { draw: "evileye",                          on: "besties-2", side: "right",
-      at: "bottom-right", size: 0.24, tilt: 6 },
+      at: "bottom-right", size: 0.18, tilt: 6 },
 
     { draw: "headphones",                       on: "besties-3", side: "left",
-      at: "bottom-right", size: 0.18, tilt: -7 },
+      at: "bottom-right", size: 0.16, tilt: -7 },
 
     /* the eye that keeps the bad luck off her, on the page for the people who
        raised her, and the wish on the page the magazine closes with */
