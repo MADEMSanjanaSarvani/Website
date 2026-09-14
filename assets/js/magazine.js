@@ -2162,6 +2162,117 @@
      A sticker whose file is missing removes itself rather than leaving a
      labelled hole where a decoration should be. */
 
+  /* ---------- stickers drawn rather than fetched ----------
+
+     A sticker that is a file has to be found, named exactly right, saved into
+     assets/img and committed before it appears anywhere but the computer it
+     was chosen on. These are drawn here instead: nothing to save, nothing to
+     name, and they are on the page the moment it opens, wherever it opens.
+     The white edge is the die-cut look, and it comes from the shadow rather
+     than from the picture. */
+
+  var DRAWN = {
+    evileye:
+      '<svg viewBox="0 0 200 200" aria-hidden="true">' +
+      '<defs><path id="drawn-eye-ring" fill="none" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>' +
+      '<circle cx="100" cy="100" r="57" fill="#2626b0"/>' +
+      '<circle cx="100" cy="100" r="39" fill="#ffffff"/>' +
+      '<circle cx="100" cy="100" r="23" fill="#7fd6f0"/>' +
+      '<circle cx="100" cy="100" r="10" fill="#111111"/>' +
+      '<text font-family="Caveat, Patrick Hand, cursive" font-size="21" font-weight="700" fill="#161616">' +
+      '<textPath href="#drawn-eye-ring" startOffset="3%">May every evil eye in your life go blind</textPath>' +
+      "</text></svg>",
+
+    headphones:
+      '<svg viewBox="0 0 200 180" aria-hidden="true">' +
+      '<path d="M32 118 A68 68 0 0 1 168 118" fill="none" stroke="#3c3c42" stroke-width="17" stroke-linecap="round"/>' +
+      '<rect x="14" y="104" width="42" height="62" rx="20" fill="#4a4a52"/>' +
+      '<rect x="144" y="104" width="42" height="62" rx="20" fill="#4a4a52"/>' +
+      '<rect x="23" y="113" width="24" height="44" rx="12" fill="#2e2e35"/>' +
+      '<rect x="153" y="113" width="24" height="44" rx="12" fill="#2e2e35"/>' +
+      '<g fill="#d2342f">' +
+      '<path d="M38 96 l-22 -12 l4 22 Z"/><path d="M46 96 l24 -12 l-5 22 Z"/><circle cx="42" cy="97" r="6"/>' +
+      '<path d="M162 96 l-24 -12 l5 22 Z"/><path d="M170 96 l22 -12 l-4 22 Z"/><circle cx="166" cy="97" r="6"/>' +
+      '<path d="M100 74 c-7 -8 -18 -2 -12 7 c4 6 12 11 12 11 s8 -5 12 -11 c6 -9 -5 -15 -12 -7 Z"/>' +
+      '<path d="M74 58 c-4 -5 -11 -1 -7 4 c2 4 7 7 7 7 s5 -3 7 -7 c4 -5 -3 -9 -7 -4 Z"/>' +
+      '<path d="M128 62 c-4 -5 -11 -1 -7 4 c2 4 7 7 7 7 s5 -3 7 -7 c4 -5 -3 -9 -7 -4 Z"/>' +
+      "</g></svg>",
+
+    cats:
+      '<svg viewBox="0 0 240 170" aria-hidden="true">' +
+      '<g stroke="#5b4638" stroke-width="5" stroke-linejoin="round">' +
+      '<path d="M46 58 l-6 -30 l28 14 Z" fill="#c9c3bf"/>' +
+      '<path d="M122 58 l8 -30 l-28 14 Z" fill="#c9c3bf"/>' +
+      '<ellipse cx="84" cy="98" rx="54" ry="56" fill="#c9c3bf"/>' +
+      '<path d="M162 62 l-4 -26 l24 12 Z" fill="#fffdfa"/>' +
+      '<path d="M218 66 l10 -24 l-26 8 Z" fill="#fffdfa"/>' +
+      '<ellipse cx="186" cy="104" rx="50" ry="52" fill="#fffdfa"/>' +
+      "</g>" +
+      '<g fill="#5b4638">' +
+      '<circle cx="66" cy="92" r="7"/><circle cx="104" cy="92" r="7"/>' +
+      '<circle cx="168" cy="100" r="7"/>' +
+      '<path d="M80 108 h14 l-7 10 Z" fill="#f09a86"/>' +
+      "</g>" +
+      '<g fill="#f4a3ad" opacity=".75">' +
+      '<ellipse cx="52" cy="106" rx="11" ry="7"/><ellipse cx="118" cy="106" rx="11" ry="7"/>' +
+      '<ellipse cx="212" cy="112" rx="11" ry="7"/>' +
+      "</g>" +
+      '<path d="M132 108 q10 6 20 0" fill="none" stroke="#5b4638" stroke-width="4" stroke-linecap="round"/>' +
+      "</svg>",
+
+    girlboss:
+      '<svg viewBox="0 0 230 120" aria-hidden="true">' +
+      '<text x="115" y="46" text-anchor="middle" font-family="Great Vibes, Caveat, cursive" ' +
+      'font-size="44" fill="#f2a3b8">#girl</text>' +
+      '<text x="115" y="100" text-anchor="middle" font-family="Bodoni Moda, Didot, Georgia, serif" ' +
+      'font-size="52" font-weight="700" fill="#141018" letter-spacing="2">BOSS</text>' +
+      "</svg>",
+
+    wish:
+      '<svg viewBox="0 0 230 120" aria-hidden="true">' +
+      '<rect x="8" y="16" width="214" height="88" rx="10" fill="#efe0f6"/>' +
+      '<text x="115" y="86" text-anchor="middle" font-family="Bodoni Moda, Georgia, serif" ' +
+      'font-size="62" font-weight="700" fill="#8f5bb5">11:11</text>' +
+      '<text x="115" y="72" text-anchor="middle" font-family="Great Vibes, Caveat, cursive" ' +
+      'font-size="36" fill="#1d1620">make a wish</text>' +
+      "</svg>",
+
+    bears: (function () {
+      var faces = "";
+      [[69, 62], [125, 54], [181, 62], [69, 126], [125, 134], [181, 126]]
+        .forEach(function (spot, i) {
+          var coat = ["#c08a56", "#f2e3d2", "#8d6240", "#e9dccb", "#caa077", "#a67c52"][i];
+          var x = spot[0], y = spot[1];
+          faces +=
+            '<g stroke="#5b4130" stroke-width="3">' +
+            '<circle cx="' + (x - 21) + '" cy="' + (y - 20) + '" r="10" fill="' + coat + '"/>' +
+            '<circle cx="' + (x + 21) + '" cy="' + (y - 20) + '" r="10" fill="' + coat + '"/>' +
+            '<circle cx="' + x + '" cy="' + y + '" r="27" fill="' + coat + '"/>' +
+            "</g>" +
+            '<g fill="#4a3526">' +
+            '<circle cx="' + (x - 10) + '" cy="' + (y - 4) + '" r="3.4"/>' +
+            '<circle cx="' + (x + 10) + '" cy="' + (y - 4) + '" r="3.4"/>' +
+            "</g>" +
+            '<ellipse cx="' + x + '" cy="' + (y + 9) + '" rx="11" ry="8" fill="#fdf1e4"/>' +
+            '<path d="M' + (x - 5) + " " + (y + 7) + " q5 6 10 0" + '" fill="none" ' +
+            'stroke="#5b4130" stroke-width="2.6" stroke-linecap="round"/>' +
+            '<g fill="#f0a8ae" opacity=".7">' +
+            '<ellipse cx="' + (x - 19) + '" cy="' + (y + 5) + '" rx="6" ry="4"/>' +
+            '<ellipse cx="' + (x + 19) + '" cy="' + (y + 5) + '" rx="6" ry="4"/>' +
+            "</g>";
+        });
+
+      return '<svg viewBox="0 0 250 222" aria-hidden="true">' +
+        '<rect width="250" height="222" rx="6" fill="#f7ece2"/>' +
+        faces +
+        '<text x="125" y="188" text-anchor="middle" font-family="Caveat, cursive" ' +
+        'font-size="26" fill="#5b4130">6 bears \u00b7 \u221e memories</text>' +
+        '<text x="125" y="211" text-anchor="middle" font-family="Caveat, cursive" ' +
+        'font-size="21" fill="#a8776b">always us \u2661</text>' +
+        "</svg>";
+    })()
+  };
+
   var CORNERS = {
     "top-left":     { top: "4%",  left: "3%" },
     "top-right":    { top: "4%",  right: "3%" },
@@ -2255,10 +2366,20 @@
       var page = leaf && el(".page", leaf);
       if (!page) return;
 
-      var img = document.createElement("img");
-      img.className = "sticker--float sticker-img";
-      img.src = st.src;
-      img.alt = "";
+      var drawing = st.draw && DRAWN[st.draw];
+      if (!drawing && !st.src) return;
+
+      var img;
+      if (drawing) {
+        img = document.createElement("div");
+        img.className = "sticker--float sticker-img sticker-drawn";
+        img.innerHTML = drawing;
+      } else {
+        img = document.createElement("img");
+        img.className = "sticker--float sticker-img";
+        img.src = st.src;
+        img.alt = "";
+      }
 
       /* A die-cut sticker is pasted straight onto the page. A picture with
          edges of its own wants a frame and a strip of tape, or it reads as
@@ -2271,7 +2392,7 @@
         piece.appendChild(img);
       }
 
-      img.addEventListener("error", function () { piece.remove(); });
+      if (!drawing) img.addEventListener("error", function () { piece.remove(); });
 
       var spot = CORNERS[st.at] || CORNERS["bottom-right"];
       Object.keys(spot).forEach(function (k) { piece.style[k] = spot[k]; });
@@ -2285,11 +2406,14 @@
          The band is only given up once the picture is actually there: a page
          waiting on a sticker that has not been added yet, or one whose sticker
          has been deleted, keeps its room. */
-      img.addEventListener("load", function () {
+      function pin() {
         piece.setAttribute("data-pinned", /top/.test(st.at || "") ? "top" : "foot");
         reserveForPinned();
         soonRefit();
-      });
+      }
+
+      if (drawing) setTimeout(pin, 0);
+      else img.addEventListener("load", pin);
 
       page.appendChild(piece);
     });
@@ -2402,6 +2526,34 @@
      everything it has. Facing pages are scaled together, so a page of writing
      opposite can leave the picture standing in the middle of an empty sheet:
      the plate takes back whatever room the page has left at that scale. */
+  /* The report card is scaled with the page facing it, and that page wants a
+     smaller scale than this one does — so the card was finishing two-thirds
+     of the way down and leaving the rest of the sheet blank. The rows share
+     out what is left, up to a limit, so the card reaches the foot of the
+     page without the lines drifting apart. */
+  function fillMetrics() {
+    all(".metrics").forEach(function (host) {
+      var page = host.closest(".page");
+      var inner = page && el(".page__inner", page);
+      var rows = all(".metric", host).length;
+      if (!inner || !rows) return;
+
+      var box = getComputedStyle(page);
+      var room = page.clientHeight -
+        parseFloat(box.paddingTop) - parseFloat(box.paddingBottom);
+
+      var shown = getComputedStyle(inner).transform.match(/matrix\(([\d.]+)/);
+      var scale = shown ? parseFloat(shown[1]) : 1;
+      if (!(scale > 0) || !(room > 0)) return;
+
+      host.style.setProperty("--metric-air", "0px");
+      var spare = room / scale - inner.scrollHeight;
+      var air = Math.max(0, Math.min(22, spare / (rows * 2)));
+
+      host.style.setProperty("--metric-air", air.toFixed(1) + "px");
+    });
+  }
+
   function fillTallPlates() {
     all(".sendoff__plate, .leaf--album [data-render='gallery']").forEach(function (host) {
       var page = host.closest(".page");
@@ -2437,6 +2589,7 @@
       arrangeAll();
       reserveForPinned();
       fillTallPlates();
+      fillMetrics();
       all(".spread").forEach(function (sp) {
         var pages = all(".page", sp);
         if (pages.length) fitSpread(pages);

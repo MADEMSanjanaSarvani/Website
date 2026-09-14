@@ -488,28 +488,28 @@ const SITE = {
 
     { src: "assets/img/sticker-graduate.png",   on: "lore",      side: "left",
       at: "bottom-right", size: 0.15, tilt: 4 },
-    { src: "assets/img/sticker-girlboss.png",   on: "lore",      side: "right",
+    { draw: "girlboss",                         on: "lore",      side: "right",
       at: "bottom-right", size: 0.17, tilt: -5 },
 
     { src: "assets/img/sticker-friends.png",    on: "besties",   side: "left",
       at: "bottom-right", size: 0.28, tilt: -4 },
-    { src: "assets/img/sticker-cats.png",       on: "besties",   side: "right",
+    { draw: "cats",                             on: "besties",   side: "right",
       at: "bottom-right", size: 0.26, tilt: 5 },
     { src: "assets/img/sticker-tulips.png",     on: "besties-2", side: "left",
       at: "bottom-right", size: 0.24, tilt: -6 },
-    { src: "assets/img/sticker-evileye.png",    on: "besties-2", side: "right",
+    { draw: "evileye",                          on: "besties-2", side: "right",
       at: "bottom-right", size: 0.24, tilt: 6 },
 
-    { src: "assets/img/sticker-headphones.png", on: "besties-3", side: "left",
+    { draw: "headphones",                       on: "besties-3", side: "left",
       at: "bottom-right", size: 0.18, tilt: -7 },
 
     /* the eye that keeps the bad luck off her, on the page for the people who
        raised her, and the wish on the page the magazine closes with */
-    { src: "assets/img/sticker-wish.png",       on: "cover",     side: "right",
+    { draw: "wish",                             on: "cover",     side: "right",
       at: "bottom-right", size: 0.17, tilt: 5 },
     /* a picture rather than a cut-out, so it is pinned up in a little frame */
-    { src: "assets/img/sticker-bears.png",      on: "sendoff",   side: "right",
-      at: "bottom-right", size: 0.34, tilt: -3, frame: true }
+    { draw: "bears",                            on: "sendoff",   side: "right",
+      at: "bottom-right", size: 0.40, tilt: -3, frame: true }
   ],
 
   /* ---------- The song on the cover ---------- */

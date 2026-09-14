@@ -837,20 +837,22 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 /* ---------- 13. The report card ---------- */
 .metrics { border-top: 1.5px solid var(--ink); }
 
+/* The rows share out whatever room the page has left, so the card reaches
+   the foot of the page instead of stopping two-thirds down it. */
 .metric {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 5px 12px;
-  padding: 12px 2px 11px;
+  gap: 6px 12px;
+  padding: calc(12px + var(--metric-air, 0px)) 2px calc(11px + var(--metric-air, 0px));
   border-bottom: 1px solid var(--rule);
 }
 
-.metric__label { font-size: 0.86rem; font-weight: 600; color: var(--ink); }
+.metric__label { font-size: 1rem; font-weight: 600; color: var(--ink); }
 
 .metric__val {
   font-family: var(--label);
-  font-size: 0.68rem;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   color: var(--pink);
@@ -858,7 +860,7 @@ body.is-picking .sticker-mine.is-held { cursor: grabbing; opacity: 0.85; }
 
 .metric__bar {
   grid-column: 1 / -1;
-  height: 9px;
+  height: 11px;
   border: 1.5px solid var(--ink);
   border-radius: 999px;
   background: var(--paper-2);
@@ -2444,3 +2446,13 @@ body.is-picking .slot {
   height: auto;
   border-radius: 2px;
 }
+
+/* a drawn sticker: the white die-cut edge comes from the shadow, so it works
+   whatever shape is inside it */
+.sticker-drawn {
+  filter:
+    drop-shadow(0 0 3px #fff) drop-shadow(0 0 3px #fff)
+    drop-shadow(0 0 2px #fff) drop-shadow(0 5px 9px rgba(120, 90, 110, .28));
+}
+
+.sticker-drawn svg { display: block; width: 100%; height: auto; }
