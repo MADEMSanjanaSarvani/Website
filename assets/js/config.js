@@ -152,27 +152,27 @@ const SITE = {
       name: "Priya",
       full: "Priya Sen",
       photo: "assets/img/priya.jpg",
-      caption: "Laughing till crying in the car.",
-      quote: "Still can't believe we survived that trip.",
+      caption: "Four years of hostel days.",
+      quote: "Nee forever friend and commenting partner \ud83d\ude02",
       letter:
-        "Hey disaster ❤️,\n" +
-        "\n" +
-        "Mana friendship ela start ayyindo gurthosthe ippatiki Naku navvu vastundi 😂. First day nuvvu naatho WhatsApp lo chat chesav, adi nuvve ani kuda naaku teliyadu. Nenu ninnu “akka” ani pilichanu. 😂 Akkada nunchi start ayina mana friendship 4 years varaku ila untundi ani appudu asalu anukoledu.\n" +
-        "\n" +
-        "Hostel lo manam kalisi spend chesina time naaku eppatiki special. Kalisi cooking cheyyadam, cooking chestu matladadam cheyyadam, pakkana vallani comment cheyyadam 😂,  dance cheyyadam, songs padadam… roju edo oka allari. Appudu avi normal moments laga anipinchayi, kani ippudu avi gurthosthe chala miss avtunna.\n" +
-        "\n" +
-        "Nuvvu chala naughty ee😂,ni tho vuna valaki kuda chala conform zone estav. Nannu mi intiki teesukellav, akkada kuda manam kalisi time spend chesam. Aa memory kuda naaku chala istam and most memorable kuda❤️.\n" +
-        "\n" +
-        "4 years ayyaka manam separate avvadam matram chala sad anipinchindi. Endukante inthavaraku almost every day kalisi unde vallam roju ani share chesukoni epudu atleast month ki kuda call levu gaa ante sharing chesukovadam martham missing. Eppudaina edaina cheppali ante immediate ga cheppukune vallam. Suddenly inka eppudu kalustamo? ani anipinchindi. 🥹\n" +
-        "\n" +
-        "Kani manam daily kalisi undakapoyina mana friendship matram ala end avvakudadhu. Life lo entha busy aina, enni days ayina kalavakunda unna, malli kalisinappudu mana madhya same comfort, same navvulu, same madness and a crazy jokes martham alane untayi ❤️.\n" +
-        "\n" +
-        "Malli kalisinappudu mana first topic kuda mana hostel days eh untayi 😂. Appudu manam chesina pichi panulu  anni gurthu techukoni malli alane  navvukundam.\n" +
-        "\n" +
-        "Thank you for being such a beautiful part of my 4 years. ❤️🫶🏻\n" +
-        "\n" +
-        "Love you ra Raveen ❤️\n" +
-        "Nee forever friend and commenting partner 😂❤️"
+        "Hey disaster \u2764\ufe0f," + "\n" +
+        "Happy birthday Pandi...." + "\n" +
+        "Mana friendship ela start ayyindo gurthosthe ippatiki Naku navvu vastundi \ud83d\ude02. First day nuvvu naatho WhatsApp lo chat chesav, adi nuvve ani kuda naaku teliyadu. Nenu ninnu \u201cakka\u201d ani pilichanu. \ud83d\ude02 Akkada nunchi start ayina mana friendship 4 years varaku ila untundi ani appudu asalu anukoledu." + "\n" +
+        "" + "\n" +
+        "Hostel lo manam kalisi spend chesina time naaku eppatiki special. Kalisi cooking cheyyadam, cooking chestu matladadam cheyyadam, pakkana vallani comment cheyyadam \ud83d\ude02,  dance cheyyadam, songs padadam\u2026 roju edo oka allari. Appudu avi normal moments laga anipinchayi, kani ippudu avi gurthosthe chala miss avtunna." + "\n" +
+        "" + "\n" +
+        "Nuvvu chala naughty ee\ud83d\ude02,ni tho vuna valaki kuda chala conform zone estav. Nannu mi intiki teesukellav, akkada kuda manam kalisi time spend chesam. Aa memory kuda naaku chala istam and most memorable kuda\u2764\ufe0f." + "\n" +
+        "" + "\n" +
+        "4 years ayyaka manam separate avvadam matram chala sad anipinchindi. Endukante inthavaraku almost every day kalisi unde vallam roju ani share chesukoni epudu atleast month ki kuda call levu gaa ante sharing chesukovadam martham missing. Eppudaina edaina cheppali ante immediate ga cheppukune vallam. Suddenly inka eppudu kalustamo? ani anipinchindi. \ud83e\udd79" + "\n" +
+        "" + "\n" +
+        "Kani manam daily kalisi undakapoyina mana friendship matram ala end avvakudadhu. Life lo entha busy aina, enni days ayina kalavakunda unna, malli kalisinappudu mana madhya same comfort, same navvulu, same madness and a crazy jokes martham alane untayi \u2764\ufe0f." + "\n" +
+        "" + "\n" +
+        "Malli kalisinappudu mana first topic kuda mana hostel days eh untayi \ud83d\ude02. Appudu manam chesina pichi panulu  anni gurthu techukoni malli alane  navvukundam." + "\n" +
+        "" + "\n" +
+        "Thank you for being such a beautiful part of my 4 years. \u2764\ufe0f\ud83e\udef6\ud83c\udffb" + "\n" +
+        "Once again wishing you a very happy birthday:)" + "\n" +
+        "Love you ra Raveen \u2764\ufe0f" + "\n" +
+        "Nee forever friend and commenting partner \ud83d\ude02\u2764\ufe0f"
     },
     {
       name: "Sreehitha",
